@@ -867,6 +867,8 @@
                             <p class="text-sm text-blue-700 mb-2">Ejecuta <code>gemini</code> en tu terminal. Se abrirá el navegador para iniciar sesión con tu cuenta de Google. Acepta los permisos y listo.</p>
                             ${renderCodeBlock('gemini', 'bash')}
                             <p class="text-xs text-blue-600 mt-1">Una vez autenticado, ya puedes usar Gemini como agente de IA en la terminal. Escribe <code>/quit</code> para salir.</p>
+                            <p class="text-sm text-blue-700 mt-3 mb-1"><strong>Pruébalo con un prompt real:</strong></p>
+                            ${renderCodeBlock('gemini -p "Actúa como un experto en salud pública y resume los beneficios de usar R para análisis epidemiológico."', 'bash')}
                         </div>
                         <div class="bg-yellow-50 p-4 rounded border border-yellow-200">
                             <p class="text-sm text-yellow-800 font-bold mb-2">🤖 Claude Code (requiere suscripción Max o API de pago)</p>
@@ -994,6 +996,35 @@
 
                         <p class="text-sm text-red-700 mt-4 font-bold border-t border-red-200 pt-2">
                             La Regla de Oro: Todo lo relacionado con Data Science VIVE en WSL. Windows es solo la pantalla.
+                        </p>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <h4 class="font-bold text-blue-800 mb-2">🌉 El Puente Windows ↔ WSL</h4>
+                        <p class="text-sm text-blue-700 mb-3 leading-relaxed">
+                            Desde WSL puedes ver <strong>todos</strong> los archivos de Windows. Tu disco <code>C:</code> se monta automáticamente como <code>/mnt/c/</code>. Así se traduce una ruta:
+                        </p>
+                        <div class="overflow-x-auto mb-3">
+                            <table class="w-full text-sm border border-blue-200 rounded bg-white">
+                                <thead class="bg-blue-100">
+                                    <tr>
+                                        <th class="text-left px-3 py-2 border-b">En Windows</th>
+                                        <th class="text-left px-3 py-2 border-b">En WSL (Linux)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-blue-800 font-mono text-xs">
+                                    <tr class="border-b"><td class="px-3 py-2">C:\\Users\\TuUsuario\\Documentos</td><td class="px-3 py-2">/mnt/c/Users/TuUsuario/Documentos</td></tr>
+                                    <tr class="border-b"><td class="px-3 py-2">C:\\Users\\TuUsuario\\Desktop</td><td class="px-3 py-2">/mnt/c/Users/TuUsuario/Desktop</td></tr>
+                                    <tr><td class="px-3 py-2">C:\\Users\\TuUsuario\\OneDrive</td><td class="px-3 py-2">/mnt/c/Users/TuUsuario/OneDrive</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-blue-700 mb-2 leading-relaxed">
+                            <strong>Ejemplo práctico:</strong> Si tienes un Excel en "Mis Documentos" y quieres leerlo desde R en WSL:
+                        </p>
+                        ${renderCodeBlock('# En R dentro de WSL\nlibrary(readxl)\ndatos <- read_excel("/mnt/c/Users/TuUsuario/Documentos/datos.xlsx")', 'r')}
+                        <p class="text-xs text-blue-600 mt-2">
+                            <strong>Importante:</strong> Esto sirve para <em>leer</em> archivos puntuales. Tus proyectos de código siempre deben vivir en <code>/home/</code> (WSL) por rendimiento.
                         </p>
                     </div>
 
