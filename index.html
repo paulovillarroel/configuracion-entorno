@@ -414,7 +414,8 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-gray-600">
-                                        <tr class="border-b"><td class="px-3 py-2 font-mono">WSL2</td><td class="px-3 py-2">Estabilidad y velocidad de Linux sin dejar Windows</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">WSL2 <span class="text-xs text-gray-400">(Win)</span></td><td class="px-3 py-2">Estabilidad y velocidad de Linux sin dejar Windows</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">Homebrew <span class="text-xs text-gray-400">(Mac)</span></td><td class="px-3 py-2">Gestor de paquetes que unifica la instalación de todas las herramientas</td></tr>
                                         <tr class="border-b"><td class="px-3 py-2 font-mono">Rig + Pak</td><td class="px-3 py-2">Control de versiones de R y paquetes sin errores de compilación</td></tr>
                                         <tr class="border-b"><td class="px-3 py-2 font-mono">uv</td><td class="px-3 py-2">Entornos Python rápidos y reproducibles (reemplaza pip + venv + pyenv)</td></tr>
                                         <tr class="border-b"><td class="px-3 py-2 font-mono">Ollama</td><td class="px-3 py-2">IA local — sin enviar datos sensibles a la nube</td></tr>
@@ -701,10 +702,16 @@
 
                     <div class="space-y-4">
                         <h4 class="font-bold text-gray-700">1. Instalación</h4>
-                        <p>Abre <strong>PowerShell como Administrador</strong> y ejecuta:</p>
+                        <p>Abre <strong>PowerShell como Administrador</strong>: haz clic derecho en el botón de Inicio (icono de Windows, esquina inferior izquierda) y selecciona <strong>Terminal (Administrador)</strong> o <strong>Windows PowerShell (Administrador)</strong>. Si te pregunta si quieres permitir cambios, haz clic en <strong>Sí</strong>. Luego ejecuta:</p>
                         ${renderCodeBlock('wsl --install -d Ubuntu-24.04', 'powershell')}
-                        <div class="bg-gray-100 p-3 rounded text-sm text-gray-600 border border-gray-200">
-                            <strong>Nota:</strong> Reinicia tu equipo al terminar. Se abrirá una ventana negra pidiendo usuario/clave. Esa es tu nueva terminal Linux.
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4 text-sm text-yellow-800">
+                            <p class="font-bold mb-2">📋 Después del comando:</p>
+                            <ol class="list-decimal list-inside space-y-2">
+                                <li><strong>Reinicia tu computadora</strong> (Inicio → Reiniciar).</li>
+                                <li>Al volver, se abrirá automáticamente una ventana negra. Te pedirá crear un <strong>nombre de usuario</strong> y <strong>contraseña</strong> para tu nuevo sistema Linux.</li>
+                                <li><strong>Importante:</strong> al escribir la contraseña <strong>NO aparecen caracteres en pantalla</strong> (ni puntos ni asteriscos). Es normal — solo escribe y presiona Enter.</li>
+                                <li>Este usuario/contraseña es <strong>independiente</strong> de tu cuenta de Windows. Recuérdalo bien.</li>
+                            </ol>
                         </div>
 
                         <h4 class="font-bold text-gray-700 mt-6">2. Validar tu Versión</h4>
@@ -716,6 +723,10 @@
                         
                         <h4 class="font-bold text-gray-700 mt-6">3. Configurar Idioma Español</h4>
                         <p class="text-sm text-gray-600">WSL viene en inglés por defecto. Para que R, Python, Quarto y otras herramientas muestren fechas, acentos y caracteres correctamente, sigue estos 3 pasos en tu terminal de <strong>Ubuntu</strong>:</p>
+
+                        <div class="bg-gray-100 p-3 rounded text-sm text-gray-600 border border-gray-200 mb-3">
+                            <strong>¿Qué es <code>sudo</code>?</strong> Es como "ejecutar como administrador" en Windows. La primera vez te pedirá la <strong>contraseña de Linux</strong> que creaste al instalar WSL (no la de Windows). Al escribirla, no aparecen caracteres — es normal.
+                        </div>
 
                         <p class="text-sm font-semibold text-gray-700 mt-3">Paso A: Generar el locale español</p>
                         ${renderCodeBlock('sudo locale-gen es_ES.UTF-8', 'bash')}
@@ -792,9 +803,13 @@
                                 <div class="ml-3">
                                     <p class="text-sm text-yellow-800 font-bold">⚠️ ¡No ignores el final!</p>
                                     <p class="text-sm text-yellow-700 mt-2">
-                                        Cuando termine la instalación, verás una sección que dice <strong>"Next steps:"</strong>. 
-                                        Debes copiar y ejecutar los 2 comandos que te muestra la terminal para que Homebrew funcione (generalmente empiezan con <code>echo</code>).
+                                        Cuando termine la instalación, verás una sección que dice <strong>"Next steps:"</strong>.
+                                        Debes copiar y ejecutar los comandos que te muestra. Se verán parecidos a esto (la ruta puede variar):
                                     </p>
+                                    ${renderCodeBlock('echo >> /Users/tu_usuario/.zprofile\necho \'eval "$(/opt/homebrew/bin/brew shellenv)"\' >> /Users/tu_usuario/.zprofile\neval "$(/opt/homebrew/bin/brew shellenv)"', 'bash')}
+                                    <p class="text-xs text-yellow-700 mt-1">Copia y pega <strong>exactamente</strong> lo que tu terminal muestre (no este ejemplo). Luego verifica:</p>
+                                    ${renderCodeBlock('brew --version', 'bash')}
+                                    <p class="text-xs text-yellow-700 mt-1">Si muestra un número de versión (ej: <code>Homebrew 4.x.x</code>), quedó bien.</p>
                                 </div>
                             </div>
                         </div>
@@ -853,10 +868,20 @@
                     <h4 class="font-bold text-gray-700 mt-4">1. Instalar NVM</h4>
                     <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
                     ${renderCodeBlock('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash', 'bash')}
-                    <p class="text-sm text-red-500 mt-2">¡Importante! Cierra y abre tu terminal para que funcione el comando <code>nvm</code>.</p>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mt-2 text-sm text-yellow-800">
+                        <strong>Importante:</strong> Cierra y abre tu terminal para que el comando <code>nvm</code> esté disponible.
+                        <span class="show-win block text-xs mt-1">En WSL: cierra la ventana de Ubuntu (la X) y búscala de nuevo en el menú Inicio → "Ubuntu".</span>
+                        <span class="show-mac block text-xs mt-1">En Mac: cierra Terminal (Cmd+Q) y ábrela de nuevo.</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3 mb-1">Verifica que NVM se instaló correctamente:</p>
+                    ${renderCodeBlock('nvm --version', 'bash')}
+                    <p class="text-xs text-gray-500 mt-1">Si muestra un número (ej: <code>0.40.1</code>), todo bien. Si dice "command not found", cierra y abre la terminal de nuevo.</p>
 
                     <h4 class="font-bold text-gray-700 mt-6">2. Instalar Node y Herramientas IA</h4>
                     ${renderCodeBlock('nvm install --lts\nnpm install -g @google/gemini-cli\nnpm install -g @anthropic-ai/claude-code', 'bash')}
+                    <p class="text-sm text-gray-600 mt-3 mb-1">Verifica las instalaciones:</p>
+                    ${renderCodeBlock('node --version\nnpm --version', 'bash')}
+                    <p class="text-xs text-gray-500 mt-1">Ambos deben mostrar un número de versión.</p>
 
                     <h4 class="font-bold text-gray-700 mt-6">3. Configurar Agentes de IA</h4>
                     <p class="text-sm text-gray-600 mb-3">Cada herramienta necesita autenticarse una sola vez. Después quedan listas para usar.</p>
@@ -908,11 +933,15 @@
                             <li><strong>Tidyverse:</strong> Colección de paquetes de R para ciencia de datos (dplyr, ggplot2, readr...). Es el estándar de la industria.</li>
                         </ul>
                     </div>
-
-                    <h4 class="font-bold text-gray-700 mt-6">3. Activar R y Tidyverse (Universal)</h4>
+                `,
+                extraContent: `
+                    <h4 class="font-bold text-gray-700 mt-6">3. Activar R y Tidyverse</h4>
                     ${renderCodeBlock('sudo rig add release\nsudo rig system add-pak', 'bash')}
                     <p class="mt-2 mb-2">Entra a R escribiendo <code>R</code> en tu terminal e instala:</p>
                     ${renderCodeBlock('pak::pkg_install(c("tidyverse", "languageserver", "httpgd"))', 'r')}
+                    <div class="bg-gray-100 p-3 rounded text-sm text-gray-600 border border-gray-200 mt-3">
+                        <strong>Para salir de R:</strong> escribe <code>q()</code> y presiona Enter. Si pregunta "Save workspace image?", escribe <code>n</code> y presiona Enter.
+                    </div>
                 `
             },
             {
@@ -931,7 +960,11 @@
                     <h4 class="font-bold text-gray-700">1. Instalar uv (Gestor de Python)</h4>
                     <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
                     ${renderCodeBlock('curl -LsSf https://astral.sh/uv/install.sh | sh', 'bash')}
-                    <p class="text-sm text-red-500 mt-2">Cierra y abre tu terminal para que el comando <code>uv</code> esté disponible.</p>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mt-2 text-sm text-yellow-800">
+                        <strong>Importante:</strong> Cierra y abre tu terminal para que el comando <code>uv</code> esté disponible.
+                        <span class="show-win block text-xs mt-1">En WSL: cierra la ventana de Ubuntu (la X) y búscala de nuevo en el menú Inicio → "Ubuntu".</span>
+                        <span class="show-mac block text-xs mt-1">En Mac: cierra Terminal (Cmd+Q) y ábrela de nuevo.</span>
+                    </div>
 
                     <h4 class="font-bold text-gray-700 mt-6">2. Instalar Python</h4>
                     ${renderCodeBlock('uv python install 3.12', 'bash')}
@@ -967,6 +1000,21 @@
                     <h4 class="font-bold text-gray-700">Instalar Ollama (Mac)</h4>
                     <p class="mb-2">Descarga la App oficial para Apple Silicon:</p>
                     <a href="https://ollama.com/download/mac" target="_blank" class="text-blue-600 underline">Descargar Ollama para Mac</a>
+                    <ol class="list-decimal list-inside text-sm text-gray-600 mt-3 space-y-1">
+                        <li>Abre el archivo <code>.dmg</code> que descargaste.</li>
+                        <li>Arrastra <strong>Ollama</strong> a la carpeta <strong>Aplicaciones</strong>.</li>
+                        <li>Abre Ollama desde Aplicaciones. Si macOS dice que no puede verificar el desarrollador, ve a <strong>Preferencias del Sistema → Privacidad y Seguridad</strong> y haz clic en <strong>"Abrir de todas formas"</strong>.</li>
+                        <li>Aparecerá un ícono de llama en la barra superior de tu Mac. Eso significa que Ollama está corriendo.</li>
+                    </ol>
+                    <p class="text-xs text-gray-500 mt-2">Al ejecutar la app, se instala automáticamente el comando <code>ollama</code> en tu terminal.</p>
+                `,
+                extraContent: `
+                    <h4 class="font-bold text-gray-700 mt-6">5. Descargar tu Primer Modelo</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ollama necesita al menos un modelo para funcionar. Descarga uno ligero (~2 GB):</p>
+                    ${renderCodeBlock('ollama pull llama3.2', 'bash')}
+                    <p class="text-sm text-gray-600 mt-3 mb-2">Pruébalo con una pregunta:</p>
+                    ${renderCodeBlock('ollama run llama3.2', 'bash')}
+                    <p class="text-xs text-gray-500 mt-1">Se abrirá un chat interactivo. Escribe cualquier pregunta y presiona Enter. Para salir, escribe <code>/bye</code>.</p>
                 `
             },
             {
@@ -1174,7 +1222,8 @@
                                     <li><strong>Authenticate Git with your GitHub credentials?</strong> → <code>Yes</code></li>
                                     <li><strong>How would you like to authenticate?</strong> → <code>Login with a web browser</code></li>
                                 </ol>
-                                <p class="mt-1">Se abrirá el navegador. Inicia sesión en GitHub y autoriza el acceso.</p>
+                                <p class="mt-1">Se mostrará un <strong>código de 8 caracteres</strong> en la terminal (ej: <code>A1B2-C3D4</code>) y se intentará abrir el navegador.</p>
+                                <p class="mt-1"><strong>Si el navegador no se abre automáticamente</strong> (común en WSL): copia el código, abre manualmente <a href="https://github.com/login/device" target="_blank" class="text-blue-600 underline">github.com/login/device</a> en tu navegador de Windows, pega el código e inicia sesión.</p>
                             </div>
                         </li>
                         <li>Crea el repositorio y súbelo, todo desde la terminal:
@@ -1250,17 +1299,38 @@
                 `,
                 extraContent: `
                     <h4 class="font-bold text-gray-700 mt-6">2. Configurar Nube</h4>
-                    <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal y sigue el asistente interactivo paso a paso:</p>
                     ${renderCodeBlock('rclone config', 'bash')}
-                    <ul class="list-disc list-inside text-sm text-gray-600 ml-2 mb-4">
-                        <li>New remote (n) -> Name: "onedrive"</li>
-                        <li>Type: "Microsoft OneDrive"</li>
-                        <li><strong>Auto Config: Yes</strong> (Abre navegador para login)</li>
-                    </ul>
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-3 mb-4">
+                        <p class="text-sm font-bold text-gray-700 mb-3">Responde así en cada pregunta:</p>
+                        <ol class="list-decimal list-inside text-sm text-gray-600 space-y-2">
+                            <li><strong>e/n/d/r/c/s/q></strong> → escribe <code>n</code> (new remote) y presiona Enter.</li>
+                            <li><strong>name></strong> → escribe <code>onedrive</code> y presiona Enter.</li>
+                            <li><strong>Storage></strong> → aparecerá una lista larga de servicios. Busca el número que dice <strong>"Microsoft OneDrive"</strong> (suele ser ~33), escríbelo y presiona Enter. También puedes escribir <code>onedrive</code> directamente.</li>
+                            <li><strong>client_id></strong> → déjalo vacío (solo presiona Enter).</li>
+                            <li><strong>client_secret></strong> → déjalo vacío (solo presiona Enter).</li>
+                            <li><strong>region></strong> → escribe <code>1</code> (Microsoft Cloud Global) y presiona Enter.</li>
+                            <li><strong>Edit advanced config?</strong> → escribe <code>n</code> y presiona Enter.</li>
+                            <li><strong>Use auto config?</strong> → escribe <code>y</code>. Se abrirá tu navegador para iniciar sesión con tu cuenta de Microsoft.</li>
+                            <li><strong>config_type></strong> → escribe <code>1</code> (OneDrive Personal) y presiona Enter.</li>
+                            <li><strong>Drive OK?</strong> → escribe <code>y</code> y presiona Enter.</li>
+                            <li><strong>y/e/d></strong> → escribe <code>y</code> para confirmar y presiona Enter.</li>
+                            <li><strong>e/n/d/r/c/s/q></strong> → escribe <code>q</code> para salir del asistente.</li>
+                        </ol>
+                        <p class="text-xs text-gray-500 mt-3">Si usas <strong>Google Drive</strong> o <strong>Dropbox</strong> en lugar de OneDrive, el proceso es similar: solo elige el servicio correspondiente en el paso 3.</p>
+                    </div>
 
                     <h4 class="font-bold text-gray-700 mt-6">3. Inicializar & Script</h4>
                     ${renderCodeBlock('restic -r rclone:onedrive:Backup_Curso init', 'bash')}
-                    <p class="text-sm text-red-500 font-bold mb-4">¡Guarda la contraseña que crees aquí!</p>
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mt-3 mb-4">
+                        <p class="text-sm text-red-800 font-bold mb-2">🔑 Contraseña de Restic</p>
+                        <p class="text-sm text-red-700">Este comando te pedirá <strong>crear una contraseña nueva</strong> (no es la de tu sistema ni la de OneDrive). Es la clave que encripta tus backups.</p>
+                        <ul class="text-sm text-red-700 mt-2 list-disc list-inside space-y-1">
+                            <li><strong>Escríbela en un lugar seguro</strong> (un gestor de contraseñas, un papel guardado, etc.).</li>
+                            <li>Si la pierdes, <strong>no podrás recuperar tus backups</strong>. No hay forma de resetearla.</li>
+                            <li>Te la pedirá cada vez que hagas un backup o restaures archivos.</li>
+                        </ul>
+                    </div>
                     
                     <p class="mb-2">Crea el script de automatización con un solo comando:</p>
                     ${renderCodeBlock(`cat << 'SCRIPT' > ~/backup.sh
@@ -1311,8 +1381,10 @@ chmod +x ~/backup.sh`, 'bash')}
                             <li>Para automatizar (cada día a las 2 AM):</li>
                         </ul>
                         ${renderCodeBlock('crontab -e', 'bash')}
-                        <p class="text-xs text-green-600 mt-1 mb-1">Agrega esta línea al final del archivo que se abre:</p>
+                        <p class="text-xs text-green-600 mt-1 mb-1">Se abrirá un editor de texto en la terminal. Si es <strong>nano</strong> (lo más común): usa las flechas para ir al final del archivo, pega la siguiente línea, luego presiona <strong>Ctrl+O</strong> (guardar) y <strong>Ctrl+X</strong> (salir).</p>
+                        <p class="text-xs text-green-600 mb-1">Agrega esta línea al final:</p>
                         ${renderCodeBlock('0 2 * * * RESTIC_PASSWORD="tu_password" ~/backup.sh >> ~/backup.log 2>&1', 'bash')}
+                        <p class="text-xs text-green-600 mt-1"><code>0 2 * * *</code> = "a las 2:00 AM, todos los días". Reemplaza <code>tu_password</code> por la contraseña que creaste al inicializar Restic.</p>
                         <p class="text-xs text-green-600 mt-2"><strong>Tip:</strong> Revisa <code>~/backup.log</code> para confirmar que los backups corren sin errores.</p>
                     </div>
                 `
@@ -1325,25 +1397,42 @@ chmod +x ~/backup.sh`, 'bash')}
                     <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
                         <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Positron?</h4>
                         <p class="text-sm text-indigo-700 leading-relaxed">
-                            Positron es un IDE (editor de código) creado por el equipo de RStudio/Posit, diseñado específicamente para <strong>Ciencia de Datos</strong>. Combina lo mejor de VS Code con soporte nativo para R y Python (consolas integradas, visor de datos, gráficos interactivos). Es gratuito y open source.
+                            Positron es un IDE (editor de código) creado por el equipo de RStudio/Posit, diseñado específicamente para <strong>Ciencia de Datos</strong>. Combina lo mejor de VS Code con soporte nativo para R y Python (consolas integradas, visor de datos, gráficos interactivos). Es gratuito y de código abierto.
                         </p>
                     </div>
 
                     <h4 class="font-bold text-gray-700">1. Positron / VS Code</h4>
-                    <p class="mb-2 text-sm">Descarga Positron desde <a href="https://positron.posit.co/" target="_blank" class="text-blue-600 underline">positron.posit.co</a> e instálalo. Luego, desde tu terminal:</p>
-                    ${renderCodeBlock('cd ~/workspace\npositron .', 'bash')}
-
-                    <h4 class="font-bold text-gray-700 mt-6">2. Examen Final</h4>
-                    <p class="mb-2 text-sm">Crea y ejecuta este validador:</p>
-                    ${renderCodeBlock(`#!/bin/bash
-check() {
-    if command -v $1 >/dev/null 2>&1; then echo "✅ $1: OK"; else echo "❌ $1: Faltante"; fi
-}
-check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check "python3"; check "ollama"; check "restic"; check "rclone";`, 'bash')}
+                    <p class="mb-2 text-sm">Descarga Positron desde <a href="https://positron.posit.co/" target="_blank" class="text-blue-600 underline">positron.posit.co</a> e instálalo (en Windows descarga el <strong>.exe</strong>, en Mac el <strong>.dmg</strong>).</p>
+                `,
+                winContent: `
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <h4 class="font-bold text-blue-800 mb-2">🔗 Conectar Positron a WSL</h4>
+                        <p class="text-sm text-blue-700 leading-relaxed">
+                            Positron se instala en Windows, pero necesita conectarse a tu Linux (WSL) donde viven todas las herramientas.
+                        </p>
+                        <ol class="list-decimal list-inside text-sm text-blue-700 mt-2 space-y-1">
+                            <li>Abre Positron.</li>
+                            <li>Presiona <kbd>Ctrl+Shift+P</kbd> y escribe <strong>WSL</strong>.</li>
+                            <li>Selecciona <strong>"Connect to WSL"</strong>.</li>
+                            <li>Ve a <strong>Archivo → Abrir Carpeta</strong> y navega a <code>/home/tu_usuario/workspace</code>.</li>
+                        </ol>
+                        <p class="text-xs text-blue-600 mt-2">A partir de ahora, siempre abre Positron y conéctate a WSL antes de trabajar.</p>
+                    </div>
                 `,
                 macContent: `
                     <div class="bg-gray-100 p-2 text-xs text-gray-500 rounded border border-gray-200 mb-4">
-                        <strong>Tip para Mac:</strong> Si dice "command not found", abre Positron, presiona <kbd>Cmd+Shift+P</kbd> y escribe "Install 'positron' command in PATH".
+                        <strong>Tip para Mac:</strong> Si el comando <code>positron</code> en la terminal dice "command not found", abre Positron, presiona <kbd>Cmd+Shift+P</kbd> y escribe "Install 'positron' command in PATH". Luego podrás abrir proyectos con <code>positron .</code>
+                    </div>
+                `,
+                extraContent: `
+                    <h4 class="font-bold text-gray-700 mt-6">2. Examen Final</h4>
+                    <p class="mb-2 text-sm">Copia y pega este script en tu terminal para verificar que todo quedó instalado:</p>
+                    ${renderCodeBlock(`check() { if command -v $1 >/dev/null 2>&1; then echo "✅ $1: OK"; else echo "❌ $1: Faltante"; fi; }
+check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check "python3"; check "ollama"; check "restic"; check "rclone"`, 'bash')}
+                    <p class="text-xs text-gray-500 mt-2">Si todas las líneas dicen <strong>OK</strong>, ¡completaste la configuración!</p>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mt-3 text-sm text-yellow-800">
+                        <p class="font-bold mb-1">¿Algo sale como "Faltante"?</p>
+                        <p>Vuelve al paso donde se instala esa herramienta y repite los comandos. Si sigues con problemas, verifica que cerraste y abriste tu terminal después de cada instalación.</p>
                     </div>
                 `
             }
