@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Maestra: Entorno Data Science Profesional</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Custom Config & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f9f9f7',
+                            100: '#efefe9',
+                            200: '#e0e0d6',
+                            300: '#c8c8b9',
+                            400: '#acac98',
+                            500: '#92927d',
+                            600: '#767664',
+                            700: '#606051',
+                            800: '#4e4e42',
+                            900: '#424239',
+                        },
+                        accent: {
+                            win: '#3b82f6', // Blue for Windows
+                            mac: '#64748b', // Slate for Mac
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f9f9f7; /* Chosen Palette: Warm Neutral (Sand/Paper) */
+            color: #1f2937;
+        }
+
+        /* Chart Container Strategy */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Explicit max-width */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #efefe9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8c8b9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #acac98;
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .os-toggle-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item {
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .nav-item.active {
+            background-color: #efefe9;
+            border-left-color: #92927d;
+            font-weight: 600;
+        }
+        .nav-item.completed {
+            color: #4e4e42;
+        }
+        .nav-item.completed::after {
+            content: '✓';
+            float: right;
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        /* Details summary custom marker */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+    
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: Warm Neutrals (Sand/Paper) with Technical Accents -->
+    <!-- Application Structure Plan: 
+         Designed as an "Installation Wizard" dashboard. 
+         Why? The source material is a linear set of instructions dependent on a critical variable: Operating System.
+         A linear document forces users to scroll past irrelevant content. 
+         Structure:
+         1. Global OS Context Switcher: Keeps the UI clean by filtering commands automatically.
+         2. Sidebar Navigation: Allows non-linear access (jumping to Backup or R setup).
+         3. Progress Gamification: A "Checklist" approach with a Chart.js doughnut to encourage completion.
+         4. Step-by-Step View: Focuses attention on one task at a time.
+         5. Dashboard Overview: Uses a Radar chart to justify the "Professional" complexity of the stack vs a standard install.
+    -->
+    <!-- Visualization & Content Choices:
+         1. Stack Comparison (Radar Chart): Goal: Inform/Persuade. Shows why we use this complex stack (Speed, Security) vs basic.
+         2. Progress Tracker (Doughnut Chart): Goal: Organize/Motivate. Shows completion status.
+         3. Interactive Code Blocks: Goal: Action. Copy buttons and OS-specific rendering.
+         4. Backup Flow Diagram (HTML/CSS): Goal: Explain. Visualizes the Restic -> Rclone -> Cloud flow without SVG/Mermaid.
+         5. Verification Dashboard (Simulation): Goal: Verify. A list of checks to confirm success.
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+
+    <!-- Top Bar: Title & OS Toggle -->
+    <header class="bg-white border-b border-brand-200 shadow-sm flex-none z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-8 bg-brand-800 rounded flex items-center justify-center text-white font-bold font-mono">>_</div>
+                <h1 class="text-xl font-bold text-gray-800"><a href="https://www.hazlacondatos.com" target="_blank" class="hover:text-brand-600 transition-colors">Hazla con Datos</a> <span class="text-brand-500 font-normal">| Setup Environment</span></h1>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-500 hidden sm:inline">Selecciona tu Sistema Operativo:</span>
+                <div class="flex bg-brand-100 p-1 rounded-lg">
+                    <button id="btn-win" onclick="setOS('win')" class="os-toggle-btn px-4 py-1.5 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                        <span>🪟 Windows (WSL2)</span>
+                    </button>
+                    <button id="btn-mac" onclick="setOS('mac')" class="os-toggle-btn px-4 py-1.5 rounded-md text-sm font-medium flex items-center gap-2 transition-colors">
+                        <span>🍎 macOS</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="flex flex-1 overflow-hidden max-w-7xl mx-auto w-full">
+        
+        <!-- Sidebar: Navigation & Progress -->
+        <aside class="w-64 bg-white border-r border-brand-200 flex-col hidden md:flex overflow-y-auto">
+            <div class="p-6 border-b border-brand-100">
+                <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Progreso de Instalación</h3>
+                <!-- Chart Container: Progress Doughnut -->
+                <div class="chart-container" style="height: 150px; max-width: 150px;">
+                    <canvas id="progressChart"></canvas>
+                </div>
+                <p id="progressText" class="text-center text-sm font-bold text-brand-700 mt-2">0% Completado</p>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-1">
+                <button onclick="goToStep(0)" id="nav-0" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">0. Introducción</button>
+                <button onclick="goToStep(1)" id="nav-1" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">1. Terminal Básica</button>
+                <button onclick="goToStep(2)" id="nav-2" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">2. El Motor (Sistema Operativo)</button>
+                <button onclick="goToStep(3)" id="nav-3" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">3. Herramientas Base</button>
+                <button onclick="goToStep(4)" id="nav-4" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">4. Node.js & IA CLI</button>
+                <button onclick="goToStep(5)" id="nav-5" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">5. R Moderno (Rig + Pak)</button>
+                <button onclick="goToStep(6)" id="nav-6" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">6. Python (uv) & Ollama</button>
+                <button onclick="goToStep(7)" id="nav-7" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">7. Workspace & Organización</button>
+                <button onclick="goToStep(8)" id="nav-8" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">8. Git & GitHub</button>
+                <button onclick="goToStep(9)" id="nav-9" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">9. Backup Blindado</button>
+                <button onclick="goToStep(10)" id="nav-10" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">10. IDE & Verificación</button>
+            </nav>
+
+            <div class="p-4 border-t border-brand-100 text-center">
+                <p class="text-xs text-gray-400">
+                    Por <a href="https://www.linkedin.com/in/paulovillarroel/" target="_blank" class="text-brand-600 hover:text-brand-800 font-medium transition-colors">Paulo Villarroel</a>
+                </p>
+                <div class="flex items-center justify-center gap-3 mt-1">
+                    <a href="https://www.hazlacondatos.com" target="_blank" class="text-xs text-brand-500 hover:text-brand-700 font-semibold transition-colors">hazlacondatos.com</a>
+                    <a href="https://github.com/paulovillarroel" target="_blank" class="text-gray-400 hover:text-gray-700 transition-colors" title="GitHub">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-brand-50 p-4 sm:p-8">
+            
+            <!-- Context Banner -->
+            <div id="os-context-banner" class="mb-6 p-4 rounded-lg bg-blue-50 border border-blue-100 text-blue-800 text-sm hidden">
+                <span class="font-bold">Modo Windows (WSL2):</span> Se muestran comandos para PowerShell y Ubuntu Terminal.
+            </div>
+            
+            <!-- Steps Container -->
+            <div id="content-container" class="max-w-3xl mx-auto bg-white rounded-xl shadow-sm border border-brand-100 p-6 sm:p-10 min-h-[500px]">
+                
+                <!-- STEP 0: INTRO -->
+                <div id="step-0" class="step-content active">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">El Estándar Profesional</h2>
+                    
+                    <!-- Adjusted Tone -->
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Bienvenidos a la Generación 5. Este entorno puede parecer avanzado al principio, pero lo construiremos <strong>paso a paso</strong>. Al final del proceso, tendrás en tu equipo personal la misma infraestructura robusta que utilizan los equipos de datos de alto nivel.
+                    </p>
+
+                    <!-- Key Narrative: Purpose -->
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-8">
+                        <h3 class="font-bold text-indigo-800 mb-2 flex items-center gap-2">
+                            <span>🎯</span> Este entorno está diseñado estratégicamente para:
+                        </h3>
+                        <ul class="list-disc list-inside text-sm text-indigo-700 space-y-2">
+                            <li><strong>Trabajar con millones de registros:</strong> Superando las limitaciones clásicas de Excel.</li>
+                            <li><strong>Ejecutar modelos localmente:</strong> Sin enviar datos clínicos o sensibles a la nube (Privacidad Total).</li>
+                            <li><strong>Garantizar reproducibilidad:</strong> Crítico para la transparencia y auditoría en instituciones públicas.</li>
+                        </ul>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="font-bold text-gray-800 mb-3">Ventajas Técnicas</h3>
+                            <ul class="space-y-3 text-sm text-gray-600">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-500 font-bold">✓</span>
+                                    <span><strong>Velocidad Nativa:</strong> Linux gestiona archivos pequeños (Git/Node/R) hasta 10x más rápido que Windows.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-500 font-bold">✓</span>
+                                    <span><strong>Control Total:</strong> Gestión de versiones para evitar conflictos de software.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-500 font-bold">✓</span>
+                                    <span><strong>Seguridad:</strong> Backup deduplicado y encriptado por defecto.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Chart Container: Radar Stack Analysis -->
+                        <div class="flex flex-col items-center">
+                            <div class="chart-container">
+                                <canvas id="stackRadarChart"></canvas>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-2 italic">Comparación: Stack del Curso vs. Instalación Básica</p>
+                        </div>
+                    </div>
+
+                    <!-- Hardware & OS Requirements -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- OS Check -->
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">⚠️</div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-700 font-bold">Requisito Sistema Operativo</p>
+                                    <p class="text-sm text-yellow-700 mt-1">
+                                        <span class="block show-win">Windows 10 (v2004+) o Windows 11 actualizado.</span>
+                                        <span class="block show-mac">macOS Catalina o superior (Intel o Apple Silicon).</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hardware Check -->
+                        <div class="bg-gray-100 border-l-4 border-gray-500 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">🖥️</div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-gray-700 font-bold">Chequeo de Hardware (Ideal)</p>
+                                    <ul class="text-xs text-gray-600 mt-1 list-disc list-inside">
+                                        <li><strong>RAM:</strong> 16 GB recomendado (8 GB mínimo, funcionará limitado).</li>
+                                        <li><strong>Espacio:</strong> 20–30 GB libres.</li>
+                                        <li><strong>GPU:</strong> Opcional (NVIDIA recomendada para IA).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button onclick="goToStep(1)" class="bg-brand-800 text-white px-6 py-3 rounded-lg hover:bg-brand-700 font-medium transition-colors">
+                            Comenzar Configuración →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Steps 1-10 will be dynamically populated/toggled via JS -->
+                
+                <!-- Dynamic Content Placeholder -->
+                <div id="dynamic-step-content"></div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        // --- DATA STORE ---
+        // Function declarations are hoisted, so this is safe.
+        function renderCodeBlock(code, lang) {
+            return `
+                <div class="code-block group">
+                    <div class="flex justify-between items-center bg-[#2d2d2d] px-4 py-2 text-xs text-gray-400 select-none">
+                        <span class="uppercase font-mono">${lang}</span>
+                        <button onclick="copyToClipboard(this)" class="hover:text-white transition-colors flex items-center gap-1">
+                            <span class="icon">📋</span> Copiar
+                        </button>
+                    </div>
+                    <pre class="p-4 overflow-x-auto text-sm font-mono leading-relaxed select-all">${code}</pre>
+                    <textarea class="hidden">${code}</textarea>
+                </div>
+            `;
+        }
+
+        const stepsData = [
+            { id: 0, title: "Intro" }, // Handled statically above
+            {
+                id: 1,
+                title: "Terminal Básica",
+                description: "Antes de instalar herramientas, necesitas aprender a <strong>hablar con tu computadora</strong>. La terminal es tu herramienta más poderosa.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💬 ¿Qué es la Terminal?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            La terminal es como un <strong>chat con tu computadora</strong>. En lugar de hacer clic en carpetas y botones,
+                            le escribes instrucciones directas. Es más rápido, más preciso y es la forma en que trabajan
+                            los profesionales de datos en todo el mundo.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mb-3">📁 El Sistema de Archivos</h4>
+                    <p class="text-sm text-gray-600 mb-2">Tu computadora organiza todo en carpetas (directorios) como un árbol invertido:</p>
+                    <pre class="bg-gray-100 p-4 rounded text-sm font-mono text-gray-700 mb-6 overflow-x-auto">/
+├── home/
+│   └── usuario/
+│       ├── workspace/     &lt;-- Aquí vivirán tus proyectos
+│       │   ├── proyecto-1/
+│       │   └── proyecto-2/
+│       ├── Documentos/
+│       └── .bashrc         &lt;-- Archivo de configuración (oculto)
+├── usr/
+│   └── bin/                &lt;-- Programas instalados
+└── tmp/                    &lt;-- Archivos temporales</pre>
+
+                    <h4 class="font-bold text-gray-700 mb-3">🧭 Comandos de Navegación</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full text-sm border border-gray-200 rounded">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left px-3 py-2 border-b">Comando</th>
+                                    <th class="text-left px-3 py-2 border-b">Qué hace</th>
+                                    <th class="text-left px-3 py-2 border-b">Ejemplo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600">
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">pwd</td><td class="px-3 py-2">Muestra dónde estás</td><td class="px-3 py-2 font-mono">/home/usuario</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">ls</td><td class="px-3 py-2">Lista archivos y carpetas</td><td class="px-3 py-2 font-mono">proyecto-1/ datos.csv</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">ls -la</td><td class="px-3 py-2">Lista TODO (incluye ocultos y detalles)</td><td class="px-3 py-2 font-mono">drwxr-xr-x .git/</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">cd carpeta</td><td class="px-3 py-2">Entra a una carpeta</td><td class="px-3 py-2 font-mono">cd workspace</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">cd ..</td><td class="px-3 py-2">Sube un nivel</td><td class="px-3 py-2 font-mono">De proyecto-1/ a workspace/</td></tr>
+                                <tr><td class="px-3 py-2 font-mono">cd ~</td><td class="px-3 py-2">Va a tu carpeta personal</td><td class="px-3 py-2 font-mono">/home/usuario</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mb-3">📄 Comandos de Archivos</h4>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="w-full text-sm border border-gray-200 rounded">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left px-3 py-2 border-b">Comando</th>
+                                    <th class="text-left px-3 py-2 border-b">Qué hace</th>
+                                    <th class="text-left px-3 py-2 border-b">Ejemplo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600">
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">mkdir nombre</td><td class="px-3 py-2">Crea una carpeta</td><td class="px-3 py-2 font-mono">mkdir mi-proyecto</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">cp origen destino</td><td class="px-3 py-2">Copia un archivo</td><td class="px-3 py-2 font-mono">cp datos.csv backup.csv</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">mv origen destino</td><td class="px-3 py-2">Mueve o renombra</td><td class="px-3 py-2 font-mono">mv viejo.txt nuevo.txt</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">rm archivo</td><td class="px-3 py-2">Borra un archivo</td><td class="px-3 py-2 font-mono">rm basura.tmp</td></tr>
+                                <tr><td class="px-3 py-2 font-mono">rm -r carpeta</td><td class="px-3 py-2">Borra una carpeta y todo su contenido</td><td class="px-3 py-2 font-mono">rm -r proyecto-viejo</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-red-50 border-l-4 border-red-400 p-3 mb-6 text-sm text-red-700">
+                        <strong>⚠️ Cuidado:</strong> <code>rm</code> NO envía a la papelera de reciclaje. Lo que borres con <code>rm</code> se pierde para siempre. Úsalo con precaución.
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mb-3">👁️ Ver Contenido</h4>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full text-sm border border-gray-200 rounded">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left px-3 py-2 border-b">Comando</th>
+                                    <th class="text-left px-3 py-2 border-b">Qué hace</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600">
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">cat archivo</td><td class="px-3 py-2">Muestra todo el contenido de un archivo</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">head archivo</td><td class="px-3 py-2">Muestra las primeras 10 líneas</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">tail archivo</td><td class="px-3 py-2">Muestra las últimas 10 líneas</td></tr>
+                                <tr><td class="px-3 py-2 font-mono">clear</td><td class="px-3 py-2">Limpia la pantalla de la terminal</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mb-3">⌨️ Atajos de Teclado Esenciales</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-blue-50 p-4 rounded border border-blue-200 text-center">
+                            <div class="text-2xl mb-2">⇥</div>
+                            <p class="font-bold text-blue-800 text-sm">Tab</p>
+                            <p class="text-xs text-blue-600 mt-1">Autocompletar nombres de archivos y carpetas. ¡Úsalo siempre!</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded border border-purple-200 text-center">
+                            <div class="text-2xl mb-2">↑ ↓</div>
+                            <p class="font-bold text-purple-800 text-sm">Flechas Arriba/Abajo</p>
+                            <p class="text-xs text-purple-600 mt-1">Navegar por comandos anteriores. No reescribas, recicla.</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded border border-red-200 text-center">
+                            <div class="text-2xl mb-2">⊘</div>
+                            <p class="font-bold text-red-800 text-sm">Ctrl + C</p>
+                            <p class="text-xs text-red-600 mt-1">Cancela cualquier comando que se haya colgado o está tardando mucho.</p>
+                        </div>
+                    </div>
+                `,
+                winContent: `
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <h4 class="font-bold text-blue-800 mb-2">🪟 Windows: Dos Terminales</h4>
+                        <p class="text-sm text-blue-700 mb-3">En Windows tendrás dos terminales. Es importante saber cuándo usar cada una:</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm border border-blue-200 rounded bg-white">
+                                <thead class="bg-blue-100">
+                                    <tr>
+                                        <th class="text-left px-3 py-2 border-b"></th>
+                                        <th class="text-left px-3 py-2 border-b">PowerShell</th>
+                                        <th class="text-left px-3 py-2 border-b">Ubuntu (WSL)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-blue-800">
+                                    <tr class="border-b"><td class="px-3 py-2 font-bold">Cuándo usarla</td><td class="px-3 py-2">Solo para gestionar WSL</td><td class="px-3 py-2">Para TODO lo demás</td></tr>
+                                    <tr class="border-b"><td class="px-3 py-2 font-bold">Ejemplos</td><td class="px-3 py-2 font-mono text-xs">wsl --install<br>wsl --shutdown</td><td class="px-3 py-2 font-mono text-xs">git, node, R, python</td></tr>
+                                    <tr><td class="px-3 py-2 font-bold">Cómo abrirla</td><td class="px-3 py-2">Buscar "PowerShell"</td><td class="px-3 py-2">Buscar "Ubuntu"</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-blue-700 mt-3 font-bold">Regla simple: Solo usa PowerShell para instalar o reiniciar WSL. Para todo el curso, usa Ubuntu.</p>
+                    </div>
+                `,
+                macContent: `
+                    <div class="bg-gray-50 border-l-4 border-gray-400 p-4 mb-6">
+                        <h4 class="font-bold text-gray-800 mb-2">🍎 Mac: Terminal con Zsh</h4>
+                        <p class="text-sm text-gray-700">
+                            Tu Mac ya viene con una terminal lista. Usa la app <strong>Terminal</strong> (búscala en Spotlight con <kbd>Cmd + Espacio</kbd>).
+                            Desde macOS Catalina usa <strong>Zsh</strong> en lugar de Bash, pero todos los comandos de esta guía funcionan igual.
+                        </p>
+                    </div>
+                `,
+                extraContent: `
+                    <h4 class="font-bold text-gray-700 mb-3">🏋️ Ejercicio Práctico</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta estos 10 comandos en tu terminal. Copia el bloque y ejecútalos en orden:</p>
+                    <ol class="list-decimal list-inside text-sm text-gray-600 mb-4 space-y-1">
+                        <li><code>pwd</code> — ¿Dónde estoy?</li>
+                        <li><code>cd ~</code> — Ir a tu carpeta personal</li>
+                        <li><code>mkdir terminal-practica</code> — Crear una carpeta de prueba</li>
+                        <li><code>cd terminal-practica</code> — Entrar a la carpeta</li>
+                        <li><code>echo "..." > mi-archivo.txt</code> — Crear un archivo con texto</li>
+                        <li><code>cat mi-archivo.txt</code> — Ver el contenido del archivo</li>
+                        <li><code>cp mi-archivo.txt copia.txt</code> — Crear una copia</li>
+                        <li><code>ls -la</code> — Listar archivos para verificar</li>
+                        <li><code>clear</code> — Limpiar la pantalla</li>
+                        <li><code>cd ~ && rm -r terminal-practica</code> — Volver al inicio y borrar la práctica</li>
+                    </ol>
+                    ${renderCodeBlock('pwd\ncd ~\nmkdir terminal-practica\ncd terminal-practica\necho "Hola, soy un archivo de prueba" > mi-archivo.txt\ncat mi-archivo.txt\ncp mi-archivo.txt copia.txt\nls -la\nclear\ncd ~ && rm -r terminal-practica', 'bash')}
+                    <p class="text-xs text-gray-500 mt-2 italic">Si todos los comandos funcionaron sin errores, ¡ya dominas lo básico de la terminal!</p>
+                `
+            },
+            {
+                id: 2,
+                title: "El Motor (Sistema Operativo)",
+                description: "Necesitamos una terminal tipo Unix. En Windows, esto significa instalar un Linux real dentro del sistema (WSL2). En Mac, necesitamos un gestor de paquetes.",
+                winContent: `
+                    <!-- Concept Explanation Block -->
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <h4 class="font-bold text-blue-800 mb-2">¿Qué es WSL2? (Explicación para Humanos)</h4>
+                        <p class="text-sm text-blue-700 leading-relaxed">
+                            Imagina que tu computadora habla dos idiomas. <strong>Windows</strong> es genial para Office, correos y navegar. Pero las herramientas de Ciencia de Datos (R, Python, servidores) funcionan "nativo" en <strong>Linux</strong>.
+                        </p>
+                        <p class="text-sm text-blue-700 mt-2 leading-relaxed">
+                            WSL2 es un "traductor mágico" de alta velocidad. Te permite tener un Linux real (Ubuntu) viviendo dentro de tu Windows, compartiendo archivos y recursos, sin que tu PC se ponga lento como con las máquinas virtuales antiguas.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-gray-700">1. Instalación</h4>
+                        <p>Abre <strong>PowerShell como Administrador</strong> y ejecuta:</p>
+                        ${renderCodeBlock('wsl --install -d Ubuntu-24.04', 'powershell')}
+                        <div class="bg-gray-100 p-3 rounded text-sm text-gray-600 border border-gray-200">
+                            <strong>Nota:</strong> Reinicia tu equipo al terminar. Se abrirá una ventana negra pidiendo usuario/clave. Esa es tu nueva terminal Linux.
+                        </div>
+
+                        <h4 class="font-bold text-gray-700 mt-6">2. Validar tu Versión</h4>
+                        <p class="text-sm text-gray-600">Es crucial confirmar que estás usando la versión 2 (WSL2) y no la 1 (que es lenta). En PowerShell ejecuta:</p>
+                        ${renderCodeBlock('wsl -l -v', 'powershell')}
+                        <p class="text-sm text-gray-500">
+                            Busca la columna <strong>VERSION</strong>. Debería decir <code>2</code> al lado de Ubuntu.
+                        </p>
+                        
+                        <h4 class="font-bold text-gray-700 mt-6">3. Configurar Idioma Español</h4>
+                        <p class="text-sm text-gray-600">WSL viene en inglés por defecto. Para que R, Python, Quarto y otras herramientas muestren fechas, acentos y caracteres correctamente, sigue estos 3 pasos en tu terminal de <strong>Ubuntu</strong>:</p>
+
+                        <p class="text-sm font-semibold text-gray-700 mt-3">Paso A: Generar el locale español</p>
+                        ${renderCodeBlock('sudo locale-gen es_ES.UTF-8', 'bash')}
+
+                        <p class="text-sm font-semibold text-gray-700 mt-3">Paso B: Establecerlo como idioma del sistema</p>
+                        ${renderCodeBlock('sudo update-locale LANG=es_ES.UTF-8', 'bash')}
+
+                        <p class="text-sm font-semibold text-gray-700 mt-3">Paso C: Agregar variables de entorno al perfil</p>
+                        <p class="text-xs text-gray-500 mb-1">Esto asegura que programas como Quarto y R usen español al renderizar (evita acentos rotos):</p>
+                        ${renderCodeBlock('echo \'export LC_ALL=es_ES.UTF-8\' >> ~/.bashrc\necho \'export LANG=es_ES.UTF-8\' >> ~/.bashrc\nsource ~/.bashrc', 'bash')}
+
+                        <p class="text-sm font-semibold text-gray-700 mt-3">Verificar</p>
+                        <p class="text-xs text-gray-500 mb-1">Cierra y abre la terminal de <strong>Ubuntu</strong>, luego ejecuta:</p>
+                        ${renderCodeBlock('locale', 'bash')}
+                        <p class="text-xs text-gray-500 mt-1">Deberías ver <code>LANG=es_ES.UTF-8</code> y <code>LC_ALL=es_ES.UTF-8</code> en la salida. Si es así, quedó bien.</p>
+
+                        <!-- SOS Password Recovery -->
+                        <div class="mt-6 bg-red-50 border border-red-100 rounded-lg p-4">
+                            <details class="group">
+                                <summary class="font-bold text-red-700 cursor-pointer flex items-center gap-2 select-none list-none">
+                                    <span class="group-open:rotate-90 transition-transform">▶</span>
+                                    <span>🆘 ¿Olvidaste tu contraseña de WSL?</span>
+                                </summary>
+                                <div class="mt-4 text-sm text-gray-700 space-y-3 pl-4 border-l-2 border-red-200">
+                                    <p>No te preocupes. Si tienes acceso a Windows, recupérala así:</p>
+                                    <ol class="list-decimal list-inside space-y-2">
+                                        <li>Abre <strong>PowerShell</strong> (o CMD) como <strong>Administrador</strong>.</li>
+                                        <li>Entra como root (superusuario) sin contraseña:
+                                            ${renderCodeBlock('wsl -u root', 'powershell')}
+                                        </li>
+                                        <li>Cambia tu contraseña (o la de tu usuario):
+                                            ${renderCodeBlock('passwd tu_usuario', 'bash')}
+                                            <span class="text-xs text-gray-500 block mt-1">(Reemplaza <code>tu_usuario</code> por tu nombre de usuario real)</span>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="mt-8 border-t border-gray-200 pt-6">
+                            <h4 class="font-bold text-gray-700 mb-3 text-sm flex items-center gap-2">🧰 Comandos Útiles de WSL</h4>
+                            <p class="text-xs text-gray-500 mb-4">Guarda estos comandos para PowerShell, te ayudarán a gestionar tus instalaciones:</p>
+                            
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 mb-1">Ver qué versiones de Linux puedes instalar:</p>
+                                    ${renderCodeBlock('wsl --list --online', 'powershell')}
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 mb-1">Ver tus distros instaladas y estado:</p>
+                                    ${renderCodeBlock('wsl -l -v', 'powershell')}
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 mb-1">Apagar WSL (útil si se cuelga o consume mucha RAM):</p>
+                                    ${renderCodeBlock('wsl --shutdown', 'powershell')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                macContent: `
+                    <div class="space-y-4">
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-4">
+                            <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Homebrew?</h4>
+                            <p class="text-sm text-indigo-700 leading-relaxed">
+                                Homebrew es el <strong>gestor de paquetes de Mac</strong>. Es como una tienda de apps para la terminal — te permite instalar, actualizar y desinstalar herramientas con un solo comando (<code>brew install ...</code>). Sin Homebrew, tendrías que descargar manualmente cada herramienta desde diferentes sitios web.
+                            </p>
+                        </div>
+                        <p>Abre la aplicación <strong>Terminal</strong> e instala Homebrew:</p>
+                        ${renderCodeBlock('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"', 'bash')}
+                        
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                            <div class="flex">
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-800 font-bold">⚠️ ¡No ignores el final!</p>
+                                    <p class="text-sm text-yellow-700 mt-2">
+                                        Cuando termine la instalación, verás una sección que dice <strong>"Next steps:"</strong>. 
+                                        Debes copiar y ejecutar los 2 comandos que te muestra la terminal para que Homebrew funcione (generalmente empiezan con <code>echo</code>).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Herramientas Base",
+                description: "Instalaremos lo esencial: Git para versiones, Curl para descargas y compiladores (C/C++) necesarios para R y Python.",
+                commonContent: `
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full text-sm border border-gray-200 rounded">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="text-left px-3 py-2 border-b">Herramienta</th>
+                                    <th class="text-left px-3 py-2 border-b">Para qué sirve</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600">
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">build-essential / Xcode CLT</td><td class="px-3 py-2">Compiladores C/C++ — necesarios para que R y Python puedan instalar paquetes que usan código compilado</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">git</td><td class="px-3 py-2">Control de versiones — lo usaremos a fondo en el Paso 8</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">curl / wget</td><td class="px-3 py-2">Descargadores de archivos desde la terminal (muchos instaladores los necesitan)</td></tr>
+                                <tr><td class="px-3 py-2 font-mono">tree</td><td class="px-3 py-2">Visualiza la estructura de carpetas como un árbol — muy útil para entender proyectos</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `,
+                winContent: `
+                    <p class="mb-2">En tu terminal de <strong>Ubuntu</strong>:</p>
+                    ${renderCodeBlock('sudo apt update && sudo apt upgrade -y\nsudo apt install -y build-essential git curl wget unzip tree', 'bash')}
+                `,
+                macContent: `
+                    <h4 class="font-bold text-gray-700 mb-2">Compiladores (Xcode Command Line Tools)</h4>
+                    <p class="text-sm text-gray-600 mb-2">Necesarios para que R y Python puedan compilar paquetes con C/C++:</p>
+                    ${renderCodeBlock('xcode-select --install', 'bash')}
+                    <p class="text-xs text-gray-500 mt-1 mb-4">Se abrirá un popup del sistema. Haz clic en "Instalar" y espera a que termine. Si dice que ya están instalados, perfecto.</p>
+
+                    <h4 class="font-bold text-gray-700 mb-2">Herramientas vía Homebrew</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu <strong>Terminal</strong>:</p>
+                    ${renderCodeBlock('brew update\nbrew install git curl wget tree', 'bash')}
+                `
+            },
+            {
+                id: 4,
+                title: "Node.js & IA CLI",
+                description: "Usamos <strong>NVM</strong> para instalar Node.js sin permisos de administrador. Esto es crítico para usar herramientas de IA como Gemini y Claude.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Node.js y por qué lo necesitamos?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            <strong>Node.js</strong> es un motor de JavaScript que funciona fuera del navegador. Muchas herramientas modernas de IA (como Claude Code y Gemini CLI) están construidas con Node. <strong>NVM</strong> (Node Version Manager) te permite instalar y cambiar versiones de Node sin permisos de administrador — evitando conflictos y errores de permisos.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mt-4">1. Instalar NVM</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
+                    ${renderCodeBlock('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash', 'bash')}
+                    <p class="text-sm text-red-500 mt-2">¡Importante! Cierra y abre tu terminal para que funcione el comando <code>nvm</code>.</p>
+
+                    <h4 class="font-bold text-gray-700 mt-6">2. Instalar Node y Herramientas IA</h4>
+                    ${renderCodeBlock('nvm install --lts\nnpm install -g @google/gemini-cli\nnpm install -g @anthropic-ai/claude-code', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6">3. Configurar Agentes de IA</h4>
+                    <p class="text-sm text-gray-600 mb-3">Cada herramienta necesita autenticarse una sola vez. Después quedan listas para usar.</p>
+
+                    <div class="mt-2 space-y-4">
+                        <div class="bg-blue-50 p-4 rounded border border-blue-200">
+                            <p class="text-sm text-blue-800 font-bold mb-2">✨ Gemini CLI (cuenta Google gratuita)</p>
+                            <p class="text-sm text-blue-700 mb-2">Ejecuta <code>gemini</code> en tu terminal. Se abrirá el navegador para iniciar sesión con tu cuenta de Google. Acepta los permisos y listo.</p>
+                            ${renderCodeBlock('gemini', 'bash')}
+                            <p class="text-xs text-blue-600 mt-1">Una vez autenticado, ya puedes usar Gemini como agente de IA en la terminal. Escribe <code>/quit</code> para salir.</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded border border-yellow-200">
+                            <p class="text-sm text-yellow-800 font-bold mb-2">🤖 Claude Code (requiere suscripción Max o API de pago)</p>
+                            <p class="text-sm text-yellow-700 mb-2">Ejecuta <code>claude</code> en tu terminal y sigue las instrucciones para autenticarte.</p>
+                            ${renderCodeBlock('claude', 'bash')}
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "R Moderno (Rig + Pak)",
+                description: "Olvídate de la instalación tradicional. <strong>Rig</strong> gestiona versiones y <strong>Pak</strong> instala librerías a velocidad luz resolviendo dependencias de sistema.",
+                winContent: `
+                    <h4 class="font-bold text-gray-700">1. Instalar Rig</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong>:</p>
+                    ${renderCodeBlock('curl -Ls https://github.com/r-lib/rig/releases/download/latest/rig-linux-latest.tar.gz | sudo tar xz -C /usr/local', 'bash')}
+                    
+                    <h4 class="font-bold text-gray-700 mt-4">2. Dependencias Críticas (Ubuntu)</h4>
+                    <p class="text-sm text-gray-500 mb-2">Necesario para compilar Tidyverse:</p>
+                    ${renderCodeBlock('sudo apt install -y libcurl4-openssl-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjpeg-dev libpng-dev libssl-dev libtiff-dev libwebp-dev libx11-dev libxml2-dev pandoc', 'bash')}
+                `,
+                macContent: `
+                    <h4 class="font-bold text-gray-700">1. Instalar Rig</h4>
+                    <p class="text-sm text-gray-600 mb-2">En Mac, primero agregamos la fuente ("tap") y luego instalamos:</p>
+                    ${renderCodeBlock('brew tap r-lib/rig && brew install rig', 'bash')}
+                    
+                    <h4 class="font-bold text-gray-700 mt-4">2. Dependencias Críticas (Mac)</h4>
+                    ${renderCodeBlock('brew install openssl curl freetype harfbuzz fribidi libpng libtiff jpeg libxml2 pandoc', 'bash')}
+                `,
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué son estas herramientas?</h4>
+                        <ul class="text-sm text-indigo-700 space-y-2">
+                            <li><strong>Rig:</strong> Gestor de versiones de R (como NVM para Node). Te permite tener múltiples versiones instaladas y cambiar entre ellas.</li>
+                            <li><strong>Pak:</strong> Instalador rápido de paquetes de R. Resuelve dependencias automáticamente (no más errores de compilación).</li>
+                            <li><strong>Tidyverse:</strong> Colección de paquetes de R para ciencia de datos (dplyr, ggplot2, readr...). Es el estándar de la industria.</li>
+                        </ul>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mt-6">3. Activar R y Tidyverse (Universal)</h4>
+                    ${renderCodeBlock('sudo rig add release\nsudo rig system add-pak', 'bash')}
+                    <p class="mt-2 mb-2">Entra a R escribiendo <code>R</code> en tu terminal e instala:</p>
+                    ${renderCodeBlock('pak::pkg_install(c("tidyverse", "languageserver", "httpgd"))', 'r')}
+                `
+            },
+            {
+                id: 6,
+                title: "Python (uv) & Ollama",
+                description: "Instala Python con un gestor moderno y ejecuta modelos de IA localmente en tu GPU. Privacidad total y costo cero.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué son estas herramientas?</h4>
+                        <ul class="text-sm text-indigo-700 space-y-2">
+                            <li><strong>uv:</strong> Un gestor todo-en-uno para Python, escrito en Rust. Reemplaza a pip, venv y pyenv en una sola herramienta ultrarrápida. Con uv puedes instalar Python, crear entornos virtuales y gestionar dependencias.</li>
+                            <li><strong>Ollama:</strong> Te permite ejecutar modelos de inteligencia artificial (LLMs como Llama, Mistral, Gemma) directamente en tu computadora, sin enviar datos a la nube. Ideal para datos sensibles o para experimentar sin costo.</li>
+                        </ul>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700">1. Instalar uv (Gestor de Python)</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
+                    ${renderCodeBlock('curl -LsSf https://astral.sh/uv/install.sh | sh', 'bash')}
+                    <p class="text-sm text-red-500 mt-2">Cierra y abre tu terminal para que el comando <code>uv</code> esté disponible.</p>
+
+                    <h4 class="font-bold text-gray-700 mt-6">2. Instalar Python</h4>
+                    ${renderCodeBlock('uv python install 3.12', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-4">3. Verificar</h4>
+                    ${renderCodeBlock('uv python list\npython3 --version', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6">4. Instalar Ollama</h4>
+                `,
+                winContent: `
+                    <h4 class="font-bold text-gray-700">Ollama en WSL2</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong>:</p>
+                    ${renderCodeBlock('curl -fsSL https://ollama.com/install.sh | sh', 'bash')}
+                    <p class="text-sm text-gray-500 mt-2">WSL2 accede directo a tu GPU NVIDIA. No instales drivers en Linux, usa los de Windows.</p>
+
+                    <div class="mt-6 bg-purple-50 p-4 rounded-lg border border-purple-100">
+                        <h5 class="font-bold text-purple-800 flex items-center gap-2 mb-2">
+                            <span>🚀</span> Boost de RAM para Modelos Grandes
+                        </h5>
+                        <p class="text-sm text-purple-900 mb-2">
+                            Por defecto, WSL2 solo usa el 50% de tu RAM. Si Ollama se cierra o va lento, asigna más memoria creando un archivo de configuración en Windows.
+                        </p>
+                        <ol class="list-decimal list-inside text-sm text-purple-800 space-y-1 mb-2">
+                            <li>En Windows, ve a tu carpeta de usuario (<code>C:\\Users\\TuUsuario\\</code>).</li>
+                            <li>Crea un archivo llamado <code>.wslconfig</code>.</li>
+                            <li>Abre con Bloc de notas y pega esto (ajusta memory a tu gusto):</li>
+                        </ol>
+                        ${renderCodeBlock('[wsl2]\nmemory=12GB\nprocessors=8\nswap=4GB', 'ini')}
+                        <p class="text-xs text-purple-600 mt-2">Luego reinicia WSL en PowerShell con <code>wsl --shutdown</code>.</p>
+                    </div>
+                `,
+                macContent: `
+                    <h4 class="font-bold text-gray-700">Instalar Ollama (Mac)</h4>
+                    <p class="mb-2">Descarga la App oficial para Apple Silicon:</p>
+                    <a href="https://ollama.com/download/mac" target="_blank" class="text-blue-600 underline">Descargar Ollama para Mac</a>
+                `
+            },
+            {
+                id: 7,
+                title: "Workspace & Organización",
+                description: "Este es el paso que define si tendrás éxito o problemas. Una buena organización de archivos es la base de cualquier proyecto profesional.",
+                winContent: `
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                        <h4 class="font-bold text-red-800 flex items-center gap-2">⚠️ El error más común en WSL</h4>
+                        <p class="text-sm text-red-700 mt-2 leading-relaxed">
+                            Trabajar sobre archivos que están en el disco de Windows (<code>C:</code>) en lugar del sistema de archivos de Linux.
+                            <strong>Impacto Real:</strong> Si trabajas en la zona incorrecta, todo será <strong>5 a 20 veces más lento</strong> (Git, npm, DuckDB).
+                        </p>
+                        
+                        <div class="mt-4 grid grid-cols-2 gap-4 text-center text-sm">
+                            <div class="bg-white p-3 border border-red-200 rounded">
+                                <span class="block text-xl">❌ MAL</span>
+                                <code class="bg-red-100 px-1 rounded text-red-800">/mnt/c/Users/...</code>
+                                <span class="block text-xs text-gray-500 mt-1">Disco Lento (Windows)</span>
+                            </div>
+                            <div class="bg-white p-3 border border-green-200 rounded">
+                                <span class="block text-xl">✅ BIEN</span>
+                                <code class="bg-green-100 px-1 rounded text-green-800">/home/usuario/...</code>
+                                <span class="block text-xs text-gray-500 mt-1">Disco Rápido (Linux)</span>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-red-700 mt-4 font-bold border-t border-red-200 pt-2">
+                            La Regla de Oro: Todo lo relacionado con Data Science VIVE en WSL. Windows es solo la pantalla.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mt-6">1. Crear Carpeta Maestra</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong> (no en PowerShell):</p>
+                    ${renderCodeBlock('cd ~\nmkdir workspace\ncd workspace', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6">2. Crear Alias (Atajo 'ws')</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong>:</p>
+                    ${renderCodeBlock('echo \'alias ws="cd ~/workspace"\' >> ~/.bashrc\nsource ~/.bashrc', 'bash')}
+
+                    <div class="mt-8 border-t border-gray-200 pt-6">
+                        <h4 class="font-bold text-gray-700 mb-3 text-sm flex items-center gap-2">🚚 Migrar Carpeta Existente (Windows → WSL)</h4>
+                        <p class="text-xs text-gray-600 mb-4">Si ya tienes un proyecto en Windows (ej: en OneDrive) y quieres pasarlo a Linux:</p>
+
+                        <div class="bg-gray-50 p-4 rounded border border-gray-200 text-sm">
+                            <p class="font-bold text-gray-700 mb-2">Opción A: Terminal (Profesional & Rápido)</p>
+                            <p class="mb-2 text-gray-600">El comando <code>cp -r</code> copia carpetas enteras. <span class="text-red-600">¡Usa comillas si la ruta tiene espacios!</span></p>
+                            ${renderCodeBlock('cp -r "/mnt/c/Users/TuUsuario/OneDrive/Tu Carpeta" ~/workspace/', 'bash')}
+                            
+                            <p class="font-bold text-gray-700 mt-4 mb-2">Opción B: Visual (Arrastrar)</p>
+                            <ol class="list-decimal list-inside space-y-1 ml-1 text-gray-600">
+                                <li>En la terminal WSL, escribe <code>explorer.exe .</code> (con el punto).</li>
+                                <li>Se abrirá una ventana de Windows dentro de Linux.</li>
+                                <li>Arrastra tu carpeta desde otra ventana de Windows hacia esta.</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="mt-4 bg-yellow-50 p-3 rounded border border-yellow-200 text-xs text-yellow-800">
+                            <strong>⚠️ Importante:</strong> Si copias un proyecto de código, borra las carpetas <code>node_modules</code>, <code>.venv</code> o <code>.git</code> y genéralas de nuevo en Linux. Las versiones de Windows suelen fallar aquí.
+                        </div>
+                    </div>
+                `,
+                macContent: `
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <h4 class="font-bold text-blue-800">💡 Organización en Mac</h4>
+                        <p class="text-sm text-blue-700 mt-2">
+                            Aunque Mac no tiene el problema de discos de Windows, es vital mantener el orden. 
+                            Crearemos una carpeta <code>workspace</code> en la raíz de tu usuario para separar código de documentos personales.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700">1. Crear Carpeta Maestra</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu <strong>Terminal</strong>:</p>
+                    ${renderCodeBlock('cd ~\nmkdir workspace\ncd workspace', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6">2. Crear Alias (Atajo 'ws')</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu <strong>Terminal</strong>:</p>
+                    ${renderCodeBlock('echo \'alias ws="cd ~/workspace"\' >> ~/.zshrc\nsource ~/.zshrc', 'bash')}
+                `
+            },
+            {
+                id: 8,
+                title: "Git & GitHub",
+                description: "Git rastrea cada cambio en tu código. GitHub lo respalda en la nube y te permite colaborar. Juntos son <strong>indispensables</strong> para cualquier profesional de datos.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Git? (Explicación para Humanos)</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            Git es como <strong>Ctrl+Z con superpoderes para todo tu proyecto</strong>. Cada vez que haces un "commit",
+                            Git toma una foto (snapshot) del estado completo de tus archivos. Puedes volver a cualquier foto anterior,
+                            ver qué cambió y cuándo, y trabajar en paralelo sin miedo a romper nada.
+                        </p>
+                        <p class="text-sm text-indigo-700 mt-2 leading-relaxed">
+                            A diferencia de guardar archivos normalmente (que sobreescribe), Git <strong>guarda el historial completo</strong>.
+                            Es la diferencia entre tener un solo "Guardar" y tener una línea de tiempo infinita.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mb-3">🔄 El Flujo de Git</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mb-6 text-center text-sm">
+                        <div class="bg-yellow-50 p-3 rounded border border-yellow-200">
+                            <span class="text-xl">📝</span><br>
+                            <strong>Working Directory</strong><br>
+                            <span class="text-xs text-gray-500">Tus archivos editados</span>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                            <span class="text-xl">📦</span><br>
+                            <strong>Staging Area</strong><br>
+                            <span class="text-xs text-gray-500">Listos para foto</span>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded border border-green-200">
+                            <span class="text-xl">💾</span><br>
+                            <strong>Repository Local</strong><br>
+                            <span class="text-xs text-gray-500">Foto guardada</span>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded border border-purple-200">
+                            <span class="text-xl">☁️</span><br>
+                            <strong>GitHub</strong><br>
+                            <span class="text-xs text-gray-500">Respaldo en la nube</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center gap-1 text-xs text-gray-400 mb-6">
+                        <span>git add</span><span>→</span>
+                        <span>git commit</span><span>→</span>
+                        <span>git push</span><span>→</span>
+                        <span>☁️</span>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mb-3">⚙️ Configuración Inicial</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal, configura tu identidad (esto aparecerá en cada commit):</p>
+                    ${renderCodeBlock('git config --global user.name "Tu Nombre"\ngit config --global user.email "tu@email.com"\ngit config --global init.defaultBranch main', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6 mb-3">🏋️ Ejercicio Guiado: Tu Primer Repositorio</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta cada comando en tu terminal y observa qué pasa:</p>
+                    <ol class="list-decimal list-inside text-sm text-gray-600 mb-4 space-y-1">
+                        <li><code>mkdir && cd</code> — Crear carpeta y entrar</li>
+                        <li><code>git init</code> — Inicializar Git (crea la carpeta oculta .git)</li>
+                        <li><code>echo</code> — Crear un archivo README</li>
+                        <li><code>git status</code> — Ver estado: archivo "sin rastrear" (rojo)</li>
+                        <li><code>git add</code> — Preparar para snapshot (mover a staging)</li>
+                        <li><code>git status</code> — Ver estado: archivo en "staging" (verde)</li>
+                        <li><code>git commit</code> — Tomar la foto (commit)</li>
+                        <li><code>git log</code> — Ver el historial</li>
+                    </ol>
+                    ${renderCodeBlock('mkdir mi-primer-repo && cd mi-primer-repo\ngit init\necho "# Mi Proyecto" > README.md\ngit status\ngit add README.md\ngit status\ngit commit -m "primer commit: agregar README"\ngit log', 'bash')}
+                `,
+                winContent: `
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <p class="text-sm text-blue-700"><strong>Nota Windows:</strong> Git se instaló en el Paso 3 dentro de WSL. Todo lo de Git se hace desde la terminal de <strong>Ubuntu</strong>, no desde PowerShell.</p>
+                    </div>
+                    <h4 class="font-bold text-gray-700 mb-2">Instalar GitHub CLI</h4>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong>:</p>
+                    ${renderCodeBlock('sudo apt install gh', 'bash')}
+                `,
+                macContent: `
+                    <div class="bg-gray-50 border-l-4 border-gray-400 p-4 mb-4">
+                        <p class="text-sm text-gray-700"><strong>Nota Mac:</strong> Git viene preinstalado o se instaló con Homebrew en el Paso 3. Todo funciona directamente desde Terminal.</p>
+                    </div>
+                    <h4 class="font-bold text-gray-700 mb-2">Instalar GitHub CLI</h4>
+                    ${renderCodeBlock('brew install gh', 'bash')}
+                `,
+                extraContent: `
+                    <h4 class="font-bold text-gray-700 mt-6 mb-3">🌐 Conectar con GitHub</h4>
+                    <ol class="text-sm text-gray-600 space-y-3 mb-4 list-decimal list-inside">
+                        <li>Crea una cuenta en <a href="https://github.com" target="_blank" class="text-blue-600 underline">github.com</a> (si no tienes una).</li>
+                        <li>Autentícate con GitHub CLI:
+                            ${renderCodeBlock('gh auth login', 'bash')}
+                            <div class="mt-2 ml-2 text-xs text-gray-500 space-y-1">
+                                <p>Te hará 4 preguntas. Responde así:</p>
+                                <ol class="list-decimal list-inside space-y-1 ml-2">
+                                    <li><strong>Where do you use GitHub?</strong> → <code>GitHub.com</code></li>
+                                    <li><strong>What is your preferred protocol?</strong> → <code>HTTPS</code></li>
+                                    <li><strong>Authenticate Git with your GitHub credentials?</strong> → <code>Yes</code></li>
+                                    <li><strong>How would you like to authenticate?</strong> → <code>Login with a web browser</code></li>
+                                </ol>
+                                <p class="mt-1">Se abrirá el navegador. Inicia sesión en GitHub y autoriza el acceso.</p>
+                            </div>
+                        </li>
+                        <li>Crea el repositorio y súbelo, todo desde la terminal:
+                            ${renderCodeBlock('cd mi-primer-repo\ngh repo create mi-primer-repo --public --source=. --remote=origin --push', 'bash')}
+                            <span class="text-xs text-gray-500 block mt-1">Esto crea el repo en GitHub, lo conecta y sube tu código en un solo comando.</span>
+                        </li>
+                    </ol>
+
+                    <details class="mt-6 bg-gray-50 rounded-lg border border-gray-200 group">
+                        <summary class="font-bold text-gray-700 cursor-pointer flex items-center gap-2 select-none p-4">
+                            <span class="group-open:rotate-90 transition-transform">▶</span>
+                            📋 Cheat Sheet: Comandos Git Esenciales
+                        </summary>
+                        <div class="p-4 pt-0">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm border border-gray-200 rounded">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="text-left px-3 py-2 border-b">Comando</th>
+                                            <th class="text-left px-3 py-2 border-b">Qué hace</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-gray-600">
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">git status</td><td class="px-3 py-2">Ver qué archivos cambiaron</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">git add archivo</td><td class="px-3 py-2">Preparar archivo para commit</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">git add .</td><td class="px-3 py-2">Preparar TODOS los archivos</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">git commit -m "mensaje"</td><td class="px-3 py-2">Guardar snapshot con descripción</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">git push</td><td class="px-3 py-2">Subir commits a GitHub</td></tr>
+                                        <tr class="border-b"><td class="px-3 py-2 font-mono">git pull</td><td class="px-3 py-2">Descargar cambios de GitHub</td></tr>
+                                        <tr><td class="px-3 py-2 font-mono">git log --oneline</td><td class="px-3 py-2">Ver historial compacto</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </details>
+                `
+            },
+            {
+                id: 9,
+                title: "Backup Blindado",
+                description: "Estrategia 3-2-1 automatizada. Usamos <strong>Restic</strong> para snapshots encriptados y <strong>Rclone</strong> para subir a la nube.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es la estrategia 3-2-1?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed mb-3">
+                            <strong>3</strong> copias de tus datos, en <strong>2</strong> medios diferentes, con <strong>1</strong> copia fuera de tu ubicación (la nube). Es el estándar de la industria para no perder datos.
+                        </p>
+                        <ul class="text-sm text-indigo-700 space-y-2">
+                            <li><strong>Restic:</strong> Toma "fotos" (snapshots) de tu workspace. Solo guarda lo que cambió (deduplicación), y todo queda encriptado automáticamente.</li>
+                            <li><strong>Rclone:</strong> El "puente" que conecta Restic con servicios de nube (OneDrive, Google Drive, Dropbox). Tú eliges dónde guardar.</li>
+                        </ul>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center text-sm">
+                        <div class="bg-gray-100 p-3 rounded border border-gray-200">
+                            <span class="text-2xl">📂</span><br><strong>Tu Workspace</strong><br><span class="text-xs">Código Local</span>
+                        </div>
+                        <div class="flex items-center justify-center text-gray-400">
+                            ➞ Encriptación ➞
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                            <span class="text-2xl">☁️</span><br><strong>OneDrive</strong><br><span class="text-xs">Snapshot Seguro</span>
+                        </div>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700">1. Instalación</h4>
+                `,
+                winContent: `
+                    ${renderCodeBlock('sudo apt install -y rclone restic', 'bash')}
+                `,
+                macContent: `
+                    ${renderCodeBlock('brew install rclone restic', 'bash')}
+                `,
+                extraContent: `
+                    <h4 class="font-bold text-gray-700 mt-6">2. Configurar Nube</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
+                    ${renderCodeBlock('rclone config', 'bash')}
+                    <ul class="list-disc list-inside text-sm text-gray-600 ml-2 mb-4">
+                        <li>New remote (n) -> Name: "onedrive"</li>
+                        <li>Type: "Microsoft OneDrive"</li>
+                        <li><strong>Auto Config: Yes</strong> (Abre navegador para login)</li>
+                    </ul>
+
+                    <h4 class="font-bold text-gray-700 mt-6">3. Inicializar & Script</h4>
+                    ${renderCodeBlock('restic -r rclone:onedrive:Backup_Curso init', 'bash')}
+                    <p class="text-sm text-red-500 font-bold mb-4">¡Guarda la contraseña que crees aquí!</p>
+                    
+                    <p class="mb-2">Crea el script de automatización con un solo comando:</p>
+                    ${renderCodeBlock(`cat << 'SCRIPT' > ~/backup.sh
+#!/bin/bash
+# ============================
+# Backup Blindado - Restic + Rclone
+# ============================
+
+# --- Variables configurables ---
+REPO="rclone:onedrive:Backup_Curso"
+SOURCE="\$HOME/workspace"
+RETENTION_DAYS=30
+RETENTION_WEEKLY=8
+RETENTION_MONTHLY=6
+
+# --- Exclusiones ---
+EXCLUDES=(
+    --exclude="node_modules"
+    --exclude=".venv"
+    --exclude="__pycache__"
+    --exclude=".Rproj.user"
+    --exclude=".DS_Store"
+    --exclude="*.tmp"
+)
+
+echo "=== Fase 1: Backup ==="
+restic -r "\$REPO" backup "\$SOURCE" "\${EXCLUDES[@]}" --verbose
+
+echo "=== Fase 2: Limpieza de snapshots antiguos ==="
+restic -r "\$REPO" forget \\
+    --keep-daily "\$RETENTION_DAYS" \\
+    --keep-weekly "\$RETENTION_WEEKLY" \\
+    --keep-monthly "\$RETENTION_MONTHLY" \\
+    --prune
+
+echo "=== Fase 3: Verificación de integridad ==="
+restic -r "\$REPO" check
+
+echo "=== Backup completado: \$(date) ==="
+SCRIPT
+chmod +x ~/backup.sh`, 'bash')}
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mt-4">
+                        <h5 class="font-bold text-green-800 mb-2">📋 Cómo usar el script</h5>
+                        <ul class="text-sm text-green-700 space-y-1 list-disc list-inside">
+                            <li>Ejecución manual: <code>~/backup.sh</code></li>
+                            <li>Te pedirá la contraseña de Restic que creaste arriba.</li>
+                            <li>Para automatizar (cada día a las 2 AM):</li>
+                        </ul>
+                        ${renderCodeBlock('crontab -e', 'bash')}
+                        <p class="text-xs text-green-600 mt-1 mb-1">Agrega esta línea al final del archivo que se abre:</p>
+                        ${renderCodeBlock('0 2 * * * RESTIC_PASSWORD="tu_password" ~/backup.sh >> ~/backup.log 2>&1', 'bash')}
+                        <p class="text-xs text-green-600 mt-2"><strong>Tip:</strong> Revisa <code>~/backup.log</code> para confirmar que los backups corren sin errores.</p>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                title: "IDE & Verificación",
+                description: "El toque final: Un editor moderno conectado al cerebro de Linux y un script para validar que todo funciona.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Positron?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            Positron es un IDE (editor de código) creado por el equipo de RStudio/Posit, diseñado específicamente para <strong>Ciencia de Datos</strong>. Combina lo mejor de VS Code con soporte nativo para R y Python (consolas integradas, visor de datos, gráficos interactivos). Es gratuito y open source.
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700">1. Positron / VS Code</h4>
+                    <p class="mb-2 text-sm">Descarga Positron desde <a href="https://positron.posit.co/" target="_blank" class="text-blue-600 underline">positron.posit.co</a> e instálalo. Luego, desde tu terminal:</p>
+                    ${renderCodeBlock('cd ~/workspace\npositron .', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6">2. Examen Final</h4>
+                    <p class="mb-2 text-sm">Crea y ejecuta este validador:</p>
+                    ${renderCodeBlock(`#!/bin/bash
+check() {
+    if command -v $1 >/dev/null 2>&1; then echo "✅ $1: OK"; else echo "❌ $1: Faltante"; fi
+}
+check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check "python3"; check "ollama"; check "restic"; check "rclone";`, 'bash')}
+                `,
+                macContent: `
+                    <div class="bg-gray-100 p-2 text-xs text-gray-500 rounded border border-gray-200 mb-4">
+                        <strong>Tip para Mac:</strong> Si dice "command not found", abre Positron, presiona <kbd>Cmd+Shift+P</kbd> y escribe "Install 'positron' command in PATH".
+                    </div>
+                `
+            }
+        ];
+
+        // --- STATE MANAGEMENT ---
+        let currentOS = 'win'; // 'win' or 'mac'
+        let currentStep = 0;
+        let completedSteps = new Set();
+
+        // --- CHART INSTANCES ---
+        let progressChartInstance = null;
+        let radarChartInstance = null;
+
+        // --- FUNCTIONS ---
+
+        function copyToClipboard(btn) {
+            const textarea = btn.closest('.code-block').querySelector('textarea');
+            const text = textarea.value;
+
+            const showSuccess = () => {
+                const originalIcon = btn.querySelector('.icon').innerText;
+                btn.querySelector('.icon').innerText = '✅';
+                setTimeout(() => btn.querySelector('.icon').innerText = originalIcon, 2000);
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
+                    // Fallback for file:// or denied permission
+                    textarea.classList.remove('hidden');
+                    textarea.select();
+                    document.execCommand('copy');
+                    textarea.classList.add('hidden');
+                    showSuccess();
+                });
+            } else {
+                textarea.classList.remove('hidden');
+                textarea.select();
+                document.execCommand('copy');
+                textarea.classList.add('hidden');
+                showSuccess();
+            }
+        }
+
+        function setOS(os) {
+            currentOS = os;
+            
+            // Update UI Buttons
+            const btnWin = document.getElementById('btn-win');
+            const btnMac = document.getElementById('btn-mac');
+            const banner = document.getElementById('os-context-banner');
+
+            if (os === 'win') {
+                btnWin.classList.add('bg-white', 'shadow-sm', 'text-brand-900');
+                btnWin.classList.remove('text-gray-500');
+                btnMac.classList.remove('bg-white', 'shadow-sm', 'text-brand-900');
+                btnMac.classList.add('text-gray-500');
+                document.documentElement.style.setProperty('--accent-color', '#3b82f6');
+                banner.classList.remove('hidden');
+                banner.innerHTML = '<span class="font-bold">Modo Windows (WSL2):</span> Usando comandos para PowerShell y Ubuntu.';
+            } else {
+                btnMac.classList.add('bg-white', 'shadow-sm', 'text-brand-900');
+                btnMac.classList.remove('text-gray-500');
+                btnWin.classList.remove('bg-white', 'shadow-sm', 'text-brand-900');
+                btnWin.classList.add('text-gray-500');
+                document.documentElement.style.setProperty('--accent-color', '#64748b');
+                banner.classList.remove('hidden');
+                banner.innerHTML = '<span class="font-bold">Modo macOS:</span> Usando comandos para Terminal Zsh y Homebrew.';
+            }
+
+            // Update Visibility of static content
+            document.querySelectorAll('.show-win').forEach(el => el.style.display = os === 'win' ? 'block' : 'none');
+            document.querySelectorAll('.show-mac').forEach(el => el.style.display = os === 'mac' ? 'block' : 'none');
+
+            // Re-render current step if needed
+            if (currentStep > 0) renderStep(currentStep);
+        }
+
+        function goToStep(stepId) {
+            currentStep = stepId;
+            
+            // Navigation Styling
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`nav-${stepId}`).classList.add('active');
+
+            // Render Content
+            if (stepId === 0) {
+                document.getElementById('step-0').style.display = 'block';
+                document.getElementById('dynamic-step-content').innerHTML = '';
+            } else {
+                document.getElementById('step-0').style.display = 'none';
+                renderStep(stepId);
+            }
+
+            saveProgress();
+        }
+
+        function saveProgress() {
+            localStorage.setItem('hcd_completedSteps', JSON.stringify([...completedSteps]));
+            localStorage.setItem('hcd_currentStep', currentStep);
+            localStorage.setItem('hcd_currentOS', currentOS);
+        }
+
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('hcd_completedSteps');
+                if (saved) {
+                    JSON.parse(saved).forEach(id => completedSteps.add(id));
+                    completedSteps.forEach(id => {
+                        const nav = document.getElementById(`nav-${id}`);
+                        if (nav) nav.classList.add('completed');
+                    });
+                }
+            } catch (e) { /* ignore corrupt data */ }
+        }
+
+        function markCompleted(stepId) {
+            completedSteps.add(stepId);
+            const nav = document.getElementById(`nav-${stepId}`);
+            if (nav) nav.classList.add('completed');
+            updateProgressChart();
+            saveProgress();
+
+            // Swap: hide complete button, show next button
+            const completeBtn = document.getElementById(`btn-complete-${stepId}`);
+            const nextBtn = document.getElementById(`btn-next-${stepId}`);
+            if (completeBtn) completeBtn.classList.add('hidden');
+            if (nextBtn) nextBtn.classList.remove('hidden');
+        }
+
+        function renderStep(stepId) {
+            const data = stepsData.find(s => s.id === stepId);
+            const container = document.getElementById('dynamic-step-content');
+            
+            let contentHTML = '';
+
+            // 1. Common Content (explanations first)
+            if (data.commonContent) contentHTML += data.commonContent;
+
+            // 2. Specific OS Content
+            if (currentOS === 'win' && data.winContent) contentHTML += data.winContent;
+            if (currentOS === 'mac' && data.macContent) contentHTML += data.macContent;
+
+            // 3. Extra Content (usually universal)
+            if (data.extraContent) contentHTML += data.extraContent;
+
+            container.innerHTML = `
+                <div class="step-content active">
+                    <div class="flex items-center gap-2 mb-2 text-brand-500 font-mono text-sm uppercase tracking-wide">
+                        <span>Paso ${stepId} de 10</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">${data.title}</h2>
+                    <p class="text-gray-600 mb-8 border-l-4 border-brand-300 pl-4 italic">
+                        ${data.description}
+                    </p>
+                    
+                    <div class="space-y-6">
+                        ${contentHTML}
+                    </div>
+
+                    <div class="mt-10 pt-6 border-t border-gray-100 flex justify-between items-center">
+                        <button onclick="goToStep(${stepId - 1})" class="text-gray-500 hover:text-brand-700">← Anterior</button>
+                        <div>
+                            ${completedSteps.has(stepId) ? '' : `<button id="btn-complete-${stepId}" onclick="markCompleted(${stepId})" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition-colors">✓ Completado</button>`}
+                            ${stepId < 10 ? `<button id="btn-next-${stepId}" onclick="goToStep(${stepId + 1})" class="${completedSteps.has(stepId) ? '' : 'hidden '}bg-brand-800 text-white px-6 py-2 rounded hover:bg-brand-700 transition-colors">Siguiente Paso →</button>` : `<span id="btn-next-${stepId}" class="${completedSteps.has(stepId) ? '' : 'hidden '}text-green-600 font-bold">¡Configuración Finalizada!</span>`}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initCharts() {
+            // Radar Chart: Stack Comparison
+            const ctxRadar = document.getElementById('stackRadarChart').getContext('2d');
+            radarChartInstance = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Velocidad', 'Seguridad', 'Reproducibilidad', 'Curva Aprendizaje', 'Escalabilidad'],
+                    datasets: [{
+                        label: 'Entorno Hazla con Datos',
+                        data: [95, 90, 100, 70, 95],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                    }, {
+                        label: 'Instalación Básica (EXE)',
+                        data: [60, 40, 30, 90, 50],
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                        borderColor: 'rgba(148, 163, 184, 1)',
+                        pointBackgroundColor: 'rgba(148, 163, 184, 1)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: { font: { size: 10 } },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Doughnut Chart: Progress
+            const ctxProgress = document.getElementById('progressChart').getContext('2d');
+            progressChartInstance = new Chart(ctxProgress, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completado', 'Pendiente'],
+                    datasets: [{
+                        data: [0, 11],
+                        backgroundColor: ['#92927d', '#e0e0d6'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        }
+
+        function updateProgressChart() {
+            const completedCount = completedSteps.size;
+            const total = 11; // 0 to 10
+            const percent = Math.round((completedCount / total) * 100);
+            
+            progressChartInstance.data.datasets[0].data = [completedCount, total - completedCount];
+            progressChartInstance.update();
+            
+            document.getElementById('progressText').innerText = `${percent}%`;
+        }
+
+        // --- INIT ---
+        window.onload = function() {
+            initCharts();
+            loadProgress();
+
+            const savedOS = localStorage.getItem('hcd_currentOS') || 'win';
+            setOS(savedOS);
+
+            const savedStep = localStorage.getItem('hcd_currentStep');
+            if (savedStep !== null) goToStep(parseInt(savedStep));
+
+            updateProgressChart();
+        };
+
+    </script>
+</body>
+</html>
