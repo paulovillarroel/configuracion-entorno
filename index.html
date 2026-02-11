@@ -926,6 +926,9 @@
                     <h4 class="font-bold text-gray-700 mb-3">⚙️ Configuración Inicial</h4>
                     <p class="text-sm text-gray-600 mb-2">En tu terminal, configura tu identidad (esto aparecerá en cada commit):</p>
                     ${renderCodeBlock('git config --global user.name "Tu Nombre"\ngit config --global user.email "tu@email.com"\ngit config --global init.defaultBranch main', 'bash')}
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 mt-3 text-sm text-yellow-800">
+                        <strong>Importante:</strong> Usa el mismo email que tienes (o tendrás) en tu cuenta de GitHub. Si no coinciden, tus commits no se vincularán a tu perfil y aparecerán como un usuario desconocido.
+                    </div>
 
                     <h4 class="font-bold text-gray-700 mt-6 mb-3">🏋️ Ejercicio Guiado: Tu Primer Repositorio</h4>
                     <p class="text-sm text-gray-600 mb-2">Ejecuta cada comando en tu terminal y observa qué pasa:</p>
