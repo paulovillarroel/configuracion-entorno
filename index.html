@@ -225,6 +225,13 @@
 
         /* Links */
         html.dark a.text-blue-600 { color: #60a5fa !important; }
+
+        /* Advanced badges */
+        html.dark .bg-amber-100 { background-color: rgba(245, 158, 11, 0.15) !important; }
+        html.dark .text-amber-700 { color: #fbbf24 !important; }
+        html.dark .bg-amber-50 { background-color: rgba(245, 158, 11, 0.1) !important; }
+        html.dark .text-amber-800 { color: #fcd34d !important; }
+        html.dark .border-amber-200 { border-color: rgba(245, 158, 11, 0.3) !important; }
     </style>
 
     <!-- Anti-FOUC: Apply theme before first paint -->
@@ -300,18 +307,27 @@
                 <p id="progressText" class="text-center text-sm font-bold text-brand-700 mt-2">0% Completado</p>
             </div>
 
-            <nav class="flex-1 p-4 space-y-1">
+            <nav class="flex-1 p-4 space-y-0.5 overflow-y-auto">
+                <!-- Inicio -->
                 <button onclick="goToStep(0)" id="nav-0" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">0. Introducción</button>
+
+                <!-- Fundamentos -->
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider pt-4 pb-1 px-3">Fundamentos</p>
                 <button onclick="goToStep(1)" id="nav-1" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">1. Terminal Básica</button>
-                <button onclick="goToStep(2)" id="nav-2" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">2. El Motor (Sistema Operativo)</button>
+                <button onclick="goToStep(2)" id="nav-2" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">2. El Motor (SO)</button>
                 <button onclick="goToStep(3)" id="nav-3" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">3. Herramientas Base</button>
-                <button onclick="goToStep(4)" id="nav-4" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">4. Node.js & IA CLI</button>
-                <button onclick="goToStep(5)" id="nav-5" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">5. R Moderno (Rig + Pak)</button>
-                <button onclick="goToStep(6)" id="nav-6" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">6. Python (uv) & Ollama</button>
-                <button onclick="goToStep(7)" id="nav-7" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">7. Workspace & Organización</button>
-                <button onclick="goToStep(8)" id="nav-8" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">8. Git & GitHub</button>
-                <button onclick="goToStep(9)" id="nav-9" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">9. Backup Blindado</button>
-                <button onclick="goToStep(10)" id="nav-10" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">10. IDE & Verificación</button>
+                <button onclick="goToStep(6)" id="nav-6" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">6. R Moderno (Rig + Pak)</button>
+                <button onclick="goToStep(7)" id="nav-7" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">7. Python (uv)</button>
+                <button onclick="goToStep(9)" id="nav-9" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">9. Workspace & Organización</button>
+                <button onclick="goToStep(10)" id="nav-10" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">10. Git & GitHub</button>
+                <button onclick="goToStep(12)" id="nav-12" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">12. IDE & Verificación</button>
+
+                <!-- Avanzado -->
+                <p class="text-xs font-semibold text-amber-600 uppercase tracking-wider pt-4 pb-1 px-3 flex items-center gap-1.5">Avanzado <span class="text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-normal normal-case">opcional</span></p>
+                <button onclick="goToStep(4)" id="nav-4" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">4. Node.js (NVM)</button>
+                <button onclick="goToStep(5)" id="nav-5" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">5. Gemini CLI & Claude Code</button>
+                <button onclick="goToStep(8)" id="nav-8" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">8. Ollama (IA Local)</button>
+                <button onclick="goToStep(11)" id="nav-11" class="nav-item w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-brand-50">11. Backup Blindado</button>
             </nav>
 
             <div class="p-4 border-t border-brand-100 text-center">
@@ -523,9 +539,10 @@
         }
 
         const stepsData = [
-            { id: 0, title: "Intro" }, // Handled statically above
+            { id: 0, title: "Intro", level: "basico" }, // Handled statically above
             {
                 id: 1,
+                level: "basico",
                 title: "Terminal Básica",
                 description: "Antes de instalar herramientas, necesitas aprender a <strong>hablar con tu computadora</strong>. La terminal es tu herramienta más poderosa.",
                 commonContent: `
@@ -686,6 +703,7 @@
             },
             {
                 id: 2,
+                level: "basico",
                 title: "El Motor (Sistema Operativo)",
                 description: "Necesitamos una terminal tipo Unix. En Windows, esto significa instalar un Linux real dentro del sistema (WSL2). En Mac, necesitamos un gestor de paquetes.",
                 winContent: `
@@ -818,6 +836,7 @@
             },
             {
                 id: 3,
+                level: "basico",
                 title: "Herramientas Base",
                 description: "Instalaremos lo esencial: Git para versiones, Curl para descargas y compiladores (C/C++) necesarios para R y Python.",
                 commonContent: `
@@ -831,7 +850,7 @@
                             </thead>
                             <tbody class="text-gray-600">
                                 <tr class="border-b"><td class="px-3 py-2 font-mono">build-essential / Xcode CLT</td><td class="px-3 py-2">Compiladores C/C++ — necesarios para que R y Python puedan instalar paquetes que usan código compilado</td></tr>
-                                <tr class="border-b"><td class="px-3 py-2 font-mono">git</td><td class="px-3 py-2">Control de versiones — lo usaremos a fondo en el Paso 8</td></tr>
+                                <tr class="border-b"><td class="px-3 py-2 font-mono">git</td><td class="px-3 py-2">Control de versiones — lo usaremos a fondo en el Paso 10</td></tr>
                                 <tr class="border-b"><td class="px-3 py-2 font-mono">curl / wget</td><td class="px-3 py-2">Descargadores de archivos desde la terminal (muchos instaladores los necesitan)</td></tr>
                                 <tr><td class="px-3 py-2 font-mono">tree</td><td class="px-3 py-2">Visualiza la estructura de carpetas como un árbol — muy útil para entender proyectos</td></tr>
                             </tbody>
@@ -855,8 +874,9 @@
             },
             {
                 id: 4,
-                title: "Node.js & IA CLI",
-                description: "Usamos <strong>NVM</strong> para instalar Node.js sin permisos de administrador. Esto es crítico para usar herramientas de IA como Gemini y Claude.",
+                level: "avanzado",
+                title: "Node.js (NVM)",
+                description: "Usamos <strong>NVM</strong> para instalar Node.js sin permisos de administrador. Node es necesario para herramientas modernas de IA en la terminal.",
                 commonContent: `
                     <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
                         <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Node.js y por qué lo necesitamos?</h4>
@@ -877,34 +897,52 @@
                     ${renderCodeBlock('nvm --version', 'bash')}
                     <p class="text-xs text-gray-500 mt-1">Si muestra un número (ej: <code>0.40.1</code>), todo bien. Si dice "command not found", cierra y abre la terminal de nuevo.</p>
 
-                    <h4 class="font-bold text-gray-700 mt-6">2. Instalar Node y Herramientas IA</h4>
-                    ${renderCodeBlock('nvm install --lts\nnpm install -g @google/gemini-cli\nnpm install -g @anthropic-ai/claude-code', 'bash')}
-                    <p class="text-sm text-gray-600 mt-3 mb-1">Verifica las instalaciones:</p>
+                    <h4 class="font-bold text-gray-700 mt-6">2. Instalar Node</h4>
+                    ${renderCodeBlock('nvm install --lts', 'bash')}
+                    <p class="text-sm text-gray-600 mt-3 mb-1">Verifica la instalación:</p>
                     ${renderCodeBlock('node --version\nnpm --version', 'bash')}
                     <p class="text-xs text-gray-500 mt-1">Ambos deben mostrar un número de versión.</p>
-
-                    <h4 class="font-bold text-gray-700 mt-6">3. Configurar Agentes de IA</h4>
-                    <p class="text-sm text-gray-600 mb-3">Cada herramienta necesita autenticarse una sola vez. Después quedan listas para usar.</p>
-
-                    <div class="mt-2 space-y-4">
-                        <div class="bg-blue-50 p-4 rounded border border-blue-200">
-                            <p class="text-sm text-blue-800 font-bold mb-2">✨ Gemini CLI (cuenta Google gratuita)</p>
-                            <p class="text-sm text-blue-700 mb-2">Ejecuta <code>gemini</code> en tu terminal. Se abrirá el navegador para iniciar sesión con tu cuenta de Google. Acepta los permisos y listo.</p>
-                            ${renderCodeBlock('gemini', 'bash')}
-                            <p class="text-xs text-blue-600 mt-1">Una vez autenticado, ya puedes usar Gemini como agente de IA en la terminal. Escribe <code>/quit</code> para salir.</p>
-                            <p class="text-sm text-blue-700 mt-3 mb-1"><strong>Pruébalo con un prompt real:</strong></p>
-                            ${renderCodeBlock('gemini -p "Actúa como un experto en salud pública y resume los beneficios de usar R para análisis epidemiológico."', 'bash')}
-                        </div>
-                        <div class="bg-yellow-50 p-4 rounded border border-yellow-200">
-                            <p class="text-sm text-yellow-800 font-bold mb-2">🤖 Claude Code (requiere suscripción Max o API de pago)</p>
-                            <p class="text-sm text-yellow-700 mb-2">Ejecuta <code>claude</code> en tu terminal y sigue las instrucciones para autenticarte.</p>
-                            ${renderCodeBlock('claude', 'bash')}
-                        </div>
-                    </div>
                 `
             },
             {
                 id: 5,
+                level: "avanzado",
+                title: "Gemini CLI & Claude Code",
+                description: "Instala y configura agentes de IA en tu terminal. <strong>Gemini CLI</strong> es gratuito con cuenta Google; <strong>Claude Code</strong> requiere suscripción.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué son los agentes de IA en terminal?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            Son herramientas que te permiten usar inteligencia artificial directamente desde la terminal, sin abrir un navegador. Pueden leer tu código, sugerir cambios, ejecutar comandos y ayudarte a programar más rápido. Requieren <strong>Node.js</strong> (instalado en el paso anterior).
+                        </p>
+                    </div>
+
+                    <h4 class="font-bold text-gray-700">1. Instalar las herramientas</h4>
+                    <p class="text-sm text-gray-600 mb-2">Ejecuta en tu terminal:</p>
+                    ${renderCodeBlock('npm install -g @google/gemini-cli\nnpm install -g @anthropic-ai/claude-code', 'bash')}
+
+                    <h4 class="font-bold text-gray-700 mt-6">2. Configurar Gemini CLI</h4>
+                    <p class="text-sm text-gray-600 mb-3">Gemini CLI es gratuito — solo necesitas una cuenta de Google.</p>
+                    <div class="bg-blue-50 p-4 rounded border border-blue-200">
+                        <p class="text-sm text-blue-800 font-bold mb-2">✨ Autenticación</p>
+                        <p class="text-sm text-blue-700 mb-2">Ejecuta <code>gemini</code> en tu terminal. Se abrirá el navegador para iniciar sesión con tu cuenta de Google. Acepta los permisos y listo.</p>
+                        ${renderCodeBlock('gemini', 'bash')}
+                        <p class="text-xs text-blue-600 mt-1">Una vez autenticado, ya puedes usar Gemini como agente de IA en la terminal. Escribe <code>/quit</code> para salir.</p>
+                        <p class="text-sm text-blue-700 mt-3 mb-1"><strong>Pruébalo con un prompt real:</strong></p>
+                        ${renderCodeBlock('gemini -p "Actúa como un experto en salud pública y resume los beneficios de usar R para análisis epidemiológico."', 'bash')}
+                    </div>
+
+                    <h4 class="font-bold text-gray-700 mt-6">3. Configurar Claude Code</h4>
+                    <div class="bg-yellow-50 p-4 rounded border border-yellow-200">
+                        <p class="text-sm text-yellow-800 font-bold mb-2">🤖 Claude Code (requiere suscripción Max o API de pago)</p>
+                        <p class="text-sm text-yellow-700 mb-2">Ejecuta <code>claude</code> en tu terminal y sigue las instrucciones para autenticarte.</p>
+                        ${renderCodeBlock('claude', 'bash')}
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                level: "basico",
                 title: "R Moderno (Rig + Pak)",
                 description: "Olvídate de la instalación tradicional. <strong>Rig</strong> gestiona versiones y <strong>Pak</strong> instala librerías a velocidad luz resolviendo dependencias de sistema.",
                 winContent: `
@@ -945,16 +983,16 @@
                 `
             },
             {
-                id: 6,
-                title: "Python (uv) & Ollama",
-                description: "Instala Python con un gestor moderno y ejecuta modelos de IA localmente en tu GPU. Privacidad total y costo cero.",
+                id: 7,
+                level: "basico",
+                title: "Python (uv)",
+                description: "Instala Python con <strong>uv</strong>, un gestor todo-en-uno ultrarrápido escrito en Rust que reemplaza a pip, venv y pyenv.",
                 commonContent: `
                     <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
-                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué son estas herramientas?</h4>
-                        <ul class="text-sm text-indigo-700 space-y-2">
-                            <li><strong>uv:</strong> Un gestor todo-en-uno para Python, escrito en Rust. Reemplaza a pip, venv y pyenv en una sola herramienta ultrarrápida. Con uv puedes instalar Python, crear entornos virtuales y gestionar dependencias.</li>
-                            <li><strong>Ollama:</strong> Te permite ejecutar modelos de inteligencia artificial (LLMs como Llama, Mistral, Gemma) directamente en tu computadora, sin enviar datos a la nube. Ideal para datos sensibles o para experimentar sin costo.</li>
-                        </ul>
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es uv?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            <strong>uv</strong> es un gestor todo-en-uno para Python, escrito en Rust. Reemplaza a pip, venv y pyenv en una sola herramienta ultrarrápida. Con uv puedes instalar Python, crear entornos virtuales y gestionar dependencias.
+                        </p>
                     </div>
 
                     <h4 class="font-bold text-gray-700">1. Instalar uv (Gestor de Python)</h4>
@@ -971,8 +1009,22 @@
 
                     <h4 class="font-bold text-gray-700 mt-4">3. Verificar</h4>
                     ${renderCodeBlock('uv python list\npython3 --version', 'bash')}
+                `
+            },
+            {
+                id: 8,
+                level: "avanzado",
+                title: "Ollama (IA Local)",
+                description: "Ejecuta modelos de IA (LLMs) directamente en tu computadora, sin enviar datos a la nube. Privacidad total y costo cero.",
+                commonContent: `
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <h4 class="font-bold text-indigo-800 mb-2">💡 ¿Qué es Ollama?</h4>
+                        <p class="text-sm text-indigo-700 leading-relaxed">
+                            <strong>Ollama</strong> te permite ejecutar modelos de inteligencia artificial (LLMs como Llama, Mistral, Gemma) directamente en tu computadora, sin enviar datos a la nube. Ideal para datos sensibles o para experimentar sin costo.
+                        </p>
+                    </div>
 
-                    <h4 class="font-bold text-gray-700 mt-6">4. Instalar Ollama</h4>
+                    <h4 class="font-bold text-gray-700">1. Instalar Ollama</h4>
                 `,
                 winContent: `
                     <h4 class="font-bold text-gray-700">Ollama en WSL2</h4>
@@ -1009,7 +1061,7 @@
                     <p class="text-xs text-gray-500 mt-2">Al ejecutar la app, se instala automáticamente el comando <code>ollama</code> en tu terminal.</p>
                 `,
                 extraContent: `
-                    <h4 class="font-bold text-gray-700 mt-6">5. Descargar tu Primer Modelo</h4>
+                    <h4 class="font-bold text-gray-700 mt-6">2. Descargar tu Primer Modelo</h4>
                     <p class="text-sm text-gray-600 mb-2">Ollama necesita al menos un modelo para funcionar. Descarga uno ligero (~2 GB):</p>
                     ${renderCodeBlock('ollama pull llama3.2', 'bash')}
                     <p class="text-sm text-gray-600 mt-3 mb-2">Pruébalo con una pregunta:</p>
@@ -1018,7 +1070,8 @@
                 `
             },
             {
-                id: 7,
+                id: 9,
+                level: "basico",
                 title: "Workspace & Organización",
                 description: "Este es el paso que define si tendrás éxito o problemas. Una buena organización de archivos es la base de cualquier proyecto profesional.",
                 winContent: `
@@ -1125,7 +1178,8 @@
                 `
             },
             {
-                id: 8,
+                id: 10,
+                level: "basico",
                 title: "Git & GitHub",
                 description: "Git rastrea cada cambio en tu código. GitHub lo respalda en la nube y te permite colaborar. Juntos son <strong>indispensables</strong> para cualquier profesional de datos.",
                 commonContent: `
@@ -1262,7 +1316,8 @@
                 `
             },
             {
-                id: 9,
+                id: 11,
+                level: "avanzado",
                 title: "Backup Blindado",
                 description: "Estrategia 3-2-1 automatizada. Usamos <strong>Restic</strong> para snapshots encriptados y <strong>Rclone</strong> para subir a la nube.",
                 commonContent: `
@@ -1390,7 +1445,8 @@ chmod +x ~/backup.sh`, 'bash')}
                 `
             },
             {
-                id: 10,
+                id: 12,
+                level: "basico",
                 title: "IDE & Verificación",
                 description: "El toque final: Un editor moderno conectado al cerebro de Linux y un script para validar que todo funciona.",
                 commonContent: `
@@ -1627,16 +1683,21 @@ check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check
             // 3. Extra Content (usually universal)
             if (data.extraContent) contentHTML += data.extraContent;
 
+            const levelBadge = data.level === 'avanzado'
+                ? '<span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200 font-sans normal-case tracking-normal">Avanzado</span>'
+                : '';
+
             container.innerHTML = `
                 <div class="step-content active">
                     <div class="flex items-center gap-2 mb-2 text-brand-500 font-mono text-sm uppercase tracking-wide">
-                        <span>Paso ${stepId} de 10</span>
+                        <span>Paso ${stepId} de 12</span>
+                        ${levelBadge}
                     </div>
                     <h2 class="text-3xl font-bold text-gray-900 mb-4">${data.title}</h2>
                     <p class="text-gray-600 mb-8 border-l-4 border-brand-300 pl-4 italic">
                         ${data.description}
                     </p>
-                    
+
                     <div class="space-y-6">
                         ${contentHTML}
                     </div>
@@ -1645,7 +1706,7 @@ check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check
                         <button onclick="goToStep(${stepId - 1})" class="text-gray-500 hover:text-brand-700">← Anterior</button>
                         <div>
                             ${completedSteps.has(stepId) ? '' : `<button id="btn-complete-${stepId}" onclick="markCompleted(${stepId})" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition-colors">✓ Completado</button>`}
-                            ${stepId < 10 ? `<button id="btn-next-${stepId}" onclick="goToStep(${stepId + 1})" class="${completedSteps.has(stepId) ? '' : 'hidden '}bg-brand-800 text-white px-6 py-2 rounded hover:bg-brand-700 transition-colors">Siguiente Paso →</button>` : `<span id="btn-next-${stepId}" class="${completedSteps.has(stepId) ? '' : 'hidden '}text-green-600 font-bold">¡Configuración Finalizada!</span>`}
+                            ${stepId < 12 ? `<button id="btn-next-${stepId}" onclick="goToStep(${stepId + 1})" class="${completedSteps.has(stepId) ? '' : 'hidden '}bg-brand-800 text-white px-6 py-2 rounded hover:bg-brand-700 transition-colors">Siguiente Paso →</button>` : `<span id="btn-next-${stepId}" class="${completedSteps.has(stepId) ? '' : 'hidden '}text-green-600 font-bold">¡Configuración Finalizada!</span>`}
                         </div>
                     </div>
                 </div>
@@ -1699,7 +1760,7 @@ check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check
                 data: {
                     labels: ['Completado', 'Pendiente'],
                     datasets: [{
-                        data: [0, 11],
+                        data: [0, 13],
                         backgroundColor: ['#92927d', getChartColors().pendiente],
                         borderWidth: 0,
                         hoverOffset: 4
@@ -1719,7 +1780,7 @@ check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check
 
         function updateProgressChart() {
             const completedCount = completedSteps.size;
-            const total = 11; // 0 to 10
+            const total = 13; // 0 to 12
             const percent = Math.round((completedCount / total) * 100);
             
             progressChartInstance.data.datasets[0].data = [completedCount, total - completedCount];
