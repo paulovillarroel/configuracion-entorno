@@ -1,0 +1,50 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es Node.js y por qué lo necesitamos?">
+  **Node.js** es un motor de JavaScript que funciona fuera del navegador. Muchas herramientas modernas de IA (como Claude Code y Gemini CLI) están construidas con Node. **NVM** (Node Version Manager) te permite instalar y cambiar versiones de Node sin permisos de administrador — evitando conflictos y errores de permisos.
+</Callout>
+
+### 1. Instalar NVM
+
+Ejecuta en tu terminal:
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+```
+
+<Callout type="warning" title="Importante">
+  Cierra y abre tu terminal para que el comando `nvm` esté disponible.
+
+  <OsTabs>
+    <Fragment slot="win">
+      <p class="text-xs mt-1">En WSL: cierra la ventana de Ubuntu (la X) y búscala de nuevo en el menú Inicio → "Ubuntu".</p>
+    </Fragment>
+    <Fragment slot="mac">
+      <p class="text-xs mt-1">En Mac: cierra Terminal (Cmd+Q) y ábrela de nuevo.</p>
+    </Fragment>
+  </OsTabs>
+</Callout>
+
+Verifica que NVM se instaló correctamente:
+
+```bash
+nvm --version
+```
+
+Si muestra un número (ej: `0.40.1`), todo bien. Si dice "command not found", cierra y abre la terminal de nuevo.
+
+### 2. Instalar Node
+
+```bash
+nvm install --lts
+```
+
+Verifica la instalación:
+
+```bash
+node --version
+npm --version
+```
+
+Ambos deben mostrar un número de versión.

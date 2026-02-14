@@ -1,0 +1,159 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+      <Callout type="info" title="¿Qué es WSL2? (Explicación para Humanos)">
+        Imagina que tu computadora habla dos idiomas. **Windows** es genial para Office, correos y navegar. Pero las herramientas de Ciencia de Datos (R, Python, servidores) funcionan "nativo" en **Linux**.
+
+        WSL2 es un "traductor mágico" de alta velocidad. Te permite tener un Linux real (Ubuntu) viviendo dentro de tu Windows, compartiendo archivos y recursos, sin que tu PC se ponga lento como con las máquinas virtuales antiguas.
+      </Callout>
+
+      #### 1. Instalación
+
+      Abre **PowerShell como Administrador**: haz clic derecho en el botón de Inicio (icono de Windows, esquina inferior izquierda) y selecciona **Terminal (Administrador)** o **Windows PowerShell (Administrador)**. Si te pregunta si quieres permitir cambios, haz clic en **Sí**. Luego ejecuta:
+
+      ```powershell
+      wsl --install -d Ubuntu-24.04
+      ```
+
+      <Callout type="warning" title="Después del comando:">
+        1. **Reinicia tu computadora** (Inicio → Reiniciar).
+        2. Al volver, se abrirá automáticamente una ventana negra. Te pedirá crear un **nombre de usuario** y **contraseña** para tu nuevo sistema Linux.
+        3. **Importante:** al escribir la contraseña **NO aparecen caracteres en pantalla** (ni puntos ni asteriscos). Es normal — solo escribe y presiona Enter.
+        4. Este usuario/contraseña es **independiente** de tu cuenta de Windows. Recuérdalo bien.
+      </Callout>
+
+      #### 2. Validar tu Versión
+
+      Es crucial confirmar que estás usando la versión 2 (WSL2) y no la 1 (que es lenta). En PowerShell ejecuta:
+
+      ```powershell
+      wsl -l -v
+      ```
+
+      Busca la columna **VERSION**. Debería decir `2` al lado de Ubuntu.
+
+      #### 3. Configurar Idioma Español
+
+      WSL viene en inglés por defecto. Para que R, Python, Quarto y otras herramientas muestren fechas, acentos y caracteres correctamente, sigue estos 3 pasos en tu terminal de **Ubuntu**:
+
+      <Callout type="info" title="¿Qué es sudo?">
+        Es como "ejecutar como administrador" en Windows. La primera vez te pedirá la **contraseña de Linux** que creaste al instalar WSL (no la de Windows). Al escribirla, no aparecen caracteres — es normal.
+      </Callout>
+
+      **Paso A: Generar el locale español**
+
+      ```bash
+      sudo locale-gen es_ES.UTF-8
+      ```
+
+      **Paso B: Establecerlo como idioma del sistema**
+
+      ```bash
+      sudo update-locale LANG=es_ES.UTF-8
+      ```
+
+      **Paso C: Agregar variables de entorno al perfil**
+
+      Esto asegura que programas como Quarto y R usen español al renderizar (evita acentos rotos):
+
+      ```bash
+      echo 'export LC_ALL=es_ES.UTF-8' >> ~/.bashrc
+      echo 'export LANG=es_ES.UTF-8' >> ~/.bashrc
+      source ~/.bashrc
+      ```
+
+      **Verificar**
+
+      Cierra y abre la terminal de **Ubuntu**, luego ejecuta:
+
+      ```bash
+      locale
+      ```
+
+      Deberías ver `LANG=es_ES.UTF-8` y `LC_ALL=es_ES.UTF-8` en la salida. Si es así, quedó bien.
+
+      <details class="not-prose my-6 bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-800 rounded-lg p-4">
+        <summary class="font-bold text-red-700 dark:text-red-400 cursor-pointer flex items-center gap-2 select-none list-none">
+          <span class="group-open:rotate-90 transition-transform">▶</span>
+          <span>¿Olvidaste tu contraseña de WSL?</span>
+        </summary>
+        <div class="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-3 pl-4 border-l-2 border-red-200 dark:border-red-800">
+          <p>No te preocupes. Si tienes acceso a Windows, recupérala así:</p>
+          <ol class="list-decimal list-inside space-y-2">
+            <li>Abre <strong>PowerShell</strong> (o CMD) como <strong>Administrador</strong>.</li>
+            <li>Entra como root (superusuario) sin contraseña:</li>
+          </ol>
+
+```powershell
+wsl -u root
+```
+
+          <p>Cambia tu contraseña (reemplaza <code>tu_usuario</code> por tu nombre real):</p>
+
+```bash
+passwd tu_usuario
+```
+        </div>
+      </details>
+
+      #### Comandos Útiles de WSL
+
+      Guarda estos comandos para PowerShell, te ayudarán a gestionar tus instalaciones:
+
+      Ver qué versiones de Linux puedes instalar:
+
+      ```powershell
+      wsl --list --online
+      ```
+
+      Ver tus distros instaladas y estado:
+
+      ```powershell
+      wsl -l -v
+      ```
+
+      Apagar WSL (útil si se cuelga o consume mucha RAM):
+
+      ```powershell
+      wsl --shutdown
+      ```
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+      <Callout type="info" title="¿Qué es Homebrew?">
+        Homebrew es el **gestor de paquetes de Mac**. Es como una tienda de apps para la terminal — te permite instalar, actualizar y desinstalar herramientas con un solo comando (`brew install ...`). Sin Homebrew, tendrías que descargar manualmente cada herramienta desde diferentes sitios web.
+      </Callout>
+
+      Abre la aplicación **Terminal** e instala Homebrew:
+
+      ```bash
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      ```
+
+      <Callout type="warning" title="¡No ignores el final!">
+        Cuando termine la instalación, verás una sección que dice **"Next steps:"**.
+        Debes copiar y ejecutar los comandos que te muestra. Se verán parecidos a esto (la ruta puede variar):
+
+```bash
+echo >> /Users/tu_usuario/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/tu_usuario/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+        Copia y pega **exactamente** lo que tu terminal muestre (no este ejemplo). Luego verifica:
+
+```bash
+brew --version
+```
+
+        Si muestra un número de versión (ej: `Homebrew 4.x.x`), quedó bien.
+      </Callout>
+    </div>
+  </Fragment>
+</OsTabs>

@@ -1,0 +1,66 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué son estas herramientas?">
+  <ul class="list-disc list-inside space-y-1">
+    <li><strong>Rig:</strong> Gestor de versiones de R (como NVM para Node). Te permite tener múltiples versiones instaladas y cambiar entre ellas.</li>
+    <li><strong>Pak:</strong> Instalador rápido de paquetes de R. Resuelve dependencias automáticamente (no más errores de compilación).</li>
+    <li><strong>Tidyverse:</strong> Colección de paquetes de R para ciencia de datos (dplyr, ggplot2, readr...). Es el estándar de la industria.</li>
+  </ul>
+</Callout>
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      #### 1. Instalar Rig
+
+      En tu terminal de **Ubuntu**:
+
+      ```bash
+      curl -Ls https://github.com/r-lib/rig/releases/download/latest/rig-linux-latest.tar.gz | sudo tar xz -C /usr/local
+      ```
+
+      #### 2. Dependencias Críticas (Ubuntu)
+
+      Necesario para compilar Tidyverse:
+
+      ```bash
+      sudo apt install -y libcurl4-openssl-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjpeg-dev libpng-dev libssl-dev libtiff-dev libwebp-dev libx11-dev libxml2-dev pandoc
+      ```
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      #### 1. Instalar Rig
+
+      En Mac, primero agregamos la fuente ("tap") y luego instalamos:
+
+      ```bash
+      brew tap r-lib/rig && brew install rig
+      ```
+
+      #### 2. Dependencias Críticas (Mac)
+
+      ```bash
+      brew install openssl curl freetype harfbuzz fribidi libpng libtiff jpeg libxml2 pandoc
+      ```
+    </div>
+  </Fragment>
+</OsTabs>
+
+### 3. Activar R y Tidyverse
+
+```bash
+sudo rig add release
+sudo rig system add-pak
+```
+
+Entra a R escribiendo `R` en tu terminal e instala:
+
+```r
+pak::pkg_install(c("tidyverse", "languageserver", "httpgd"))
+```
+
+<Callout type="tip" title="Para salir de R">
+  Escribe `q()` y presiona Enter. Si pregunta "Save workspace image?", escribe `n` y presiona Enter.
+</Callout>

@@ -1,0 +1,67 @@
+import Callout from '../components/Callout.astro';
+
+Bienvenidos al módulo de preparación del curso de Ciencia de Datos en Salud de **Hazla con Datos**. Este entorno está diseñado para trabajar con datos sensibles en contextos reales como salud, sector público y organizaciones. Puede parecer avanzado al principio, pero lo construiremos **paso a paso**. Al final del proceso, tendrás en tu equipo personal la misma infraestructura robusta que utilizan los equipos de datos de alto nivel.
+
+*No necesitas saber nada de Linux ni de programación. Solo sigue los pasos en orden y copia los comandos — esta guía hace el trabajo pesado por ti.*
+
+### Al final de esta guía podrás:
+
+<div class="not-prose bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg p-5 mb-8">
+  <ul class="space-y-2 text-sm text-green-700 dark:text-green-300">
+    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Ejecutar R y Python profesionalmente</li>
+    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Trabajar con millones de registros sin que tu equipo se congele</li>
+    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Usar Git y GitHub para versionar y colaborar</li>
+    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Ejecutar modelos de IA localmente con privacidad total</li>
+    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Usar IA generativa agéntica como asistente de programación</li>
+    <li class="flex items-start gap-2"><span class="text-green-500 font-bold mt-0.5">✓</span> Tener un entorno reproducible, seguro y con backup automatizado</li>
+  </ul>
+</div>
+
+<Callout type="info" title="Este entorno está diseñado estratégicamente para:">
+  <ul class="list-disc list-inside space-y-1">
+    <li><strong>Trabajar con millones de registros:</strong> Superando las limitaciones clásicas de Excel.</li>
+    <li><strong>Ejecutar modelos localmente:</strong> Sin enviar datos clínicos o sensibles a la nube (Privacidad Total).</li>
+    <li><strong>Garantizar reproducibilidad:</strong> Crítico para la transparencia y auditoría en cualquier organización.</li>
+    <li><strong>Entorno profesional listo para producción:</strong> Configurado para pasar de desarrollo a despliegue sin fricciones.</li>
+    <li><strong>Bases preparadas para la nube:</strong> Las herramientas que aprenderás (Git, terminal Linux, entornos aislados) son las mismas que se usan en AWS, Azure y GCP.</li>
+  </ul>
+</Callout>
+
+<details class="not-prose my-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 group">
+  <summary class="font-bold text-slate-700 dark:text-slate-300 cursor-pointer flex items-center gap-2 select-none p-4">
+    <span class="group-open:rotate-90 transition-transform">▶</span>
+    ¿Por qué estas herramientas y no otras?
+  </summary>
+  <div class="px-4 pb-4">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded">
+        <thead class="bg-slate-100 dark:bg-slate-800">
+          <tr>
+            <th class="text-left px-3 py-2 border-b border-slate-200 dark:border-slate-700">Herramienta</th>
+            <th class="text-left px-3 py-2 border-b border-slate-200 dark:border-slate-700">Por qué la usamos</th>
+          </tr>
+        </thead>
+        <tbody class="text-slate-600 dark:text-slate-400">
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">WSL2 <span class="text-xs text-slate-400">(Win)</span></td><td class="px-3 py-2">Estabilidad y velocidad de Linux sin dejar Windows</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Homebrew <span class="text-xs text-slate-400">(Mac)</span></td><td class="px-3 py-2">Gestor de paquetes que unifica la instalación de todas las herramientas</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Rig + Pak</td><td class="px-3 py-2">Control de versiones de R y paquetes sin errores de compilación</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">uv</td><td class="px-3 py-2">Entornos Python rápidos y reproducibles (reemplaza pip + venv + pyenv)</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Ollama</td><td class="px-3 py-2">IA local — sin enviar datos sensibles a la nube</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Git + GitHub</td><td class="px-3 py-2">Trazabilidad y auditoría, crítico en instituciones públicas</td></tr>
+          <tr><td class="px-3 py-2 font-mono">Restic + Rclone</td><td class="px-3 py-2">Backup encriptado y automatizado a la nube</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</details>
+
+### Ventajas Técnicas
+
+- **Velocidad Nativa:** Linux gestiona archivos pequeños (Git/Node/R) hasta 10x más rápido que Windows.
+- **Control Total:** Gestión de versiones para evitar conflictos de software.
+- **Seguridad:** Backup deduplicado y encriptado por defecto.
+
+<Callout type="warning" title="Requisitos">
+  <p><strong>Sistema Operativo:</strong> Windows 10 (v2004+) / Windows 11 o macOS Catalina o superior.</p>
+  <p><strong>Hardware ideal:</strong> 16 GB RAM (8 GB mínimo), 20-30 GB libres, GPU NVIDIA opcional para IA.</p>
+</Callout>

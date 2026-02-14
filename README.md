@@ -6,27 +6,39 @@ Tutorial interactivo para configurar un entorno profesional de Data Science paso
 
 | Paso | Tema | Herramientas |
 |------|------|-------------|
-| 0 | Introduccion | — |
-| 1 | Terminal Basica | Comandos de navegacion, archivos, atajos |
+| 0 | Introducción | — |
+| 1 | Terminal Básica | Comandos de navegación, archivos, atajos |
 | 2 | Sistema Operativo | WSL2 (Windows) / Homebrew (Mac) |
 | 3 | Herramientas Base | build-essential, git, curl, wget, tree |
-| 4 | Node.js & IA CLI | NVM, Node.js, Gemini CLI, Claude Code |
-| 5 | R Moderno | Rig, Pak, Tidyverse |
-| 6 | Python & Ollama | uv, Python 3.12, Ollama |
-| 7 | Workspace | Organizacion de carpetas, alias |
-| 8 | Git & GitHub | Git, GitHub CLI, autenticacion |
-| 9 | Backup Blindado | Restic, Rclone, estrategia 3-2-1 |
-| 10 | IDE & Verificacion | Positron, script validador |
+| 4 | Node.js (NVM) | NVM, Node.js |
+| 5 | Gemini & Claude | Gemini CLI, Claude Code |
+| 6 | R Moderno | Rig, Pak, Tidyverse |
+| 7 | Python (uv) | uv, Python 3.12 |
+| 8 | Ollama (IA Local) | Ollama, modelos locales |
+| 9 | Workspace | Organización de carpetas, alias |
+| 10 | Git & GitHub | Git, GitHub CLI, autenticación |
+| 11 | Backup Blindado | Restic, Rclone, estrategia 3-2-1 |
+| 12 | IDE & Verificación | Positron, script validador |
 
-## Uso
+## Desarrollo
 
-Abrir `index.html` en un navegador. Seleccionar tu sistema operativo (Windows/Mac) y seguir los pasos.
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
 
 ## Stack
 
-- HTML + Tailwind CSS (via CDN)
-- Chart.js (radar + doughnut)
-- Vanilla JavaScript
+- [Astro](https://astro.build/) — framework estático con islas
+- Tailwind CSS v4
+- MDX para contenido
+- TypeScript
 
 ## Autor
 

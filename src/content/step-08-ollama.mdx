@@ -1,0 +1,91 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es Ollama?">
+  **Ollama** te permite ejecutar modelos de inteligencia artificial (LLMs como Llama, Mistral, Gemma) directamente en tu computadora, sin enviar datos a la nube. Ideal para datos sensibles o para experimentar sin costo.
+</Callout>
+
+### 1. Instalar Ollama
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      #### Ollama en WSL2
+
+      En tu terminal de **Ubuntu**, primero instala la dependencia necesaria:
+
+      ```bash
+      sudo apt-get install -y zstd
+      ```
+
+      Luego instala Ollama:
+
+      ```bash
+      curl -fsSL https://ollama.com/install.sh | sh
+      ```
+
+      Inicia el servidor de Ollama:
+
+      ```bash
+      ollama serve
+      ```
+
+      WSL2 accede directo a tu GPU NVIDIA. No instales drivers en Linux, usa los de Windows.
+
+      [Documentación oficial de Ollama para Linux](https://docs.ollama.com/linux)
+
+      <div class="not-prose mt-6 bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-100 dark:border-purple-800">
+        <h5 class="font-bold text-purple-800 dark:text-purple-300 flex items-center gap-2 mb-2">
+          Boost de RAM para Modelos Grandes
+        </h5>
+        <p class="text-sm text-purple-900 dark:text-purple-200 mb-2">
+          Por defecto, WSL2 solo usa el 50% de tu RAM. Si Ollama se cierra o va lento, asigna más memoria creando un archivo de configuración en Windows.
+        </p>
+        <ol class="list-decimal list-inside text-sm text-purple-800 dark:text-purple-300 space-y-1 mb-2">
+          <li>En Windows, ve a tu carpeta de usuario (`C:\Users\TuUsuario\`).</li>
+          <li>Crea un archivo llamado `.wslconfig`.</li>
+          <li>Abre con Bloc de notas y pega esto (ajusta memory a tu gusto):</li>
+        </ol>
+      </div>
+
+```ini
+[wsl2]
+memory=12GB
+processors=8
+swap=4GB
+```
+
+      Luego reinicia WSL en PowerShell con `wsl --shutdown`.
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      #### Instalar Ollama (Mac)
+
+      Descarga la App oficial para Apple Silicon: [Descargar Ollama para Mac](https://ollama.com/download/mac)
+
+      1. Abre el archivo `.dmg` que descargaste.
+      2. Arrastra **Ollama** a la carpeta **Aplicaciones**.
+      3. Abre Ollama desde Aplicaciones. Si macOS dice que no puede verificar el desarrollador, ve a **Preferencias del Sistema → Privacidad y Seguridad** y haz clic en **"Abrir de todas formas"**.
+      4. Aparecerá un ícono de llama en la barra superior de tu Mac. Eso significa que Ollama está corriendo.
+
+      Al ejecutar la app, se instala automáticamente el comando `ollama` en tu terminal.
+    </div>
+  </Fragment>
+</OsTabs>
+
+### 2. Descargar tu Primer Modelo
+
+Ollama necesita al menos un modelo para funcionar. Descarga uno ligero (~2 GB):
+
+```bash
+ollama pull llama3.2
+```
+
+Pruébalo con una pregunta:
+
+```bash
+ollama run llama3.2
+```
+
+Se abrirá un chat interactivo. Escribe cualquier pregunta y presiona Enter. Para salir, escribe `/bye`.

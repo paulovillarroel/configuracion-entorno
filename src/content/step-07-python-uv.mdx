@@ -1,0 +1,40 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es uv?">
+  **uv** es un gestor todo-en-uno para Python, escrito en Rust. Reemplaza a pip, venv y pyenv en una sola herramienta ultrarrápida. Con uv puedes instalar Python, crear entornos virtuales y gestionar dependencias.
+</Callout>
+
+### 1. Instalar uv (Gestor de Python)
+
+Ejecuta en tu terminal:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+<Callout type="warning" title="Importante">
+  Cierra y abre tu terminal para que el comando `uv` esté disponible.
+
+  <OsTabs>
+    <Fragment slot="win">
+      <p class="text-xs mt-1">En WSL: cierra la ventana de Ubuntu (la X) y búscala de nuevo en el menú Inicio → "Ubuntu".</p>
+    </Fragment>
+    <Fragment slot="mac">
+      <p class="text-xs mt-1">En Mac: cierra Terminal (Cmd+Q) y ábrela de nuevo.</p>
+    </Fragment>
+  </OsTabs>
+</Callout>
+
+### 2. Instalar Python
+
+```bash
+uv python install 3.12
+```
+
+### 3. Verificar
+
+```bash
+uv python list
+python3 --version
+```

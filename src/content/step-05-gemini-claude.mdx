@@ -1,0 +1,46 @@
+import Callout from '../components/Callout.astro';
+
+<Callout type="info" title="¿Qué son los agentes de IA en terminal?">
+  Son herramientas que te permiten usar inteligencia artificial directamente desde la terminal, sin abrir un navegador. Pueden leer tu código, sugerir cambios, ejecutar comandos y ayudarte a programar más rápido. Requieren **Node.js** (instalado en el paso anterior).
+</Callout>
+
+### 1. Instalar las herramientas
+
+Ejecuta en tu terminal:
+
+```bash
+npm install -g @google/gemini-cli
+npm install -g @anthropic-ai/claude-code
+```
+
+### 2. Configurar Gemini CLI
+
+Gemini CLI es gratuito — solo necesitas una cuenta de Google.
+
+<div class="not-prose my-6 bg-blue-50 dark:bg-blue-950/30 p-4 rounded border border-blue-200 dark:border-blue-800">
+  <p class="text-sm text-blue-800 dark:text-blue-200 font-bold mb-2">✨ Autenticación</p>
+  <p class="text-sm text-blue-700 dark:text-blue-300 mb-2">Ejecuta <code>gemini</code> en tu terminal. Se abrirá el navegador para iniciar sesión con tu cuenta de Google. Acepta los permisos y listo.</p>
+</div>
+
+```bash
+gemini
+```
+
+Una vez autenticado, ya puedes usar Gemini como agente de IA en la terminal. Escribe `/quit` para salir.
+
+**Pruébalo con un prompt real:**
+
+```bash
+gemini -p "Actúa como un experto en salud pública y resume los beneficios de usar R para análisis epidemiológico."
+```
+
+### 3. Configurar Claude Code
+
+<div class="not-prose my-6 bg-amber-50 dark:bg-amber-950/30 p-4 rounded border border-amber-200 dark:border-amber-800">
+  <p class="text-sm text-amber-800 dark:text-amber-200 font-bold mb-2">Claude Code (requiere suscripción Max o API de pago)</p>
+  <p class="text-sm text-amber-700 dark:text-amber-300 mb-2">Ejecuta <code>claude</code> en tu terminal y sigue las instrucciones para autenticarte.</p>
+</div>
+
+```bash
+claude
+```

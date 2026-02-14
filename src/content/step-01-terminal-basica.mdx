@@ -1,0 +1,179 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es la Terminal?">
+  La terminal es como un **chat con tu computadora**. En lugar de hacer clic en carpetas y botones,
+  le escribes instrucciones directas. Es más rápido, más preciso y es la forma en que trabajan
+  los profesionales de datos en todo el mundo.
+</Callout>
+
+### El Sistema de Archivos
+
+Tu computadora organiza todo en carpetas (directorios) como un árbol invertido:
+
+```text
+/
+├── home/
+│   └── usuario/
+│       ├── workspace/     <-- Aquí vivirán tus proyectos
+│       │   ├── proyecto-1/
+│       │   └── proyecto-2/
+│       ├── Documentos/
+│       └── .bashrc         <-- Archivo de configuración (oculto)
+├── usr/
+│   └── bin/                <-- Programas instalados
+└── tmp/                    <-- Archivos temporales
+```
+
+### Comandos de Navegación
+
+<div class="not-prose my-6 overflow-x-auto">
+  <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-slate-100 dark:bg-slate-800">
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Comando</th>
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Qué hace</th>
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Ejemplo</th>
+      </tr>
+    </thead>
+    <tbody class="text-slate-600 dark:text-slate-400">
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">pwd</td><td class="px-4 py-2">Muestra dónde estás</td><td class="px-4 py-2 font-mono">/home/usuario</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">ls</td><td class="px-4 py-2">Lista archivos y carpetas</td><td class="px-4 py-2 font-mono">proyecto-1/ datos.csv</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">ls -la</td><td class="px-4 py-2">Lista TODO (incluye ocultos y detalles)</td><td class="px-4 py-2 font-mono">drwxr-xr-x .git/</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">cd carpeta</td><td class="px-4 py-2">Entra a una carpeta</td><td class="px-4 py-2 font-mono">cd workspace</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">cd ..</td><td class="px-4 py-2">Sube un nivel</td><td class="px-4 py-2 font-mono">De proyecto-1/ a workspace/</td></tr>
+      <tr><td class="px-4 py-2 font-mono">cd ~</td><td class="px-4 py-2">Va a tu carpeta personal</td><td class="px-4 py-2 font-mono">/home/usuario</td></tr>
+    </tbody>
+  </table>
+</div>
+
+### Comandos de Archivos
+
+<div class="not-prose my-6 overflow-x-auto">
+  <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-slate-100 dark:bg-slate-800">
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Comando</th>
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Qué hace</th>
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Ejemplo</th>
+      </tr>
+    </thead>
+    <tbody class="text-slate-600 dark:text-slate-400">
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">mkdir nombre</td><td class="px-4 py-2">Crea una carpeta</td><td class="px-4 py-2 font-mono">mkdir mi-proyecto</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">cp origen destino</td><td class="px-4 py-2">Copia un archivo</td><td class="px-4 py-2 font-mono">cp datos.csv backup.csv</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">mv origen destino</td><td class="px-4 py-2">Mueve o renombra</td><td class="px-4 py-2 font-mono">mv viejo.txt nuevo.txt</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">rm archivo</td><td class="px-4 py-2">Borra un archivo</td><td class="px-4 py-2 font-mono">rm basura.tmp</td></tr>
+      <tr><td class="px-4 py-2 font-mono">rm -r carpeta</td><td class="px-4 py-2">Borra una carpeta y todo su contenido</td><td class="px-4 py-2 font-mono">rm -r proyecto-viejo</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<Callout type="warning" title="Cuidado">
+  `rm` NO envía a la papelera de reciclaje. Lo que borres con `rm` se pierde para siempre. Úsalo con precaución.
+</Callout>
+
+### Ver Contenido
+
+<div class="not-prose my-6 overflow-x-auto">
+  <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-slate-100 dark:bg-slate-800">
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Comando</th>
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Qué hace</th>
+      </tr>
+    </thead>
+    <tbody class="text-slate-600 dark:text-slate-400">
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">cat archivo</td><td class="px-4 py-2">Muestra todo el contenido de un archivo</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">head archivo</td><td class="px-4 py-2">Muestra las primeras 10 líneas</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">tail archivo</td><td class="px-4 py-2">Muestra las últimas 10 líneas</td></tr>
+      <tr><td class="px-4 py-2 font-mono">clear</td><td class="px-4 py-2">Limpia la pantalla de la terminal</td></tr>
+    </tbody>
+  </table>
+</div>
+
+### Atajos de Teclado Esenciales
+
+<div class="not-prose grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+  <div class="bg-blue-50 dark:bg-blue-950/30 p-4 rounded border border-blue-200 dark:border-blue-800 text-center">
+    <div class="text-2xl mb-2">⇥</div>
+    <p class="font-bold text-blue-800 dark:text-blue-300 text-sm">Tab</p>
+    <p class="text-xs text-blue-600 dark:text-blue-400 mt-1">Autocompletar nombres de archivos y carpetas. ¡Úsalo siempre!</p>
+  </div>
+  <div class="bg-purple-50 dark:bg-purple-950/30 p-4 rounded border border-purple-200 dark:border-purple-800 text-center">
+    <div class="text-2xl mb-2">↑ ↓</div>
+    <p class="font-bold text-purple-800 dark:text-purple-300 text-sm">Flechas Arriba/Abajo</p>
+    <p class="text-xs text-purple-600 dark:text-purple-400 mt-1">Navegar por comandos anteriores. No reescribas, recicla.</p>
+  </div>
+  <div class="bg-red-50 dark:bg-red-950/30 p-4 rounded border border-red-200 dark:border-red-800 text-center">
+    <div class="text-2xl mb-2">⊘</div>
+    <p class="font-bold text-red-800 dark:text-red-300 text-sm">Ctrl + C</p>
+    <p class="text-xs text-red-600 dark:text-red-400 mt-1">Cancela cualquier comando que se haya colgado o está tardando mucho.</p>
+  </div>
+</div>
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Callout type="info" title="Windows: Dos Terminales">
+        En Windows tendrás dos terminales. Es importante saber cuándo usar cada una:
+
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-sm border border-blue-200 dark:border-blue-800 rounded">
+            <thead class="bg-blue-100 dark:bg-blue-900/50">
+              <tr>
+                <th class="text-left px-3 py-2 border-b border-blue-200 dark:border-blue-800"></th>
+                <th class="text-left px-3 py-2 border-b border-blue-200 dark:border-blue-800">PowerShell</th>
+                <th class="text-left px-3 py-2 border-b border-blue-200 dark:border-blue-800">Ubuntu (WSL)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2 font-bold">Cuándo usarla</td><td class="px-3 py-2">Solo para gestionar WSL</td><td class="px-3 py-2">Para TODO lo demás</td></tr>
+              <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2 font-bold">Ejemplos</td><td class="px-3 py-2 font-mono text-xs">wsl --install, wsl --shutdown</td><td class="px-3 py-2 font-mono text-xs">git, node, R, python</td></tr>
+              <tr><td class="px-3 py-2 font-bold">Cómo abrirla</td><td class="px-3 py-2">Buscar "PowerShell"</td><td class="px-3 py-2">Buscar "Ubuntu"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        **Regla simple:** Solo usa PowerShell para instalar o reiniciar WSL. Para todo el curso, usa Ubuntu.
+      </Callout>
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Callout type="info" title="Mac: Terminal con Zsh">
+        Tu Mac ya viene con una terminal lista. Usa la app **Terminal** (búscala en Spotlight con `Cmd + Espacio`).
+        Desde macOS Catalina usa **Zsh** en lugar de Bash, pero todos los comandos de esta guía funcionan igual.
+      </Callout>
+    </div>
+  </Fragment>
+</OsTabs>
+
+### Ejercicio Práctico
+
+Ejecuta estos 10 comandos en tu terminal. Copia el bloque y ejecútalos en orden:
+
+1. `pwd` — ¿Dónde estoy?
+2. `cd ~` — Ir a tu carpeta personal
+3. `mkdir terminal-practica` — Crear una carpeta de prueba
+4. `cd terminal-practica` — Entrar a la carpeta
+5. `echo "..." > mi-archivo.txt` — Crear un archivo con texto
+6. `cat mi-archivo.txt` — Ver el contenido del archivo
+7. `cp mi-archivo.txt copia.txt` — Crear una copia
+8. `ls -la` — Listar archivos para verificar
+9. `clear` — Limpiar la pantalla
+10. `cd ~ && rm -r terminal-practica` — Volver al inicio y borrar la práctica
+
+```bash
+pwd
+cd ~
+mkdir terminal-practica
+cd terminal-practica
+echo "Hola, soy un archivo de prueba" > mi-archivo.txt
+cat mi-archivo.txt
+cp mi-archivo.txt copia.txt
+ls -la
+clear
+cd ~ && rm -r terminal-practica
+```
+
+*Si todos los comandos funcionaron sin errores, ¡ya dominas lo básico de la terminal!*

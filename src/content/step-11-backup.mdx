@@ -1,0 +1,153 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es la estrategia 3-2-1?">
+  **3** copias de tus datos, en **2** medios diferentes, con **1** copia fuera de tu ubicación (la nube). Es el estándar de la industria para no perder datos.
+
+  <ul class="list-disc list-inside space-y-1 mt-2">
+    <li><strong>Restic:</strong> Toma "fotos" (snapshots) de tu workspace. Solo guarda lo que cambió (deduplicación), y todo queda encriptado automáticamente.</li>
+    <li><strong>Rclone:</strong> El "puente" que conecta Restic con servicios de nube (OneDrive, Google Drive, Dropbox). Tú eliges dónde guardar.</li>
+  </ul>
+</Callout>
+
+<div class="not-prose grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center text-sm">
+  <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700">
+    <span class="text-2xl">📂</span><br/><strong>Tu Workspace</strong><br/><span class="text-xs text-slate-500 dark:text-slate-400">Código Local</span>
+  </div>
+  <div class="flex items-center justify-center text-slate-400 dark:text-slate-500">
+    → Encriptación →
+  </div>
+  <div class="bg-blue-50 dark:bg-blue-950/30 p-3 rounded border border-blue-200 dark:border-blue-800">
+    <span class="text-2xl">☁️</span><br/><strong>OneDrive</strong><br/><span class="text-xs text-slate-500 dark:text-slate-400">Snapshot Seguro</span>
+  </div>
+</div>
+
+### 1. Instalación
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+```bash
+sudo apt install -y rclone restic
+```
+
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+```bash
+brew install rclone restic
+```
+
+    </div>
+  </Fragment>
+</OsTabs>
+
+### 2. Configurar Nube
+
+Ejecuta en tu terminal y sigue el asistente interactivo paso a paso:
+
+```bash
+rclone config
+```
+
+<div class="not-prose my-4 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+  <p class="text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">Responde así en cada pregunta:</p>
+  <ol class="list-decimal list-inside text-sm text-slate-600 dark:text-slate-400 space-y-2">
+    <li><strong>e/n/d/r/c/s/q&gt;</strong> → escribe <code>n</code> (new remote) y presiona Enter.</li>
+    <li><strong>name&gt;</strong> → escribe <code>onedrive</code> y presiona Enter.</li>
+    <li><strong>Storage&gt;</strong> → busca el número de <strong>"Microsoft OneDrive"</strong> (suele ser ~33), escríbelo y presiona Enter. También puedes escribir <code>onedrive</code> directamente.</li>
+    <li><strong>client_id&gt;</strong> → déjalo vacío (solo presiona Enter).</li>
+    <li><strong>client_secret&gt;</strong> → déjalo vacío (solo presiona Enter).</li>
+    <li><strong>region&gt;</strong> → escribe <code>1</code> (Microsoft Cloud Global) y presiona Enter.</li>
+    <li><strong>Edit advanced config?</strong> → escribe <code>n</code> y presiona Enter.</li>
+    <li><strong>Use auto config?</strong> → escribe <code>y</code>. Se abrirá tu navegador para iniciar sesión con tu cuenta de Microsoft.</li>
+    <li><strong>config_type&gt;</strong> → escribe <code>1</code> (OneDrive Personal) y presiona Enter.</li>
+    <li><strong>Drive OK?</strong> → escribe <code>y</code> y presiona Enter.</li>
+    <li><strong>y/e/d&gt;</strong> → escribe <code>y</code> para confirmar y presiona Enter.</li>
+    <li><strong>e/n/d/r/c/s/q&gt;</strong> → escribe <code>q</code> para salir del asistente.</li>
+  </ol>
+  <p class="text-xs text-slate-500 dark:text-slate-400 mt-3">Si usas <strong>Google Drive</strong> o <strong>Dropbox</strong> en lugar de OneDrive, el proceso es similar: solo elige el servicio correspondiente en el paso 3.</p>
+</div>
+
+### 3. Inicializar & Script
+
+```bash
+restic -r rclone:onedrive:Backup_Curso init
+```
+
+<Callout type="warning" title="Contraseña de Restic">
+  Este comando te pedirá **crear una contraseña nueva** (no es la de tu sistema ni la de OneDrive). Es la clave que encripta tus backups.
+
+  - **Escríbela en un lugar seguro** (un gestor de contraseñas, un papel guardado, etc.).
+  - Si la pierdes, **no podrás recuperar tus backups**. No hay forma de resetearla.
+  - Te la pedirá cada vez que hagas un backup o restaures archivos.
+</Callout>
+
+Crea el script de automatización con un solo comando:
+
+```bash
+cat << 'SCRIPT' > ~/backup.sh
+#!/bin/bash
+# ============================
+# Backup Blindado - Restic + Rclone
+# ============================
+
+# --- Variables configurables ---
+REPO="rclone:onedrive:Backup_Curso"
+SOURCE="$HOME/workspace"
+RETENTION_DAYS=30
+RETENTION_WEEKLY=8
+RETENTION_MONTHLY=6
+
+# --- Exclusiones ---
+EXCLUDES=(
+    --exclude="node_modules"
+    --exclude=".venv"
+    --exclude="__pycache__"
+    --exclude=".Rproj.user"
+    --exclude=".DS_Store"
+    --exclude="*.tmp"
+)
+
+echo "=== Fase 1: Backup ==="
+restic -r "$REPO" backup "$SOURCE" "${EXCLUDES[@]}" --verbose
+
+echo "=== Fase 2: Limpieza de snapshots antiguos ==="
+restic -r "$REPO" forget \
+    --keep-daily "$RETENTION_DAYS" \
+    --keep-weekly "$RETENTION_WEEKLY" \
+    --keep-monthly "$RETENTION_MONTHLY" \
+    --prune
+
+echo "=== Fase 3: Verificación de integridad ==="
+restic -r "$REPO" check
+
+echo "=== Backup completado: $(date) ==="
+SCRIPT
+chmod +x ~/backup.sh
+```
+
+<Callout type="tip" title="Cómo usar el script">
+  - Ejecución manual: `~/backup.sh`
+  - Te pedirá la contraseña de Restic que creaste arriba.
+  - Para automatizar (cada día a las 2 AM):
+</Callout>
+
+```bash
+crontab -e
+```
+
+Se abrirá un editor de texto en la terminal. Si es **nano** (lo más común): usa las flechas para ir al final del archivo, pega la siguiente línea, luego presiona **Ctrl+O** (guardar) y **Ctrl+X** (salir).
+
+Agrega esta línea al final:
+
+```bash
+0 2 * * * RESTIC_PASSWORD="tu_password" ~/backup.sh >> ~/backup.log 2>&1
+```
+
+`0 2 * * *` = "a las 2:00 AM, todos los días". Reemplaza `tu_password` por la contraseña que creaste al inicializar Restic.
+
+**Tip:** Revisa `~/backup.log` para confirmar que los backups corren sin errores.

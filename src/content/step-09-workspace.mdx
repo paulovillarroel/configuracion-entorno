@@ -1,0 +1,128 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+      <Callout type="warning" title="El error más común en WSL">
+        Trabajar sobre archivos que están en el disco de Windows (`C:`) en lugar del sistema de archivos de Linux.
+        **Impacto Real:** Si trabajas en la zona incorrecta, todo será **5 a 20 veces más lento** (Git, npm, DuckDB).
+      </Callout>
+
+      <div class="not-prose mt-4 mb-6 grid grid-cols-2 gap-4 text-center text-sm">
+        <div class="bg-red-50 dark:bg-red-950/30 p-3 border border-red-200 dark:border-red-800 rounded">
+          <span class="block text-xl">❌ MAL</span>
+          <code class="bg-red-100 dark:bg-red-900/30 px-1 rounded text-red-800 dark:text-red-300">/mnt/c/Users/...</code>
+          <span class="block text-xs text-slate-500 dark:text-slate-400 mt-1">Disco Lento (Windows)</span>
+        </div>
+        <div class="bg-green-50 dark:bg-green-950/30 p-3 border border-green-200 dark:border-green-800 rounded">
+          <span class="block text-xl">✅ BIEN</span>
+          <code class="bg-green-100 dark:bg-green-900/30 px-1 rounded text-green-800 dark:text-green-300">/home/usuario/...</code>
+          <span class="block text-xs text-slate-500 dark:text-slate-400 mt-1">Disco Rápido (Linux)</span>
+        </div>
+      </div>
+
+      **La Regla de Oro:** Todo lo relacionado con Data Science VIVE en WSL. Windows es solo la pantalla.
+
+      <Callout type="info" title="El Puente Windows ↔ WSL">
+        Desde WSL puedes ver **todos** los archivos de Windows. Tu disco `C:` se monta automáticamente como `/mnt/c/`. Así se traduce una ruta:
+
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-sm border border-blue-200 dark:border-blue-800 rounded">
+            <thead class="bg-blue-100 dark:bg-blue-900/50">
+              <tr>
+                <th class="text-left px-3 py-2 border-b border-blue-200 dark:border-blue-800">En Windows</th>
+                <th class="text-left px-3 py-2 border-b border-blue-200 dark:border-blue-800">En WSL (Linux)</th>
+              </tr>
+            </thead>
+            <tbody class="font-mono text-xs">
+              <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2">C:\Users\TuUsuario\Documentos</td><td class="px-3 py-2">/mnt/c/Users/TuUsuario/Documentos</td></tr>
+              <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2">C:\Users\TuUsuario\Desktop</td><td class="px-3 py-2">/mnt/c/Users/TuUsuario/Desktop</td></tr>
+              <tr><td class="px-3 py-2">C:\Users\TuUsuario\OneDrive</td><td class="px-3 py-2">/mnt/c/Users/TuUsuario/OneDrive</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        **Ejemplo práctico:** Si tienes un Excel en "Mis Documentos" y quieres leerlo desde R en WSL:
+
+```r
+# En R dentro de WSL
+library(readxl)
+datos <- read_excel("/mnt/c/Users/TuUsuario/Documentos/datos.xlsx")
+```
+
+        **Importante:** Esto sirve para *leer* archivos puntuales. Tus proyectos de código siempre deben vivir en `/home/` (WSL) por rendimiento.
+      </Callout>
+
+      #### 1. Crear Carpeta Maestra
+
+      En tu terminal de **Ubuntu** (no en PowerShell):
+
+      ```bash
+      cd ~
+      mkdir workspace
+      cd workspace
+      ```
+
+      #### 2. Crear Alias (Atajo 'ws')
+
+      En tu terminal de **Ubuntu**:
+
+      ```bash
+      echo 'alias ws="cd ~/workspace"' >> ~/.bashrc
+      source ~/.bashrc
+      ```
+
+      #### Migrar Carpeta Existente (Windows → WSL)
+
+      Si ya tienes un proyecto en Windows (ej: en OneDrive) y quieres pasarlo a Linux:
+
+      **Opción A: Terminal (Profesional & Rápido)**
+
+      El comando `cp -r` copia carpetas enteras. ¡Usa comillas si la ruta tiene espacios!
+
+      ```bash
+      cp -r "/mnt/c/Users/TuUsuario/OneDrive/Tu Carpeta" ~/workspace/
+      ```
+
+      **Opción B: Visual (Arrastrar)**
+
+      1. En la terminal WSL, escribe `explorer.exe .` (con el punto).
+      2. Se abrirá una ventana de Windows dentro de Linux.
+      3. Arrastra tu carpeta desde otra ventana de Windows hacia esta.
+
+      <Callout type="warning" title="Importante">
+        Si copias un proyecto de código, borra las carpetas `node_modules`, `.venv` o `.git` y genéralas de nuevo en Linux. Las versiones de Windows suelen fallar aquí.
+      </Callout>
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+      <Callout type="info" title="Organización en Mac">
+        Aunque Mac no tiene el problema de discos de Windows, es vital mantener el orden.
+        Crearemos una carpeta `workspace` en la raíz de tu usuario para separar código de documentos personales.
+      </Callout>
+
+      #### 1. Crear Carpeta Maestra
+
+      En tu **Terminal**:
+
+      ```bash
+      cd ~
+      mkdir workspace
+      cd workspace
+      ```
+
+      #### 2. Crear Alias (Atajo 'ws')
+
+      En tu **Terminal**:
+
+      ```bash
+      echo 'alias ws="cd ~/workspace"' >> ~/.zshrc
+      source ~/.zshrc
+      ```
+    </div>
+  </Fragment>
+</OsTabs>

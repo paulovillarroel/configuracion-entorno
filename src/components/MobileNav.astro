@@ -1,0 +1,141 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const fundamentosSteps = [
+  { id: 'paso-0', label: '1. Introducción' },
+  { id: 'paso-1', label: '2. Terminal Básica' },
+  { id: 'paso-2', label: '3. Sistema Operativo' },
+  { id: 'paso-3', label: '4. Herramientas Base' },
+  { id: 'paso-6', label: '5. R Moderno' },
+  { id: 'paso-7', label: '6. Python (uv)' },
+  { id: 'paso-9', label: '7. Workspace' },
+  { id: 'paso-10', label: '8. Git & GitHub' },
+  { id: 'paso-12', label: '9. IDE & Verificación' },
+];
+
+const avanzadoSteps = [
+  { id: 'paso-4', label: '1. Node.js (NVM)' },
+  { id: 'paso-5', label: '2. Gemini & Claude' },
+  { id: 'paso-8', label: '3. Ollama (IA Local)' },
+  { id: 'paso-11', label: '4. Backup Blindado' },
+];
+---
+
+<!-- Mobile header -->
+<header class="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700 z-50 flex items-center justify-between px-4">
+  <span class="font-bold text-slate-900 dark:text-slate-100">Setup Entorno</span>
+  <div class="flex items-center gap-1">
+    <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-md">
+      <button class="os-toggle-btn px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer" data-os="win">Win</button>
+      <button class="os-toggle-btn px-2 py-1 rounded text-xs font-medium transition-colors cursor-pointer" data-os="mac">Mac</button>
+    </div>
+    <ThemeToggle />
+    <button id="mobile-menu-btn" class="p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" aria-label="Abrir menú">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile overlay -->
+<div id="mobile-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-50 hidden" aria-hidden="true"></div>
+
+<!-- Mobile drawer -->
+<nav id="mobile-drawer" class="lg:hidden fixed top-0 right-0 w-72 h-screen bg-white dark:bg-slate-900 z-50 transform translate-x-full transition-transform duration-300 shadow-xl">
+  <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
+    <span class="font-bold text-slate-900 dark:text-slate-100">Navegación</span>
+    <button id="mobile-close-btn" class="p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" aria-label="Cerrar menú">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+  <div class="p-4 overflow-y-auto max-h-[calc(100vh-60px)]">
+    <!-- Inicio -->
+    <a
+      href="#inicio"
+      class="mobile-nav-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+    >
+      Inicio
+    </a>
+
+    <!-- Fundamentos -->
+    <div class="mt-3 mb-2 px-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Fundamentos</span>
+    </div>
+    <ul class="space-y-1">
+      {fundamentosSteps.map(({ id, label }) => (
+        <li>
+          <a
+            href={`#${id}`}
+            class="mobile-nav-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Avanzado -->
+    <div class="mt-3 mb-2 px-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-400">Avanzado <span class="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-full font-normal normal-case">opcional</span></span>
+    </div>
+    <ul class="space-y-1">
+      {avanzadoSteps.map(({ id, label }) => (
+        <li>
+          <a
+            href={`#${id}`}
+            class="mobile-nav-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Progreso -->
+    <div class="mt-4 mx-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg space-y-2">
+      <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <span>Progreso</span>
+        <span id="mobile-progress-text">0 / 13</span>
+      </div>
+      <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div id="mobile-progress-bar" class="h-full bg-green-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 pt-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>~2 horas</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-close-btn');
+    const overlay = document.getElementById('mobile-overlay');
+    const drawer = document.getElementById('mobile-drawer');
+    const links = document.querySelectorAll('.mobile-nav-link');
+
+    function open() {
+      overlay?.classList.remove('hidden');
+      drawer?.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay?.classList.add('hidden');
+      drawer?.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+
+    btn?.addEventListener('click', open);
+    closeBtn?.addEventListener('click', close);
+    overlay?.addEventListener('click', close);
+    links.forEach((link) => link.addEventListener('click', close));
+  });
+</script>

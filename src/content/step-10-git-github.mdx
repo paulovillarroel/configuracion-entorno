@@ -1,0 +1,169 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es Git? (Explicación para Humanos)">
+  Git es como **Ctrl+Z con superpoderes para todo tu proyecto**. Cada vez que haces un "commit",
+  Git toma una foto (snapshot) del estado completo de tus archivos. Puedes volver a cualquier foto anterior,
+  ver qué cambió y cuándo, y trabajar en paralelo sin miedo a romper nada.
+
+  A diferencia de guardar archivos normalmente (que sobreescribe), Git **guarda el historial completo**.
+  Es la diferencia entre tener un solo "Guardar" y tener una línea de tiempo infinita.
+</Callout>
+
+### El Flujo de Git
+
+<div class="not-prose grid grid-cols-1 md:grid-cols-4 gap-2 mb-6 text-center text-sm">
+  <div class="bg-amber-50 dark:bg-amber-950/30 p-3 rounded border border-amber-200 dark:border-amber-800">
+    <span class="text-xl">📝</span><br/>
+    <strong>Working Directory</strong><br/>
+    <span class="text-xs text-slate-500 dark:text-slate-400">Tus archivos editados</span>
+  </div>
+  <div class="bg-blue-50 dark:bg-blue-950/30 p-3 rounded border border-blue-200 dark:border-blue-800">
+    <span class="text-xl">📦</span><br/>
+    <strong>Staging Area</strong><br/>
+    <span class="text-xs text-slate-500 dark:text-slate-400">Listos para foto</span>
+  </div>
+  <div class="bg-green-50 dark:bg-green-950/30 p-3 rounded border border-green-200 dark:border-green-800">
+    <span class="text-xl">💾</span><br/>
+    <strong>Repository Local</strong><br/>
+    <span class="text-xs text-slate-500 dark:text-slate-400">Foto guardada</span>
+  </div>
+  <div class="bg-purple-50 dark:bg-purple-950/30 p-3 rounded border border-purple-200 dark:border-purple-800">
+    <span class="text-xl">☁️</span><br/>
+    <strong>GitHub</strong><br/>
+    <span class="text-xs text-slate-500 dark:text-slate-400">Respaldo en la nube</span>
+  </div>
+</div>
+
+<div class="not-prose flex items-center justify-center gap-1 text-xs text-slate-400 dark:text-slate-500 mb-6">
+  <span>git add</span><span>→</span>
+  <span>git commit</span><span>→</span>
+  <span>git push</span><span>→</span>
+  <span>☁️</span>
+</div>
+
+### Configuración Inicial
+
+En tu terminal, configura tu identidad (esto aparecerá en cada commit):
+
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
+git config --global init.defaultBranch main
+```
+
+<Callout type="warning" title="Importante">
+  Usa el mismo email que tienes (o tendrás) en tu cuenta de GitHub. Si no coinciden, tus commits no se vincularán a tu perfil y aparecerán como un usuario desconocido.
+</Callout>
+
+### Ejercicio Guiado: Tu Primer Repositorio
+
+Ejecuta cada comando en tu terminal y observa qué pasa:
+
+1. `mkdir && cd` — Crear carpeta y entrar
+2. `git init` — Inicializar Git (crea la carpeta oculta .git)
+3. `echo` — Crear un archivo README
+4. `git status` — Ver estado: archivo "sin rastrear" (rojo)
+5. `git add` — Preparar para snapshot (mover a staging)
+6. `git status` — Ver estado: archivo en "staging" (verde)
+7. `git commit` — Tomar la foto (commit)
+8. `git log` — Ver el historial
+
+```bash
+mkdir mi-primer-repo && cd mi-primer-repo
+git init
+echo "# Mi Proyecto" > README.md
+git status
+git add README.md
+git status
+git commit -m "primer commit: agregar README"
+git log
+```
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Callout type="info" title="Nota Windows">
+        Git se instaló en el Paso 3 dentro de WSL. Todo lo de Git se hace desde la terminal de **Ubuntu**, no desde PowerShell.
+      </Callout>
+
+      #### Instalar GitHub CLI
+
+      En tu terminal de **Ubuntu**:
+
+      ```bash
+      sudo apt install gh
+      ```
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Callout type="info" title="Nota Mac">
+        Git viene preinstalado o se instaló con Homebrew en el Paso 3. Todo funciona directamente desde Terminal.
+      </Callout>
+
+      #### Instalar GitHub CLI
+
+      ```bash
+      brew install gh
+      ```
+    </div>
+  </Fragment>
+</OsTabs>
+
+### Conectar con GitHub
+
+1. Crea una cuenta en [github.com](https://github.com) (si no tienes una).
+2. Autentícate con GitHub CLI:
+
+```bash
+gh auth login
+```
+
+Te hará 4 preguntas. Responde así:
+
+1. **Where do you use GitHub?** → `GitHub.com`
+2. **What is your preferred protocol?** → `HTTPS`
+3. **Authenticate Git with your GitHub credentials?** → `Yes`
+4. **How would you like to authenticate?** → `Login with a web browser`
+
+Se mostrará un **código de 8 caracteres** en la terminal (ej: `A1B2-C3D4`) y se intentará abrir el navegador.
+
+**Si el navegador no se abre automáticamente** (común en WSL): copia el código, abre manualmente [github.com/login/device](https://github.com/login/device) en tu navegador de Windows, pega el código e inicia sesión.
+
+3. Crea el repositorio y súbelo, todo desde la terminal:
+
+```bash
+cd mi-primer-repo
+gh repo create mi-primer-repo --public --source=. --remote=origin --push
+```
+
+Esto crea el repo en GitHub, lo conecta y sube tu código en un solo comando.
+
+<details class="not-prose my-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 group">
+  <summary class="font-bold text-slate-700 dark:text-slate-300 cursor-pointer flex items-center gap-2 select-none p-4">
+    <span class="group-open:rotate-90 transition-transform">▶</span>
+    Cheat Sheet: Comandos Git Esenciales
+  </summary>
+  <div class="p-4 pt-0">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded">
+        <thead class="bg-slate-100 dark:bg-slate-800">
+          <tr>
+            <th class="text-left px-3 py-2 border-b border-slate-200 dark:border-slate-700">Comando</th>
+            <th class="text-left px-3 py-2 border-b border-slate-200 dark:border-slate-700">Qué hace</th>
+          </tr>
+        </thead>
+        <tbody class="text-slate-600 dark:text-slate-400">
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">git status</td><td class="px-3 py-2">Ver qué archivos cambiaron</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">git add archivo</td><td class="px-3 py-2">Preparar archivo para commit</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">git add .</td><td class="px-3 py-2">Preparar TODOS los archivos</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">git commit -m "mensaje"</td><td class="px-3 py-2">Guardar snapshot con descripción</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">git push</td><td class="px-3 py-2">Subir commits a GitHub</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">git pull</td><td class="px-3 py-2">Descargar cambios de GitHub</td></tr>
+          <tr><td class="px-3 py-2 font-mono">git log --oneline</td><td class="px-3 py-2">Ver historial compacto</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</details>

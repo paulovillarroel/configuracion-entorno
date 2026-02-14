@@ -1,0 +1,49 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<Callout type="info" title="¿Qué es Positron?">
+  Positron es un IDE (editor de código) creado por el equipo de RStudio/Posit, diseñado específicamente para **Ciencia de Datos**. Combina lo mejor de VS Code con soporte nativo para R y Python (consolas integradas, visor de datos, gráficos interactivos). Es gratuito y de código abierto.
+</Callout>
+
+### 1. Positron / VS Code
+
+Descarga Positron desde [positron.posit.co](https://positron.posit.co/) e instálalo (en Windows descarga el **.exe**, en Mac el **.dmg**).
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Callout type="info" title="Conectar Positron a WSL">
+        Positron se instala en Windows, pero necesita conectarse a tu Linux (WSL) donde viven todas las herramientas.
+
+        1. Abre Positron.
+        2. Presiona `Ctrl+Shift+P` y escribe **WSL**.
+        3. Selecciona **"Connect to WSL"**.
+        4. Ve a **Archivo → Abrir Carpeta** y navega a `/home/tu_usuario/workspace`.
+
+        A partir de ahora, siempre abre Positron y conéctate a WSL antes de trabajar.
+      </Callout>
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      <Callout type="tip" title="Tip para Mac">
+        Si el comando `positron` en la terminal dice "command not found", abre Positron, presiona `Cmd+Shift+P` y escribe "Install 'positron' command in PATH". Luego podrás abrir proyectos con `positron .`
+      </Callout>
+    </div>
+  </Fragment>
+</OsTabs>
+
+### 2. Examen Final
+
+Copia y pega este script en tu terminal para verificar que todo quedó instalado:
+
+```bash
+check() { if command -v $1 >/dev/null 2>&1; then echo "✅ $1: OK"; else echo "❌ $1: Faltante"; fi; }
+check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check "python3"; check "ollama"; check "restic"; check "rclone"
+```
+
+Si todas las líneas dicen **OK**, ¡completaste la configuración!
+
+<Callout type="warning" title="¿Algo sale como 'Faltante'?">
+  Vuelve al paso donde se instala esa herramienta y repite los comandos. Si sigues con problemas, verifica que cerraste y abriste tu terminal después de cada instalación.
+</Callout>

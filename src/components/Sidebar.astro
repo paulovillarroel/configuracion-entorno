@@ -1,0 +1,286 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const fundamentosSteps = [
+  { id: 'paso-0', label: '1. Introducción' },
+  { id: 'paso-1', label: '2. Terminal Básica' },
+  { id: 'paso-2', label: '3. Sistema Operativo' },
+  { id: 'paso-3', label: '4. Herramientas Base' },
+  { id: 'paso-6', label: '5. R Moderno' },
+  { id: 'paso-7', label: '6. Python (uv)' },
+  { id: 'paso-9', label: '7. Workspace' },
+  { id: 'paso-10', label: '8. Git & GitHub' },
+  { id: 'paso-12', label: '9. IDE & Verificación' },
+];
+
+const avanzadoSteps = [
+  { id: 'paso-4', label: '1. Node.js (NVM)' },
+  { id: 'paso-5', label: '2. Gemini & Claude' },
+  { id: 'paso-8', label: '3. Ollama (IA Local)' },
+  { id: 'paso-11', label: '4. Backup Blindado' },
+];
+
+const allTrackable = [...fundamentosSteps, ...avanzadoSteps];
+---
+
+<aside id="sidebar" class="hidden lg:flex flex-col fixed top-0 left-0 w-70 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 z-40">
+  <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+    <a href="#inicio" class="text-lg font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+      Setup Entorno
+    </a>
+    <ThemeToggle />
+  </div>
+  <div class="px-6 py-3 border-b border-slate-200 dark:border-slate-700">
+    <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
+      <button class="os-toggle-btn flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-center" data-os="win">
+        Windows
+      </button>
+      <button class="os-toggle-btn flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-center" data-os="mac">
+        macOS
+      </button>
+    </div>
+  </div>
+  <nav class="flex-1 overflow-y-auto sidebar-scroll p-4">
+    <!-- Inicio -->
+    <a
+      href="#inicio"
+      class="sidebar-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+      data-section="inicio"
+    >
+      Inicio
+    </a>
+
+    <!-- Fundamentos -->
+    <div class="mt-4 mb-2 px-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Fundamentos</span>
+    </div>
+    <ul class="space-y-1">
+      {fundamentosSteps.map(({ id, label }) => (
+        <li>
+          <a
+            href={`#${id}`}
+            class="sidebar-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+            data-section={id}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Avanzado -->
+    <div class="mt-4 mb-2 px-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-400">Avanzado <span class="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-full font-normal normal-case">opcional</span></span>
+    </div>
+    <ul class="space-y-1">
+      {avanzadoSteps.map(({ id, label }) => (
+        <li>
+          <a
+            href={`#${id}`}
+            class="sidebar-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+            data-section={id}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Progreso -->
+    <div class="mt-6 mx-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg space-y-2">
+      <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+        <span>Progreso</span>
+        <span id="sidebar-progress-text">0 / 13</span>
+      </div>
+      <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div id="sidebar-progress-bar" class="h-full bg-green-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 pt-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>~2 horas</span>
+      </div>
+    </div>
+  </nav>
+</aside>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    // Intersection observer for active section
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((link) => link.classList.remove('active'));
+            const activeLink = document.querySelector(
+              `.sidebar-link[data-section="${entry.target.id}"]`
+            );
+            activeLink?.classList.add('active');
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    // Progress tracking
+    const STORAGE_KEY = 'hcd-entorno-progress';
+    const TRACKABLE = [
+      'paso-0','paso-1','paso-2','paso-3','paso-4','paso-5',
+      'paso-6','paso-7','paso-8','paso-9','paso-10','paso-11','paso-12'
+    ];
+
+    function getProgress(): Record<string, boolean> {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      } catch { return {}; }
+    }
+
+    function saveProgress(progress: Record<string, boolean>) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    }
+
+    function updateUI() {
+      const progress = getProgress();
+      const completed = TRACKABLE.filter(id => progress[id]).length;
+
+      // Update sidebar checkmarks
+      TRACKABLE.forEach(id => {
+        const link = document.querySelector(`.sidebar-link[data-section="${id}"]`);
+        if (!link) return;
+        const existing = link.querySelector('.check-icon');
+        if (progress[id] && !existing) {
+          const check = document.createElement('span');
+          check.className = 'check-icon ml-auto text-green-500 dark:text-green-400 shrink-0';
+          check.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+          link.appendChild(check);
+        } else if (!progress[id] && existing) {
+          existing.remove();
+        }
+
+        // Mobile nav checkmarks
+        const mobileLinks = document.querySelectorAll(`.mobile-nav-link[href="#${id}"]`);
+        mobileLinks.forEach(mLink => {
+          const mExisting = mLink.querySelector('.check-icon');
+          if (progress[id] && !mExisting) {
+            const check = document.createElement('span');
+            check.className = 'check-icon ml-auto text-green-500 dark:text-green-400 shrink-0';
+            check.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>';
+            mLink.appendChild(check);
+          } else if (!progress[id] && mExisting) {
+            mExisting.remove();
+          }
+        });
+      });
+
+      // Update progress bar
+      const bar = document.getElementById('sidebar-progress-bar');
+      const text = document.getElementById('sidebar-progress-text');
+      const mBar = document.getElementById('mobile-progress-bar');
+      const mText = document.getElementById('mobile-progress-text');
+      const pct = Math.round((completed / TRACKABLE.length) * 100);
+
+      if (bar) bar.style.width = `${pct}%`;
+      if (text) text.textContent = `${completed} / ${TRACKABLE.length}`;
+      if (mBar) mBar.style.width = `${pct}%`;
+      if (mText) mText.textContent = `${completed} / ${TRACKABLE.length}`;
+
+      // Update complete buttons
+      document.querySelectorAll('.complete-btn').forEach(btn => {
+        const sectionId = btn.getAttribute('data-complete-btn');
+        if (!sectionId) return;
+        const isCompleted = progress[sectionId];
+        const icon = btn.querySelector('.complete-btn-icon');
+        const svg = btn.querySelector('.complete-btn-icon svg');
+        const label = btn.querySelector('.complete-btn-text');
+
+        if (isCompleted) {
+          btn.classList.add('border-green-500', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-950/30', 'text-green-600', 'dark:text-green-400');
+          btn.classList.remove('border-slate-200', 'dark:border-slate-600', 'text-slate-600', 'dark:text-slate-400');
+          if (icon) { icon.classList.add('bg-green-500', 'border-green-500', 'text-white'); }
+          if (svg) svg.classList.remove('opacity-0');
+          if (label) label.textContent = 'Completado';
+        } else {
+          btn.classList.remove('border-green-500', 'dark:border-green-500', 'bg-green-50', 'dark:bg-green-950/30', 'text-green-600', 'dark:text-green-400');
+          btn.classList.add('border-slate-200', 'dark:border-slate-600', 'text-slate-600', 'dark:text-slate-400');
+          if (icon) { icon.classList.remove('bg-green-500', 'border-green-500', 'text-white'); }
+          if (svg) svg.classList.add('opacity-0');
+          if (label) label.textContent = 'Marcar como completado';
+        }
+      });
+    }
+
+    // Confetti
+    async function fireConfetti(btn: Element) {
+      const { default: confetti } = await import('canvas-confetti');
+      const rect = btn.getBoundingClientRect();
+      const x = (rect.left + rect.width / 2) / window.innerWidth;
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { x, y },
+        colors: ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'],
+        disableForReducedMotion: true,
+      });
+    }
+
+    // Button click handlers
+    document.querySelectorAll('.complete-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sectionId = btn.getAttribute('data-complete-btn');
+        if (!sectionId) return;
+        const progress = getProgress();
+        const wasCompleted = progress[sectionId];
+        progress[sectionId] = !wasCompleted;
+        saveProgress(progress);
+        updateUI();
+
+        if (!wasCompleted) fireConfetti(btn);
+      });
+    });
+
+    // Make sidebar links flex for checkmark alignment
+    TRACKABLE.forEach(id => {
+      const link = document.querySelector(`.sidebar-link[data-section="${id}"]`);
+      if (link) link.classList.add('flex', 'items-center');
+      const mobileLinks = document.querySelectorAll(`.mobile-nav-link[href="#${id}"]`);
+      mobileLinks.forEach(mLink => mLink.classList.add('flex', 'items-center'));
+    });
+
+    updateUI();
+
+    // Global OS toggle
+    const OS_KEY = 'hcd_currentOS';
+
+    function getCurrentOS(): string {
+      return localStorage.getItem(OS_KEY) || 'win';
+    }
+
+    function setGlobalOS(os: string) {
+      localStorage.setItem(OS_KEY, os);
+      document.documentElement.classList.remove('os-win', 'os-mac');
+      document.documentElement.classList.add('os-' + os);
+      document.querySelectorAll('.os-toggle-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-os') === os);
+      });
+    }
+
+    // Initialize toggle buttons state
+    setGlobalOS(getCurrentOS());
+
+    // Click handlers for all OS toggle buttons
+    document.querySelectorAll('.os-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const os = btn.getAttribute('data-os');
+        if (os) setGlobalOS(os);
+      });
+    });
+  });
+</script>

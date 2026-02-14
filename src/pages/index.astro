@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import MobileNav from '../components/MobileNav.astro';
+import Hero from '../components/Hero.astro';
+import StepSection from '../components/StepSection.astro';
+import NextSection from '../components/NextSection.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import Footer from '../components/Footer.astro';
+
+import Step00 from '../content/step-00-introduccion.mdx';
+import Step01 from '../content/step-01-terminal-basica.mdx';
+import Step02 from '../content/step-02-sistema-operativo.mdx';
+import Step03 from '../content/step-03-herramientas-base.mdx';
+import Step04 from '../content/step-04-nodejs-nvm.mdx';
+import Step05 from '../content/step-05-gemini-claude.mdx';
+import Step06 from '../content/step-06-r-moderno.mdx';
+import Step07 from '../content/step-07-python-uv.mdx';
+import Step08 from '../content/step-08-ollama.mdx';
+import Step09 from '../content/step-09-workspace.mdx';
+import Step10 from '../content/step-10-git-github.mdx';
+import Step11 from '../content/step-11-backup.mdx';
+import Step12 from '../content/step-12-ide-verificacion.mdx';
+---
+
+<Layout title="Configuración del Entorno de Desarrollo | Hazla con Datos">
+  <Sidebar />
+  <MobileNav />
+
+  <div class="lg:ml-70">
+    <Hero />
+
+    <StepSection id="paso-0" title="Introducción" number="00" level="basico" description="El estándar profesional para Ciencia de Datos.">
+      <Step00 />
+    </StepSection>
+
+    <StepSection id="paso-1" title="Terminal Básica" number="01" level="basico" description="Antes de instalar herramientas, necesitas aprender a <strong>hablar con tu computadora</strong>." alternate>
+      <Step01 />
+    </StepSection>
+
+    <StepSection id="paso-2" title="El Motor (Sistema Operativo)" number="02" level="basico" description="En Windows, instala un Linux real dentro del sistema (WSL2). En Mac, necesitas un gestor de paquetes.">
+      <Step02 />
+    </StepSection>
+
+    <StepSection id="paso-3" title="Herramientas Base" number="03" level="basico" description="Git, Curl, compiladores y utilidades esenciales." alternate>
+      <Step03 />
+    </StepSection>
+
+    <StepSection id="paso-4" title="Node.js (NVM)" number="04" level="avanzado" description="Usamos <strong>NVM</strong> para instalar Node.js sin permisos de administrador.">
+      <Step04 />
+    </StepSection>
+
+    <StepSection id="paso-5" title="Gemini CLI & Claude Code" number="05" level="avanzado" description="Instala y configura agentes de IA en tu terminal." alternate>
+      <Step05 />
+    </StepSection>
+
+    <StepSection id="paso-6" title="R Moderno (Rig + Pak)" number="06" level="basico" description="<strong>Rig</strong> gestiona versiones y <strong>Pak</strong> instala librerías a velocidad luz.">
+      <Step06 />
+    </StepSection>
+
+    <StepSection id="paso-7" title="Python (uv)" number="07" level="basico" description="Instala Python con <strong>uv</strong>, un gestor todo-en-uno ultrarrápido escrito en Rust." alternate>
+      <Step07 />
+    </StepSection>
+
+    <StepSection id="paso-8" title="Ollama (IA Local)" number="08" level="avanzado" description="Ejecuta modelos de IA directamente en tu computadora, sin enviar datos a la nube.">
+      <Step08 />
+    </StepSection>
+
+    <StepSection id="paso-9" title="Workspace & Organización" number="09" level="basico" description="Una buena organización de archivos es la base de cualquier proyecto profesional." alternate>
+      <Step09 />
+    </StepSection>
+
+    <StepSection id="paso-10" title="Git & GitHub" number="10" level="basico" description="Git rastrea cada cambio en tu código. GitHub lo respalda en la nube.">
+      <Step10 />
+    </StepSection>
+
+    <StepSection id="paso-11" title="Backup Blindado" number="11" level="avanzado" description="Estrategia 3-2-1 automatizada con <strong>Restic</strong> y <strong>Rclone</strong>." alternate>
+      <Step11 />
+    </StepSection>
+
+    <StepSection id="paso-12" title="IDE & Verificación" number="12" level="basico" description="Un editor moderno conectado y un script para validar que todo funciona.">
+      <Step12 />
+    </StepSection>
+
+    <Footer />
+  </div>
+
+  <NextSection />
+  <ScrollToTop />
+</Layout>

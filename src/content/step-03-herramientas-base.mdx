@@ -1,0 +1,54 @@
+import Callout from '../components/Callout.astro';
+import OsTabs from '../components/OsTabs.astro';
+
+<div class="not-prose my-6 overflow-x-auto">
+  <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
+    <thead>
+      <tr class="bg-slate-100 dark:bg-slate-800">
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Herramienta</th>
+        <th class="text-left px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">Para qué sirve</th>
+      </tr>
+    </thead>
+    <tbody class="text-slate-600 dark:text-slate-400">
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">build-essential / Xcode CLT</td><td class="px-4 py-2">Compiladores C/C++ — necesarios para que R y Python puedan instalar paquetes que usan código compilado</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">git</td><td class="px-4 py-2">Control de versiones — lo usaremos a fondo en el Paso 10</td></tr>
+      <tr class="border-b border-slate-100 dark:border-slate-700/50"><td class="px-4 py-2 font-mono">curl / wget</td><td class="px-4 py-2">Descargadores de archivos desde la terminal (muchos instaladores los necesitan)</td></tr>
+      <tr><td class="px-4 py-2 font-mono">tree</td><td class="px-4 py-2">Visualiza la estructura de carpetas como un árbol — muy útil para entender proyectos</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      En tu terminal de **Ubuntu**:
+
+      ```bash
+      sudo apt update && sudo apt upgrade -y
+      sudo apt install -y build-essential git curl wget unzip tree
+      ```
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+      #### Compiladores (Xcode Command Line Tools)
+
+      Necesarios para que R y Python puedan compilar paquetes con C/C++:
+
+      ```bash
+      xcode-select --install
+      ```
+
+      Se abrirá un popup del sistema. Haz clic en "Instalar" y espera a que termine. Si dice que ya están instalados, perfecto.
+
+      #### Herramientas vía Homebrew
+
+      En tu **Terminal**:
+
+      ```bash
+      brew update
+      brew install git curl wget tree
+      ```
+    </div>
+  </Fragment>
+</OsTabs>
