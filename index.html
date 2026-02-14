@@ -1028,9 +1028,14 @@
                 `,
                 winContent: `
                     <h4 class="font-bold text-gray-700">Ollama en WSL2</h4>
-                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong>:</p>
+                    <p class="text-sm text-gray-600 mb-2">En tu terminal de <strong>Ubuntu</strong>, primero instala la dependencia necesaria:</p>
+                    ${renderCodeBlock('sudo apt-get install -y zstd', 'bash')}
+                    <p class="text-sm text-gray-600 mb-2">Luego instala Ollama:</p>
                     ${renderCodeBlock('curl -fsSL https://ollama.com/install.sh | sh', 'bash')}
+                    <p class="text-sm text-gray-600 mb-2">Inicia el servidor de Ollama:</p>
+                    ${renderCodeBlock('ollama serve', 'bash')}
                     <p class="text-sm text-gray-500 mt-2">WSL2 accede directo a tu GPU NVIDIA. No instales drivers en Linux, usa los de Windows.</p>
+                    <p class="text-sm text-gray-500 mt-1">📖 <a href="https://docs.ollama.com/linux" target="_blank" class="text-blue-600 underline">Documentación oficial de Ollama para Linux</a></p>
 
                     <div class="mt-6 bg-purple-50 p-4 rounded-lg border border-purple-100">
                         <h5 class="font-bold text-purple-800 flex items-center gap-2 mb-2">
