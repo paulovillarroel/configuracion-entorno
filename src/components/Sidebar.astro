@@ -32,10 +32,10 @@ const allTrackable = [...fundamentosSteps, ...avanzadoSteps];
   </div>
   <div class="px-6 py-3 border-b border-slate-200 dark:border-slate-700">
     <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
-      <button class="os-toggle-btn flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-center" data-os="win">
+      <button class="os-toggle-btn flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-center text-slate-500 dark:text-slate-400" data-os="win">
         Windows
       </button>
-      <button class="os-toggle-btn flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-center" data-os="mac">
+      <button class="os-toggle-btn flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors cursor-pointer text-center text-slate-500 dark:text-slate-400" data-os="mac">
         macOS
       </button>
     </div>
@@ -268,7 +268,14 @@ const allTrackable = [...fundamentosSteps, ...avanzadoSteps];
       document.documentElement.classList.remove('os-win', 'os-mac');
       document.documentElement.classList.add('os-' + os);
       document.querySelectorAll('.os-toggle-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-os') === os);
+        const isActive = btn.getAttribute('data-os') === os;
+        if (isActive) {
+          btn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-slate-500', 'dark:text-slate-400');
+        } else {
+          btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+          btn.classList.add('text-slate-500', 'dark:text-slate-400');
+        }
       });
     }
 

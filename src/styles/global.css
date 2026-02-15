@@ -69,19 +69,3 @@ body {
 html.os-mac .os-content-win { display: none; }
 html.os-win .os-content-mac { display: none; }
 
-/* OS toggle pill */
-.os-toggle-btn {
-  color: #64748b;
-}
-.dark .os-toggle-btn {
-  color: #94a3b8;
-}
-.os-toggle-btn.active {
-  background-color: #2563eb;
-  color: white;
-  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
-}
-.dark .os-toggle-btn.active {
-  background-color: #3b82f6;
-  color: white;
-}
