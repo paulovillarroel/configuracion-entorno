@@ -1,20 +1,23 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 
-const steps = [
-  { id: 'paso-0',  label: '1. Introducción',       level: 'basico' },
-  { id: 'paso-1',  label: '2. Terminal Básica',     level: 'basico' },
-  { id: 'paso-2',  label: '3. Sistema Operativo',   level: 'basico' },
-  { id: 'paso-3',  label: '4. Herramientas Base',   level: 'basico' },
-  { id: 'paso-4',  label: '5. Node.js (NVM)',       level: 'avanzado' },
-  { id: 'paso-5',  label: '6. Gemini & Claude',     level: 'avanzado' },
-  { id: 'paso-6',  label: '7. R Moderno',           level: 'basico' },
-  { id: 'paso-7',  label: '8. Python (uv)',         level: 'basico' },
-  { id: 'paso-8',  label: '9. Ollama (IA Local)',   level: 'avanzado' },
-  { id: 'paso-9',  label: '10. Workspace',          level: 'basico' },
-  { id: 'paso-10', label: '11. Git & GitHub',       level: 'basico' },
-  { id: 'paso-11', label: '12. Backup Blindado',    level: 'avanzado' },
-  { id: 'paso-12', label: '13. IDE & Verificación', level: 'basico' },
+const fundamentosSteps = [
+  { id: 'paso-0',  label: '1. Introducción' },
+  { id: 'paso-1',  label: '2. Terminal Básica' },
+  { id: 'paso-2',  label: '3. Sistema Operativo' },
+  { id: 'paso-3',  label: '4. Herramientas Base' },
+  { id: 'paso-6',  label: '5. R Moderno' },
+  { id: 'paso-7',  label: '6. Python (uv)' },
+  { id: 'paso-9',  label: '7. Workspace' },
+  { id: 'paso-10', label: '8. Git & GitHub' },
+  { id: 'paso-12', label: '9. IDE & Verificación' },
+];
+
+const avanzadoSteps = [
+  { id: 'paso-4',  label: '1. Node.js (NVM)' },
+  { id: 'paso-5',  label: '2. Gemini & Claude' },
+  { id: 'paso-8',  label: '3. Ollama (IA Local)' },
+  { id: 'paso-11', label: '4. Backup Blindado' },
 ];
 ---
 
@@ -45,8 +48,12 @@ const steps = [
       Inicio
     </a>
 
-    <ul class="mt-2 space-y-1">
-      {steps.map(({ id, label, level }) => (
+    <!-- Fundamentos -->
+    <div class="mt-4 mb-2 px-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Fundamentos</span>
+    </div>
+    <ul class="space-y-1">
+      {fundamentosSteps.map(({ id, label }) => (
         <li>
           <a
             href={`#${id}`}
@@ -54,9 +61,24 @@ const steps = [
             data-section={id}
           >
             {label}
-            {level === 'avanzado' && (
-              <span class="ml-1.5 text-[10px] bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-full font-normal">opcional</span>
-            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Avanzado -->
+    <div class="mt-4 mb-2 px-3">
+      <span class="text-xs font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-400">Avanzado <span class="text-xs bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-full font-normal normal-case">opcional</span></span>
+    </div>
+    <ul class="space-y-1">
+      {avanzadoSteps.map(({ id, label }) => (
+        <li>
+          <a
+            href={`#${id}`}
+            class="sidebar-link block px-3 py-2 text-sm text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
+            data-section={id}
+          >
+            {label}
           </a>
         </li>
       ))}
