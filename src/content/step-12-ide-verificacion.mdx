@@ -22,6 +22,22 @@ Descarga Positron desde [positron.posit.co](https://positron.posit.co/) e instá
 
         A partir de ahora, siempre abre Positron y conéctate a WSL antes de trabajar.
       </Callout>
+
+      <Callout type="tip" title="Atajo: Abrir proyectos desde la terminal">
+        Puedes crear una función en tu terminal para abrir Positron con conexión WSL directamente, sin tener que conectarte manualmente cada vez:
+
+        ```bash
+        echo 'positron() {
+            "/mnt/c/Program Files/Positron/bin/positron" --remote wsl+Ubuntu-24.04 "$(readlink -f "${1:-.}")"
+        }' >> ~/.bashrc
+        source ~/.bashrc
+        ```
+
+        Ahora puedes usarla así:
+        - `positron .` — abre el directorio actual en Positron con WSL
+        - `positron ~/workspace/otro-proyecto` — abre una ruta específica
+        - `positron` (sin argumentos) — también abre el directorio actual
+      </Callout>
     </div>
   </Fragment>
   <Fragment slot="mac">
