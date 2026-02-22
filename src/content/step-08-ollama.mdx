@@ -18,10 +18,16 @@ import OsTabs from '../components/OsTabs.astro';
       sudo apt-get install -y zstd
       ```
 
-      Luego instala Ollama:
+      Luego instala Ollama ([documentación oficial](https://docs.ollama.com/linux)):
 
       ```bash
       curl -fsSL https://ollama.com/install.sh | sh
+      ```
+
+      Verifica que se instaló correctamente:
+
+      ```bash
+      ollama -v
       ```
 
       Inicia el servidor de Ollama:
@@ -31,8 +37,6 @@ import OsTabs from '../components/OsTabs.astro';
       ```
 
       WSL2 accede directo a tu GPU NVIDIA. No instales drivers en Linux, usa los de Windows.
-
-      [Documentación oficial de Ollama para Linux](https://docs.ollama.com/linux)
 
       <div class="not-prose mt-6 bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-100 dark:border-purple-800">
         <h5 class="font-bold text-purple-800 dark:text-purple-300 flex items-center gap-2 mb-2">
@@ -62,7 +66,7 @@ swap=4GB
     <div class="prose prose-slate dark:prose-invert max-w-none">
       #### Instalar Ollama (Mac)
 
-      Descarga la App oficial para Apple Silicon: [Descargar Ollama para Mac](https://ollama.com/download/mac)
+      Descarga la App oficial para Apple Silicon: [Descargar Ollama para Mac](https://ollama.com/download/mac) · [Documentación oficial](https://docs.ollama.com/)
 
       1. Abre el archivo `.dmg` que descargaste.
       2. Arrastra **Ollama** a la carpeta **Aplicaciones**.

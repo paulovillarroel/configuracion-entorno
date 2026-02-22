@@ -4,18 +4,34 @@ import Callout from '../components/Callout.astro';
   Son herramientas que te permiten usar inteligencia artificial directamente desde la terminal, sin abrir un navegador. Pueden leer tu código, sugerir cambios, ejecutar comandos y ayudarte a programar más rápido. Requieren **Node.js** (instalado en el paso anterior).
 </Callout>
 
+<Callout type="warning" title="Importante: la IA no reemplaza aprender a programar">
+  Usar IA generativa como asistente es una excelente idea... si ya sabes programar. Si estás comenzando, puede ser contraproducente: obtienes código que funciona pero no entiendes, y eso frena tu aprendizaje real.
+
+  **Si estás empezando:**
+  - Úsala para **pedir explicaciones** ("¿qué hace este código?", "¿por qué da este error?")
+  - Úsala como **guía conceptual**, no como generador de soluciones
+  - Escribe tú el código, aunque sea más lento y cometas errores — ahí está el aprendizaje
+
+  **Generar código con IA solo tiene sentido cuando ya sabes evaluar si lo que genera es correcto, seguro y adecuado para tu contexto.** Llegar a ese punto toma tiempo y práctica. No hay atajos.
+</Callout>
+
 ### 1. Instalar las herramientas
 
-Ejecuta en tu terminal:
+**Gemini CLI** ([documentación oficial](https://geminicli.com/docs/get-started/installation/)):
 
 ```bash
 npm install -g @google/gemini-cli
-npm install -g @anthropic-ai/claude-code
+```
+
+**Claude Code** ([documentación oficial](https://code.claude.com/docs/en/overview)):
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
 ```
 
 ### 2. Configurar Gemini CLI
 
-Gemini CLI es gratuito — solo necesitas una cuenta de Google.
+Gemini CLI tiene una **capa gratuita** generosa con solo una cuenta de Google. También ofrece planes de pago con mayor cuota de uso a través de [Google AI Studio](https://aistudio.google.com/).
 
 <div class="not-prose my-6 bg-blue-50 dark:bg-blue-950/30 p-4 rounded border border-blue-200 dark:border-blue-800">
   <p class="text-sm text-blue-800 dark:text-blue-200 font-bold mb-2">✨ Autenticación</p>
@@ -37,10 +53,25 @@ gemini -p "Actúa como un experto en salud pública y resume los beneficios de u
 ### 3. Configurar Claude Code
 
 <div class="not-prose my-6 bg-amber-50 dark:bg-amber-950/30 p-4 rounded border border-amber-200 dark:border-amber-800">
-  <p class="text-sm text-amber-800 dark:text-amber-200 font-bold mb-2">Claude Code (requiere suscripción Max o API de pago)</p>
-  <p class="text-sm text-amber-700 dark:text-amber-300 mb-2">Ejecuta <code>claude</code> en tu terminal y sigue las instrucciones para autenticarte.</p>
+  <p class="text-sm text-amber-800 dark:text-amber-200 font-bold mb-2">Claude Code (requiere suscripción de pago)</p>
+  <p class="text-sm text-amber-700 dark:text-amber-300 mb-2">Disponible en los planes <strong>Pro</strong> (uso limitado), <strong>Max</strong> (uso ampliado) o mediante <strong>API de pago</strong>. Ejecuta <code>claude</code> en tu terminal y sigue las instrucciones para autenticarte.</p>
 </div>
 
 ```bash
 claude
 ```
+
+### Para Profundizar
+
+<div class="not-prose grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  <a href="https://www.deeplearning.ai/short-courses/gemini-cli-code-and-create-with-an-open-source-agent/" target="_blank" rel="noopener noreferrer" class="block bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition-colors no-underline">
+    <p class="font-bold text-slate-800 dark:text-slate-200 mb-1">Gemini CLI: Code and Create with an Open Source Agent</p>
+    <p class="text-sm text-slate-500 dark:text-slate-400">Curso gratuito de DeepLearning.AI para aprender a usar Gemini CLI como agente de IA en proyectos reales.</p>
+    <p class="text-xs text-blue-600 dark:text-blue-400 mt-2">deeplearning.ai →</p>
+  </a>
+  <a href="https://www.deeplearning.ai/short-courses/claude-code-a-highly-agentic-coding-assistant/" target="_blank" rel="noopener noreferrer" class="block bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 transition-colors no-underline">
+    <p class="font-bold text-slate-800 dark:text-slate-200 mb-1">Claude Code: A Highly Agentic Coding Assistant</p>
+    <p class="text-sm text-slate-500 dark:text-slate-400">Curso gratuito de DeepLearning.AI para dominar Claude Code como asistente de programación autónomo.</p>
+    <p class="text-xs text-blue-600 dark:text-blue-400 mt-2">deeplearning.ai →</p>
+  </a>
+</div>
