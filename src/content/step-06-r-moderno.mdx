@@ -25,8 +25,20 @@ import OsTabs from '../components/OsTabs.astro';
       Necesario para compilar Tidyverse:
 
       ```bash
-      sudo apt install -y libcurl4-openssl-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjpeg-dev libpng-dev libssl-dev libtiff-dev libwebp-dev libx11-dev libxml2-dev pandoc
+      sudo apt install -y libcurl4-openssl-dev libfontconfig1-dev libfreetype6-dev libfribidi-dev libharfbuzz-dev libjpeg-dev libpng-dev libpq-dev libssl-dev libtiff-dev libwebp-dev libx11-dev libxml2-dev pandoc
       ```
+
+      **¿Por qué es necesario esto?**
+
+      Muchos paquetes de R no son código R puro: internamente tienen código C o C++ que se compila en tu máquina al instalarlos. Para compilar ese código, R necesita encontrar las **bibliotecas de sistema** correspondientes (los archivos `-dev`). Ubuntu base y WSL no las incluyen por defecto.
+
+      Sin estas dependencias, `pak` fallará con errores crípticos tipo `cannot find -lssl` o `fatal error: libpq-fe.h: No such file or directory`, incluso aunque pak mismo funcione perfectamente.
+
+      Las más críticas son:
+
+      - **`libpq-dev`** — biblioteca de PostgreSQL. La necesitan paquetes como `RPostgres` y `DBI` para conectarse a bases de datos. También la usa `pak` internamente al resolver algunas dependencias.
+      - **`libssl-dev`** — cabeceras de OpenSSL. Imprescindible para conexiones seguras (HTTPS). La usan `pak`, `httr2`, `curl` y prácticamente cualquier paquete que descargue datos de internet.
+      - El resto (`libfreetype`, `libharfbuzz`, `libjpeg`, etc.) son necesarias para que `ggplot2` pueda renderizar gráficos con fuentes e imágenes correctamente.
     </div>
   </Fragment>
   <Fragment slot="mac">
