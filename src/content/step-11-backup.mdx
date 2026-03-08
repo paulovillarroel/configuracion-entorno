@@ -150,7 +150,13 @@ Agrega esta línea al final:
 
 `0 2 * * *` = "a las 2:00 AM, todos los días". Reemplaza `tu_password` por la contraseña que creaste al inicializar Restic.
 
-**Tip:** Revisa `~/backup.log` para confirmar que los backups corren sin errores.
+**Tip:** Para confirmar que los backups de la madrugada corrieron sin errores, lee el archivo de registro:
+
+```bash
+cat ~/backup.log
+```
+
+Si el archivo se vuelve muy largo con los días, usa `tail ~/backup.log` para ver solo los últimos eventos.
 
 <div class="not-prose my-8 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-xl p-6 text-white shadow-lg">
   <div class="flex items-start gap-4">
