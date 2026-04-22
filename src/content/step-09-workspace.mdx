@@ -126,3 +126,20 @@ datos <- read_excel("/mnt/c/Users/TuUsuario/Documentos/datos.xlsx")
     </div>
   </Fragment>
 </OsTabs>
+
+#### 3. Crear tu primer proyecto
+
+Con tu `workspace` listo, el flujo para cualquier proyecto nuevo es siempre el mismo:
+
+```bash
+ws
+mkdir mi-proyecto
+cd mi-proyecto
+positron .
+```
+
+Entras a tu carpeta maestra, creas una carpeta para el proyecto, entras en ella y la abres en Positron. Repetirás este patrón cada vez que empieces algo nuevo.
+
+<Callout type="info" title="Si positron . no abre nada">
+  Los comandos `ws`, `positron`, `uv`, `git` funcionan como palabras sueltas porque están en tu **PATH** — la lista de carpetas donde la terminal busca ejecutables. Si alguno dice "command not found", en el [paso 12](#paso-12) tienes la guía completa para ver tu PATH y agregar rutas manualmente en Windows y Mac.
+</Callout>

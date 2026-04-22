@@ -49,7 +49,110 @@ Descarga Positron desde [positron.posit.co](https://positron.posit.co/) e instá
   </Fragment>
 </OsTabs>
 
-### 2. Examen Final
+### 2. Entender el PATH
+
+Cuando escribes `positron`, `uv` o `git` en la terminal, el sistema busca ese comando en una lista de carpetas llamada **PATH**. Si una herramienta dice "command not found", casi siempre es porque su carpeta `bin` no está en el PATH.
+
+<OsTabs>
+  <Fragment slot="win">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+      #### Ver qué hay en tu PATH
+
+      En tu terminal **Ubuntu (WSL)**:
+
+      ```bash
+      echo $PATH
+      ```
+
+      Verás algo como `/usr/local/bin:/usr/bin:/bin:...`. Las rutas van separadas por `:`. Para leerlas una por línea:
+
+      ```bash
+      echo $PATH | tr ':' '\n'
+      ```
+
+      Si quieres inspeccionar el PATH **de Windows** (no el de WSL), abre **PowerShell** y ejecuta:
+
+      ```powershell
+      $env:Path -split ';'
+      ```
+
+      #### Agregar algo al PATH (lado WSL)
+
+      Si instalaste una herramienta en `~/.local/bin` y la terminal no la encuentra, agrega esa carpeta a tu PATH:
+
+      ```bash
+      echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc
+      source ~/.bashrc
+      ```
+
+      Cambia la ruta por la carpeta `bin` de la herramienta que instalaste. Es la misma mecánica que ya usaste para el alias `ws` y la función `positron` — todo vive en `~/.bashrc`.
+
+      #### Agregar algo al PATH (lado Windows, GUI)
+
+      Solo lo necesitas para herramientas instaladas en Windows (no en WSL):
+
+      1. Presiona `Win + R`, escribe `sysdm.cpl` y Enter.
+      2. Pestaña **"Opciones avanzadas"** → botón **"Variables de entorno..."**.
+      3. En la sección **"Variables de usuario"**, selecciona `Path` y clic en **"Editar..."**.
+      4. Clic en **"Nuevo"**, pega la ruta (ej: `C:\Program Files\MiHerramienta\bin`), Aceptar.
+      5. **Cierra y vuelve a abrir** la terminal para que los cambios tomen efecto.
+
+      <Callout type="info" title="¿WSL o Windows?">
+        Para este curso, casi todo (R, Python, uv, git, ollama) vive del lado **WSL**, así que editarás `~/.bashrc`. El PATH de Windows solo se toca si instalas algo directamente en Windows que quieres usar desde PowerShell o CMD.
+      </Callout>
+    </div>
+  </Fragment>
+  <Fragment slot="mac">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
+
+      #### Ver qué hay en tu PATH
+
+      En tu **Terminal**:
+
+      ```bash
+      echo $PATH
+      ```
+
+      Las rutas van separadas por `:`. Para leerlas una por línea:
+
+      ```bash
+      echo $PATH | tr ':' '\n'
+      ```
+
+      #### Agregar algo al PATH
+
+      **Temporal** (solo en la terminal abierta, se pierde al cerrarla):
+
+      ```bash
+      export PATH="$PATH:/ruta/a/bin"
+      ```
+
+      **Permanente** (queda guardado para siempre):
+
+      ```bash
+      echo 'export PATH="$PATH:/ruta/a/bin"' >> ~/.zshrc
+      source ~/.zshrc
+      ```
+
+      **Ejemplo real con Positron:** si `positron .` dice "command not found", tienes dos caminos:
+
+      - **Vía Positron (recomendado):** abre Positron, `Cmd+Shift+P` → `Install 'positron' command in PATH` (ya mencionado arriba).
+      - **Manual:** agrega el `bin` de Positron a tu `~/.zshrc`:
+
+        ```bash
+        echo 'export PATH="$PATH:/Applications/Positron.app/Contents/Resources/app/bin"' >> ~/.zshrc
+        source ~/.zshrc
+        ```
+    </div>
+  </Fragment>
+</OsTabs>
+
+<Callout type="tip" title="Regla de oro">
+  Después de tocar `.bashrc`, `.zshrc` o el PATH de Windows, **cierra y vuelve a abrir la terminal** (o ejecuta `source ~/.bashrc` / `source ~/.zshrc`) para que los cambios tomen efecto.
+</Callout>
+
+### 3. Examen Final
 
 Copia y pega este script en tu terminal para verificar que todo quedó instalado:
 
@@ -64,7 +167,7 @@ Si todas las líneas dicen **OK**, ¡completaste la configuración!
   Vuelve al paso donde se instala esa herramienta y repite los comandos. Si sigues con problemas, verifica que cerraste y abriste tu terminal después de cada instalación.
 </Callout>
 
-### 3. ¿Y ahora qué?
+### 4. ¿Y ahora qué?
 
 Tu entorno está listo. El siguiente paso es dominar la herramienta que más vas a usar: **la terminal**.
 
