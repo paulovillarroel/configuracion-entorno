@@ -67,12 +67,18 @@ sudo rig add release
 sudo rig system add-pak
 ```
 
-Entra a R escribiendo `R` en tu terminal e instala:
+<Callout type="info" title="Si te pide la contraseña (sudo)">
+  Al usar `sudo`, el sistema te pedirá tu contraseña (la de tu Mac, o la de Linux en WSL). **Al escribirla no aparecen caracteres en pantalla** —ni puntos ni asteriscos—: es normal, solo escribe y presiona Enter.
+</Callout>
+
+Ahora entra a R escribiendo `R` en tu terminal y presiona Enter. Verás que el símbolo de la terminal cambia a `>`: eso significa que ya estás **dentro de R**, así que lo siguiente es **código de R**, no comandos de la terminal. Pega esta línea para instalar los paquetes:
 
 ```r
 pak::pkg_install(c("tidyverse", "languageserver", "nx10/httpgd"))
 ```
 
+La instalación de Tidyverse descarga y **compila** muchos paquetes: puede tardar entre 10 y 20 minutos. Verás bastante texto avanzando; es normal, déjalo terminar sin cerrar la terminal.
+
 <Callout type="tip" title="Para salir de R">
-  Escribe `q()` y presiona Enter. Si pregunta "Save workspace image?", escribe `n` y presiona Enter.
+  Cuando termine, escribe `q()` y presiona Enter (vuelves a la terminal normal). Si pregunta "Save workspace image?", escribe `n` y presiona Enter.
 </Callout>

@@ -129,10 +129,15 @@ Tu computadora organiza todo en carpetas (directorios) como un árbol invertido:
             <tbody>
               <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2 font-bold">Cuándo usarla</td><td class="px-3 py-2">Solo para gestionar WSL</td><td class="px-3 py-2">Para TODO lo demás</td></tr>
               <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2 font-bold">Ejemplos</td><td class="px-3 py-2 font-mono text-xs">wsl --install, wsl --shutdown</td><td class="px-3 py-2 font-mono text-xs">git, node, R, python</td></tr>
-              <tr><td class="px-3 py-2 font-bold">Cómo abrirla</td><td class="px-3 py-2">Buscar "PowerShell"</td><td class="px-3 py-2">Buscar "Ubuntu"</td></tr>
+              <tr class="border-b border-blue-200 dark:border-blue-800"><td class="px-3 py-2 font-bold">Cómo abrirla</td><td class="px-3 py-2">Buscar "PowerShell"</td><td class="px-3 py-2">Buscar "Ubuntu"</td></tr>
+              <tr><td class="px-3 py-2 font-bold">Cómo reconocerla</td><td class="px-3 py-2 font-mono text-xs">PS C:\Users\Tu&gt;</td><td class="px-3 py-2 font-mono text-xs">usuario@PC:~$</td></tr>
             </tbody>
           </table>
         </div>
+
+        **¿Cómo sé en cuál estoy?** Mira el inicio de la línea donde escribes: si empieza con `PS` y una ruta tipo `C:\Users\...`, estás en **PowerShell**. Si se ve como `usuario@equipo:~$` y termina en `$`, estás en **Ubuntu (WSL)** — esta es la que usarás casi siempre.
+
+        **Ojo con mezclarlas:** casi todos los comandos del curso (`sudo`, `apt`, `ls -la`, `git`, `R`…) son de Linux y **solo funcionan en Ubuntu**. Si los pegas por error en PowerShell verás errores como `command not found` o `no se reconoce como un comando`. No entres en pánico: abre **Ubuntu** y pégalos ahí.
 
         **Regla simple:** Solo usa PowerShell para instalar o reiniciar WSL. Para todo el curso, usa Ubuntu.
       </Callout>
@@ -148,7 +153,19 @@ Tu computadora organiza todo en carpetas (directorios) como un árbol invertido:
   </Fragment>
 </OsTabs>
 
+<Callout type="info" title="No todo lo que aparece en pantalla es un error">
+  Al instalar herramientas verás **mucho texto** desplazándose. La mayoría son mensajes **informativos**: progreso de descargas, notas e incluso algunas advertencias (`warning`) inofensivas. **No son errores.**
+
+  Un error de verdad suele incluir palabras como `error`, `failed`, `fatal` o `command not found`, y normalmente **detiene** el proceso. Si el comando termina y vuelve a aparecer el símbolo de espera (`$`), salió bien aunque haya mostrado muchas líneas. Ante la duda, usa el paso de **verificación** de cada sección: si muestra un número de versión o un `OK`, funcionó.
+</Callout>
+
 ### Ejercicio Práctico
+
+<Callout type="info" title="¿Aún no tienes la terminal abierta?">
+  Si estás en **Windows** y todavía no instalaste Ubuntu (es el paso siguiente), lee este ejercicio ahora y vuelve a practicarlo cuando tengas tu terminal lista. En **Mac** ya puedes abrir la app **Terminal** y practicar de inmediato.
+
+  **Cómo pegar comandos:** en Ubuntu/WSL se pega con **clic derecho** o `Ctrl+Shift+V`; en la Terminal de Mac, con `Cmd+V`.
+</Callout>
 
 Ejecuta estos 10 comandos en tu terminal. Copia el bloque y ejecútalos en orden:
 
