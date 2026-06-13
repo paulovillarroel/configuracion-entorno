@@ -36,6 +36,12 @@ import OsTabs from '../components/OsTabs.astro';
       ollama serve
       ```
 
+      <Callout type="warning" title="Esta terminal queda ocupada">
+        `ollama serve` deja el servidor corriendo en **primer plano**: esta terminal quedará bloqueada mientras Ollama funcione. Abre **otra** terminal de Ubuntu para ejecutar los comandos del paso siguiente (`ollama pull`, `ollama run`).
+
+        Si al ejecutarlo ves `address already in use`, significa que Ollama **ya está corriendo** como servicio en segundo plano. Es normal: sáltate este comando y continúa.
+      </Callout>
+
       WSL2 accede directo a tu GPU NVIDIA. No instales drivers en Linux, usa los de Windows.
 
       <div class="not-prose mt-6 bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-100 dark:border-purple-800">
@@ -48,7 +54,7 @@ import OsTabs from '../components/OsTabs.astro';
         <ol class="list-decimal list-inside text-sm text-purple-800 dark:text-purple-300 space-y-1 mb-2">
           <li>En Windows, ve a tu carpeta de usuario (`C:\Users\TuUsuario\`).</li>
           <li>Crea un archivo llamado `.wslconfig`.</li>
-          <li>Abre con Bloc de notas y pega esto (ajusta memory a tu gusto):</li>
+          <li>Abre con Bloc de notas y pega esto (ajusta `memory` y `processors` según tu equipo):</li>
         </ol>
       </div>
 
@@ -66,7 +72,7 @@ swap=4GB
     <div class="prose prose-slate dark:prose-invert max-w-none">
       #### Instalar Ollama (Mac)
 
-      Descarga la App oficial para Apple Silicon: [Descargar Ollama para Mac](https://ollama.com/download/mac) · [Documentación oficial](https://docs.ollama.com/)
+      Descarga la App oficial (universal: Intel y Apple Silicon): [Descargar Ollama para Mac](https://ollama.com/download/mac) · [Documentación oficial](https://docs.ollama.com/)
 
       1. Abre el archivo `.dmg` que descargaste.
       2. Arrastra **Ollama** a la carpeta **Aplicaciones**.

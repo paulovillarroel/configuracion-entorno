@@ -29,8 +29,12 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ### 2. Instalar Python
 
 ```bash
-uv python install 3.12
+uv python install 3.12 --default
 ```
+
+<Callout type="info" title="¿Por qué --default?">
+  Sin `--default`, uv solo crea el comando versionado `python3.12`, y al escribir `python3` la terminal usaría el Python del sistema (que ya viene en macOS y Ubuntu), no el que acabas de instalar. Con `--default`, los comandos `python` y `python3` apuntan al Python gestionado por uv.
+</Callout>
 
 ### 3. Verificar
 
@@ -38,3 +42,5 @@ uv python install 3.12
 uv python list
 python3 --version
 ```
+
+Debería mostrar `Python 3.12.x`. Si muestra otra versión, cierra y abre la terminal para recargar el PATH.

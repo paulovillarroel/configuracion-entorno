@@ -133,8 +133,17 @@ chmod +x ~/backup.sh
 <Callout type="tip" title="Cómo usar el script">
   - Ejecución manual: `~/backup.sh`
   - Te pedirá la contraseña de Restic que creaste arriba.
-  - Para automatizar (cada día a las 2 AM):
+  - Para automatizar (cada día a las 2 AM), sigue los pasos de abajo.
 </Callout>
+
+Para que la tarea programada no necesite tu contraseña escrita en texto plano dentro del crontab, guárdala una vez en un archivo protegido (reemplaza `tu_password` por tu contraseña de Restic):
+
+```bash
+echo 'tu_password' > ~/.restic-pass
+chmod 600 ~/.restic-pass
+```
+
+`chmod 600` hace que solo tu usuario pueda leer ese archivo. Ahora edita el crontab:
 
 ```bash
 crontab -e
@@ -145,10 +154,23 @@ Se abrirá un editor de texto en la terminal. Si es **nano** (lo más común): u
 Agrega esta línea al final:
 
 ```bash
-0 2 * * * RESTIC_PASSWORD="tu_password" ~/backup.sh >> ~/backup.log 2>&1
+0 2 * * * RESTIC_PASSWORD_FILE="$HOME/.restic-pass" ~/backup.sh >> ~/backup.log 2>&1
 ```
 
-`0 2 * * *` = "a las 2:00 AM, todos los días". Reemplaza `tu_password` por la contraseña que creaste al inicializar Restic.
+`0 2 * * *` = "a las 2:00 AM, todos los días". La tarea lee la contraseña desde el archivo `~/.restic-pass` que acabas de crear.
+
+<Callout type="warning" title="El cron solo corre si el equipo está encendido">
+  Una tarea programada a las 2 AM **no se ejecutará** si a esa hora el computador está apagado o suspendido; correrá la próxima vez que el equipo esté encendido y coincida el horario. Ajusta la hora a un momento en que sueles tener el equipo prendido.
+
+  <OsTabs>
+    <Fragment slot="win">
+      <p class="text-xs mt-1">En WSL, además, el servicio cron debe estar activo. Habilítalo una sola vez con `sudo systemctl enable --now cron`. El cron solo corre mientras WSL esté en ejecución.</p>
+    </Fragment>
+    <Fragment slot="mac">
+      <p class="text-xs mt-1">En Mac, la primera vez que uses cron el sistema puede pedirte dar "Acceso total al disco" a la app Terminal (o a `cron`) en Ajustes → Privacidad y seguridad.</p>
+    </Fragment>
+  </OsTabs>
+</Callout>
 
 **Tip:** Para confirmar que los backups de la madrugada corrieron sin errores, lee el archivo de registro:
 

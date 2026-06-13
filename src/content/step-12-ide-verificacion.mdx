@@ -24,14 +24,16 @@ Descarga Positron desde [positron.posit.co](https://positron.posit.co/) e instá
       </Callout>
 
       <Callout type="tip" title="Atajo: Abrir proyectos desde la terminal">
-        Puedes crear una función en tu terminal para abrir Positron con conexión WSL directamente, sin tener que conectarte manualmente cada vez:
+        Puedes crear una función en tu terminal para abrir Positron con conexión WSL directamente, sin tener que conectarte manualmente cada vez. **Reemplaza `TuUsuario` por tu nombre de usuario de Windows** (la ruta de abajo corresponde a la instalación por defecto, que es "solo para mí"):
 
         ```bash
         echo 'positron() {
-            "/mnt/c/Program Files/Positron/bin/positron" --remote wsl+Ubuntu-24.04 "$(readlink -f "${1:-.}")"
+            "/mnt/c/Users/TuUsuario/AppData/Local/Programs/Positron/bin/positron" --remote wsl+Ubuntu-24.04 "$(readlink -f "${1:-.}")"
         }' >> ~/.bashrc
         source ~/.bashrc
         ```
+
+        Si al instalar Positron elegiste **"para todos los usuarios"** (System), la ruta es `/mnt/c/Program Files/Positron/bin/positron` en su lugar.
 
         Ahora puedes usarla así:
         - `positron .` — abre el directorio actual en Positron con WSL
@@ -154,14 +156,19 @@ Cuando escribes `positron`, `uv` o `git` en la terminal, el sistema busca ese co
 
 ### 3. Examen Final
 
-Copia y pega este script en tu terminal para verificar que todo quedó instalado:
+Copia y pega este script en tu terminal para verificar qué quedó instalado. Está separado en dos bloques: las herramientas de **Fundamentos** (obligatorias) y las de **Avanzado** (opcionales — solo darán OK si completaste esas secciones):
 
 ```bash
 check() { if command -v $1 >/dev/null 2>&1; then echo "✅ $1: OK"; else echo "❌ $1: Faltante"; fi; }
-check "git"; check "gh"; check "node"; check "npm"; check "R"; check "uv"; check "python3"; check "ollama"; check "restic"; check "rclone"
+
+echo "── Fundamentos (obligatorias) ──"
+check "git"; check "gh"; check "R"; check "uv"; check "python3"
+
+echo "── Avanzado (opcionales) ──"
+check "node"; check "npm"; check "ollama"; check "restic"; check "rclone"
 ```
 
-Si todas las líneas dicen **OK**, ¡completaste la configuración!
+Si todas las herramientas de **Fundamentos** dicen **OK**, ¡completaste la configuración base! Las de **Avanzado** solo aparecerán como OK si hiciste esas secciones opcionales (Node.js, Gemini & Claude, Ollama y Backup).
 
 <Callout type="warning" title="¿Algo sale como 'Faltante'?">
   Vuelve al paso donde se instala esa herramienta y repite los comandos. Si sigues con problemas, verifica que cerraste y abriste tu terminal después de cada instalación.
