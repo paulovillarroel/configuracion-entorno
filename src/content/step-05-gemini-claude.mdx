@@ -1,7 +1,7 @@
 import Callout from '../components/Callout.astro';
 
 <Callout type="info" title="¿Qué son los agentes de IA en terminal?">
-  Son herramientas que te permiten usar inteligencia artificial directamente desde la terminal, sin abrir un navegador. Pueden leer tu código, sugerir cambios, ejecutar comandos y ayudarte a programar más rápido. Requieren **Node.js** (instalado en el paso anterior).
+  Son herramientas que te permiten usar inteligencia artificial directamente desde la terminal, sin abrir un navegador. Pueden leer tu código, sugerir cambios, ejecutar comandos y ayudarte a programar más rápido. Se instalan como **programas independientes**, cada uno con su propio instalador.
 </Callout>
 
 <Callout type="warning" title="Importante: la IA no reemplaza aprender a programar">
@@ -15,12 +15,16 @@ import Callout from '../components/Callout.astro';
   **Generar código con IA solo tiene sentido cuando ya sabes evaluar si lo que genera es correcto, seguro y adecuado para tu contexto.** Llegar a ese punto toma tiempo y práctica. No hay atajos.
 </Callout>
 
+<Callout type="tip" title="Si un tutorial menciona «Gemini CLI», usa Antigravity CLI">
+  En **junio de 2026** Google retiró **Gemini CLI** para las cuentas individuales y lo reemplazó por **Antigravity CLI**, su nuevo agente de terminal. Cambiaron el instalador (ya no se usa `npm`) y el comando: donde antes escribías `gemini`, ahora escribes `agy`. Si sigues un video o tutorial más antiguo, tenlo presente — aquí ya usamos la versión nueva. → [Anuncio oficial de Google](https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/)
+</Callout>
+
 ### 1. Instalar las herramientas
 
-**Gemini CLI** ([documentación oficial](https://geminicli.com/docs/get-started/installation/)):
+**Antigravity CLI** ([documentación oficial](https://antigravity.google/docs/cli-getting-started)) es el agente de terminal de Google. Se instala con un solo comando en tu terminal (macOS, Linux o la Ubuntu de WSL):
 
 ```bash
-npm install -g @google/gemini-cli
+curl -fsSL https://antigravity.google/cli/install.sh | bash
 ```
 
 **Claude Code** ([documentación oficial](https://code.claude.com/docs/en/overview)):
@@ -29,25 +33,31 @@ npm install -g @google/gemini-cli
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-### 2. Configurar Gemini CLI
+Cierra y vuelve a abrir la terminal para que los comandos `agy` y `claude` queden disponibles. Comprueba que Antigravity CLI quedó bien instalado:
 
-Gemini CLI tiene una **capa gratuita** generosa con solo una cuenta de Google. También ofrece planes de pago con mayor cuota de uso a través de [Google AI Studio](https://aistudio.google.com/).
+```bash
+agy --version
+```
+
+### 2. Configurar Antigravity CLI
+
+Antigravity CLI es **gratuito con tu cuenta de Google** para uso individual. Si necesitas más cuota, Google ofrece planes de pago (**Google AI Pro** y **Ultra**).
 
 <div class="not-prose my-6 bg-blue-50 dark:bg-blue-950/30 p-4 rounded border border-blue-200 dark:border-blue-800">
   <p class="text-sm text-blue-800 dark:text-blue-200 font-bold mb-2">✨ Autenticación</p>
-  <p class="text-sm text-blue-700 dark:text-blue-300 mb-2">Ejecuta <code>gemini</code> en tu terminal. Se abrirá el navegador para iniciar sesión con tu cuenta de Google. Acepta los permisos y listo.</p>
+  <p class="text-sm text-blue-700 dark:text-blue-300 mb-2">La primera vez, ejecuta <code>agy</code> y elige la opción <strong>Google OAuth</strong>. Se abrirá el navegador para iniciar sesión con tu cuenta de Google; copia el código que aparece, pégalo en la terminal, elige un tema de colores y acepta los términos. Listo.</p>
 </div>
 
 ```bash
-gemini
+agy
 ```
 
-Una vez autenticado, ya puedes usar Gemini como agente de IA en la terminal. Escribe `/quit` para salir.
+Ya puedes conversar con el agente desde la terminal. Escribe `/help` para ver los comandos disponibles y `/quit` (o presiona `Ctrl+D` dos veces) para salir.
 
-**Pruébalo con un prompt real:**
+**Pruébalo con un prompt real** — sin entrar al modo interactivo, con la opción `-p`:
 
 ```bash
-gemini -p "Actúa como un experto en salud pública y resume los beneficios de usar R para análisis epidemiológico."
+agy -p "Actúa como un experto en salud pública y resume los beneficios de usar R para análisis epidemiológico."
 ```
 
 ### 3. Configurar Claude Code

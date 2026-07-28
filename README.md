@@ -11,7 +11,7 @@ Tutorial interactivo para configurar un entorno profesional de Data Science paso
 | 2 | Sistema Operativo | WSL2 (Windows) / Homebrew (Mac) |
 | 3 | Herramientas Base | build-essential, git, curl, wget, tree |
 | 4 | Node.js (NVM) | NVM, Node.js |
-| 5 | Gemini & Claude | Gemini CLI, Claude Code |
+| 5 | Antigravity & Claude | Antigravity CLI, Claude Code |
 | 6 | R Moderno | Rig, Pak, Tidyverse |
 | 7 | Python (uv) | uv, Python 3.12 |
 | 8 | Ollama (IA Local) | Ollama, modelos locales |
