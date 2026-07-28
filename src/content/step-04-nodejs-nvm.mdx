@@ -40,6 +40,19 @@ Si muestra un número (ej: `0.40.1`), todo bien. Si dice "command not found", ci
 nvm install --lts
 ```
 
+<Callout type="warning" title="En Mac con macOS 12 Monterey o 13.0-13.4: usa Node 22">
+  NVM no tiene requisitos de sistema, pero **el Node que descarga sí**. La versión LTS actual (Node 24) está compilada para **macOS 13.5 o superior** — en un sistema anterior se instala pero no arranca.
+
+  Si tu Mac es anterior a 13.5, instala la LTS previa, que funciona desde macOS 11:
+
+```bash
+nvm install 22
+nvm alias default 22
+```
+
+  Para el curso da exactamente lo mismo: no usamos ninguna característica exclusiva de Node 24.
+</Callout>
+
 Verifica la instalación:
 
 ```bash

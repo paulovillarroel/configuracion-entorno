@@ -87,17 +87,20 @@ Bienvenidos al módulo de preparación del curso de Ciencia de Datos en Salud de
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Xcode CLT · git · uv · nvm</td><td class="px-3 py-2">Sin restricción práctica</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Xcode CLT · git · uv · nvm · rig</td><td class="px-3 py-2">Sin mínimo declarado</td></tr>
           <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">R (versión Intel de CRAN)</td><td class="px-3 py-2">11 · Big Sur</td></tr>
-          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">rig (instalador .pkg)</td><td class="px-3 py-2">11 · Big Sur</td></tr>
           <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Positron</td><td class="px-3 py-2">12 · Monterey</td></tr>
-          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">GitHub CLI (instalador .pkg)</td><td class="px-3 py-2">12 · Monterey</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">GitHub CLI · restic · rclone</td><td class="px-3 py-2">12 · Monterey</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Claude Code</td><td class="px-3 py-2">13 · Ventura</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Node.js 24 (la versión LTS)</td><td class="px-3 py-2">13.5 · Ventura</td></tr>
           <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Homebrew</td><td class="px-3 py-2">14 · Sonoma</td></tr>
           <tr><td class="px-3 py-2 font-mono">Ollama</td><td class="px-3 py-2">14 · Sonoma</td></tr>
         </tbody>
       </table>
     </div>
-    <p><strong>Conclusión práctica:</strong> desde <strong>Monterey (12)</strong> puedes hacer el curso completo — solo tienes que <strong>saltarte Homebrew</strong> y usar los instaladores directos de cada herramienta (te lo explicamos en <a href="#paso-2" class="text-blue-600 dark:text-blue-400 hover:underline">El Motor (Sistema Operativo)</a>). Lo único que queda fuera es <strong>Ollama</strong>, y esa parte tiene alternativas. Con <strong>Catalina (10.15) o anterior no es viable</strong>: ni el R actual ni Positron se instalan.</p>
+    <p><strong>Conclusión práctica:</strong> desde <strong>Monterey (12)</strong> tienes todo el núcleo del curso — R, Positron, Git y GitHub, Python y DuckDB. Solo debes <strong>saltarte Homebrew</strong> y usar los instaladores directos de cada herramienta (te lo explicamos en <a href="#paso-2" class="text-blue-600 dark:text-blue-400 hover:underline">El Motor (Sistema Operativo)</a>). Desde <strong>Ventura 13.5</strong> se suma además el módulo avanzado completo. Con <strong>Catalina (10.15) o anterior no es viable</strong>: ni el R actual ni Positron se instalan.</p>
+    <p><strong>Qué queda fuera y cómo se resuelve:</strong> en Monterey, <strong>Claude Code</strong> (pide 13) y la versión LTS de Node — ahí instalas <code>nvm install 22</code> en vez de <code>nvm install --lts</code>. Bajo Sonoma (14), <strong>Ollama</strong>. Nada de eso bloquea el curso: son secciones del módulo avanzado y vemos alternativas en clases.</p>
+    <p class="text-xs italic">Si estás decidiendo renovar equipo, ten presente que el piso de todo este stack va camino a <strong>macOS 13</strong>: Node ya lo exige, Electron lo hará en su versión 44 (afecta a Positron) y Go en la 1.27 (afecta a GitHub CLI, restic y rclone).</p>
   </div>
 </details>
 
