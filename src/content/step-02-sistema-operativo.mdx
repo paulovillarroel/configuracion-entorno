@@ -130,6 +130,21 @@ passwd tu_usuario
         Homebrew es el **gestor de paquetes de Mac**. Es como una tienda de apps para la terminal — te permite instalar, actualizar y desinstalar herramientas con un solo comando (`brew install ...`). Sin Homebrew, tendrías que descargar manualmente cada herramienta desde diferentes sitios web.
       </Callout>
 
+      <Callout type="warning" title="¿Tu Mac es anterior a macOS 14 Sonoma? Sáltate este paso">
+        Homebrew **solo da soporte a macOS 14 Sonoma o superior**. En versiones anteriores el instalador te deja continuar, pero advierte que tendrás fallas: ya no hay paquetes precompilados para esos sistemas, así que cada herramienta se compila desde cero — lento y propenso a errores.
+
+        **No es un problema.** Homebrew aquí es solo una comodidad: todo el curso se puede instalar sin él, con los instaladores oficiales de cada herramienta.
+
+        - **git y curl** — vienen incluidos con las **Xcode Command Line Tools** (paso siguiente).
+        - **wget y tree** — opcionales, puedes prescindir de ellos.
+        - **rig (R)** — instalador `.pkg` desde [sus releases en GitHub](https://github.com/r-lib/rig/releases).
+        - **Dependencias de R** (openssl, freetype, harfbuzz…) — en Mac no hacen falta: `pak` instala los paquetes ya compilados, no los construye en tu equipo.
+        - **GitHub CLI** — instalador `.pkg` desde [sus releases](https://github.com/cli/cli/releases) (requiere macOS 12 o superior).
+        - **uv, nvm, Positron y Ollama** — ya se instalan con su propio script o `.dmg`, sin pasar por Homebrew.
+
+        Ten presente que **Ollama exige macOS 14 Sonoma**: si tu equipo no llega, esa sección queda fuera y usarás las alternativas que vemos en clases. Si tu Mac sí es Sonoma o superior, continúa con normalidad.
+      </Callout>
+
       Abre la aplicación **Terminal** e instala Homebrew:
 
       ```bash

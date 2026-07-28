@@ -66,9 +66,40 @@ Bienvenidos al módulo de preparación del curso de Ciencia de Datos en Salud de
 - **Seguridad:** Backup deduplicado y encriptado por defecto.
 
 <Callout type="warning" title="Requisitos">
-  <p><strong>Sistema Operativo:</strong> Windows 10 (v2004+) / Windows 11 o macOS Catalina o superior.</p>
-  <p><strong>Hardware ideal:</strong> 16 GB RAM (8 GB mínimo), 20-30 GB libres, GPU NVIDIA opcional para IA.</p>
+  <p><strong>Sistema Operativo:</strong> Windows 10 (v2004+) / Windows 11, o <strong>macOS 12 Monterey</strong> como mínimo — recomendado <strong>macOS 14 Sonoma</strong> o superior.</p>
+  <p><strong>Hardware:</strong> 8 GB de RAM (mínimo real, suficiente para todo el curso; 16 GB si quieres holgura), 20-30 GB de espacio libre. GPU NVIDIA opcional: solo acelera la IA local.</p>
 </Callout>
+
+<details class="not-prose my-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700 group">
+  <summary class="font-bold text-slate-700 dark:text-slate-300 cursor-pointer flex items-center gap-2 select-none p-4">
+    <span class="group-open:rotate-90 transition-transform">▶</span>
+    ¿Tienes un Mac antiguo? Léelo antes de descartarlo
+  </summary>
+  <div class="px-4 pb-4 space-y-3 text-sm text-slate-600 dark:text-slate-400">
+    <p><strong>Primero: averigua hasta qué versión llega tu equipo de verdad.</strong> Si tu Mac tiene un macOS antiguo, <em>Actualización de software</em> a veces solo ofrece la versión siguiente y no el máximo real de tu modelo. Ve al menú Apple → <strong>Acerca de esta Mac</strong>, anota el <strong>modelo y el año</strong>, y contrástalo con la lista oficial de Apple. Varios Mac Intel de 2017-2019 llegan hasta <strong>Ventura (13)</strong> aunque no aparezca en Actualización de software: el instalador se descarga aparte desde <a href="https://support.apple.com/es-es/102662" target="_blank" rel="noopener" class="text-blue-600 dark:text-blue-400 hover:underline">la página de descargas de macOS de Apple</a>.</p>
+    <p><strong>Estos son los pisos reales de cada herramienta</strong> (julio 2026):</p>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border border-slate-200 dark:border-slate-700 rounded">
+        <thead class="bg-slate-100 dark:bg-slate-800">
+          <tr>
+            <th class="text-left px-3 py-2 border-b border-slate-200 dark:border-slate-700">Herramienta</th>
+            <th class="text-left px-3 py-2 border-b border-slate-200 dark:border-slate-700">macOS mínimo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Xcode CLT · git · uv · nvm</td><td class="px-3 py-2">Sin restricción práctica</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">R (versión Intel de CRAN)</td><td class="px-3 py-2">11 · Big Sur</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">rig (instalador .pkg)</td><td class="px-3 py-2">11 · Big Sur</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Positron</td><td class="px-3 py-2">12 · Monterey</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">GitHub CLI (instalador .pkg)</td><td class="px-3 py-2">12 · Monterey</td></tr>
+          <tr class="border-b border-slate-200 dark:border-slate-700"><td class="px-3 py-2 font-mono">Homebrew</td><td class="px-3 py-2">14 · Sonoma</td></tr>
+          <tr><td class="px-3 py-2 font-mono">Ollama</td><td class="px-3 py-2">14 · Sonoma</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Conclusión práctica:</strong> desde <strong>Monterey (12)</strong> puedes hacer el curso completo — solo tienes que <strong>saltarte Homebrew</strong> y usar los instaladores directos de cada herramienta (te lo explicamos en <a href="#paso-2" class="text-blue-600 dark:text-blue-400 hover:underline">El Motor (Sistema Operativo)</a>). Lo único que queda fuera es <strong>Ollama</strong>, y esa parte tiene alternativas. Con <strong>Catalina (10.15) o anterior no es viable</strong>: ni el R actual ni Positron se instalan.</p>
+  </div>
+</details>
 
 <div class="not-prose my-8 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-xl p-6 text-white shadow-lg">
   <div class="flex items-start gap-4">
